@@ -59,7 +59,6 @@ Sub XoaDongTiengAnh()
     If response = vbNo Then Exit Sub
     
     startTime = Timer
-    Application.ScreenUpdating = False
     
     ' Thu thập các thay đổi cần thực hiện
     actionCount = 0
@@ -67,7 +66,6 @@ Sub XoaDongTiengAnh()
     CollectAllActions actions, actionCount
     
     If actionCount = 0 Then
-        Application.ScreenUpdating = True
         MsgBox "Khong tim thay textbox nao can xu ly.", vbInformation
         Exit Sub
     End If
@@ -82,8 +80,6 @@ Sub XoaDongTiengAnh()
     
     ' Thực hiện xử lý
     PerformActions actions, actionCount
-    
-    Application.ScreenUpdating = True
     
     ' Thông báo kết quả
     Dim modified As Long, deleted As Long
@@ -105,7 +101,6 @@ Sub XoaDongTiengAnh()
     Exit Sub
     
 ErrHandler:
-    Application.ScreenUpdating = True
     MsgBox "Loi: " & Err.Number & " - " & Err.Description & vbCrLf & vbCrLf & _
            "Dong lenh: " & Erl, vbExclamation
 End Sub
@@ -133,8 +128,6 @@ Sub UndoXoaDongTiengAnh()
     
     If response = vbNo Then Exit Sub
     
-    Application.ScreenUpdating = False
-    
     ' Khôi phục text gốc
     For i = 0 To m_UndoCount - 1
         If Not m_UndoActions(i).DeleteShape Then
@@ -153,8 +146,6 @@ Sub UndoXoaDongTiengAnh()
             Err.Clear
         End If
     Next i
-    
-    Application.ScreenUpdating = True
     
     MsgBox "Da khoi phuc " & restored & " textbox.", vbInformation
     
