@@ -8,6 +8,8 @@ Option Explicit
 ' 2. Insert → Module
 ' 3. Copy toàn bộ code này vào
 ' 4. Chạy macro: XoaDongTiengAnh
+' 
+' Version: 2.1 - Fixed common errors
 ' ===========================================================================================
 
 ' Cấu trúc lưu hành động
@@ -17,6 +19,7 @@ Private Type ActionItem
     OriginalText As String
     NewText As String
     DeleteShape As Boolean
+    ShapeName As String
 End Type
 
 ' Biến toàn cục cho Undo
@@ -35,12 +38,23 @@ Sub XoaDongTiengAnh()
     
     On Error GoTo ErrHandler
     
+    ' Kiểm tra có presentation không
+    If ActivePresentation Is Nothing Then
+        MsgBox "Vui lòng mở một presentation trước!", vbExclamation
+        Exit Sub
+    End If
+    
+    If ActivePresentation.Slides.Count = 0 Then
+        MsgBox "Presentation không có slide nào!", vbInformation
+        Exit Sub
+    End If
+    
     ' Hỏi người dùng
-    response = MsgBox("Công cụ này sẽ:" & vbCrLf & vbCrLf & _
-                      "✓ XÓA các dòng chỉ chứa ký tự ASCII (tiếng Anh)" & vbCrLf & _
-                      "✓ GIỮ LẠI các dòng có ký tự Unicode (tiếng Việt)" & vbCrLf & vbCrLf & _
-                      "Bạn có muốn tiếp tục?", _
-                      vbYesNo + vbQuestion, "Xác nhận")
+    response = MsgBox("Cong cu nay se:" & vbCrLf & vbCrLf & _
+                      "- XOA cac dong chi chua ky tu ASCII (tieng Anh)" & vbCrLf & _
+                      "- GIU LAI cac dong co ky tu Unicode (tieng Viet)" & vbCrLf & vbCrLf & _
+                      "Ban co muon tiep tuc?", _
+                      vbYesNo + vbQuestion, "Xac nhan")
     
     If response = vbNo Then Exit Sub
     
@@ -54,7 +68,7 @@ Sub XoaDongTiengAnh()
     
     If actionCount = 0 Then
         Application.ScreenUpdating = True
-        MsgBox "Không tìm thấy textbox nào cần xử lý.", vbInformation
+        MsgBox "Khong tim thay textbox nao can xu ly.", vbInformation
         Exit Sub
     End If
     
@@ -81,18 +95,19 @@ Sub XoaDongTiengAnh()
         End If
     Next i
     
-    msg = "HOÀN TẤT!" & vbCrLf & vbCrLf
-    msg = msg & "✓ Textbox đã cập nhật: " & modified & vbCrLf
-    msg = msg & "✓ Textbox đã xóa: " & deleted & vbCrLf
-    msg = msg & "✓ Thời gian: " & Format(Timer - startTime, "0.00") & " giây" & vbCrLf & vbCrLf
-    msg = msg & "Để hoàn tác, chạy macro: UndoXoaDongTiengAnh"
+    msg = "HOAN TAT!" & vbCrLf & vbCrLf
+    msg = msg & "- Textbox da cap nhat: " & modified & vbCrLf
+    msg = msg & "- Textbox da xoa: " & deleted & vbCrLf
+    msg = msg & "- Thoi gian: " & Format(Timer - startTime, "0.00") & " giay" & vbCrLf & vbCrLf
+    msg = msg & "De hoan tac, chay macro: UndoXoaDongTiengAnh"
     
-    MsgBox msg, vbInformation, "Thành công"
+    MsgBox msg, vbInformation, "Thanh cong"
     Exit Sub
     
 ErrHandler:
     Application.ScreenUpdating = True
-    MsgBox "Lỗi: " & Err.Number & " - " & Err.Description, vbExclamation
+    MsgBox "Loi: " & Err.Number & " - " & Err.Description & vbCrLf & vbCrLf & _
+           "Dong lenh: " & Erl, vbExclamation
 End Sub
 
 ' ===========================================================================================
@@ -108,13 +123,13 @@ Sub UndoXoaDongTiengAnh()
     On Error Resume Next
     
     If m_UndoCount = 0 Then
-        MsgBox "Không có thao tác nào để hoàn tác.", vbInformation
+        MsgBox "Khong co thao tac nao de hoan tac.", vbInformation
         Exit Sub
     End If
     
-    response = MsgBox("Bạn có chắc muốn hoàn tác " & m_UndoCount & " thay đổi?" & vbCrLf & vbCrLf & _
-                      "Lưu ý: Không thể khôi phục các textbox đã bị xóa.", _
-                      vbYesNo + vbQuestion, "Xác nhận Undo")
+    response = MsgBox("Ban co chac muon hoan tac " & m_UndoCount & " thay doi?" & vbCrLf & vbCrLf & _
+                      "Luu y: Khong the khoi phuc cac textbox da bi xoa.", _
+                      vbYesNo + vbQuestion, "Xac nhan Undo")
     
     If response = vbNo Then Exit Sub
     
@@ -123,23 +138,31 @@ Sub UndoXoaDongTiengAnh()
     ' Khôi phục text gốc
     For i = 0 To m_UndoCount - 1
         If Not m_UndoActions(i).DeleteShape Then
+            On Error Resume Next
             Set sld = ActivePresentation.Slides(m_UndoActions(i).SlideIndex)
-            Set shp = ResolveShapeByPath(sld, m_UndoActions(i).ShapeIdPath)
-            
-            If Not shp Is Nothing Then
-                SetShapeText shp, m_UndoActions(i).OriginalText
-                restored = restored + 1
+            If Err.Number = 0 Then
+                Set shp = ResolveShapeByPath(sld, m_UndoActions(i).ShapeIdPath)
+                
+                If Not shp Is Nothing And Err.Number = 0 Then
+                    SetShapeText shp, m_UndoActions(i).OriginalText
+                    If Err.Number = 0 Then
+                        restored = restored + 1
+                    End If
+                End If
             End If
+            Err.Clear
         End If
     Next i
     
     Application.ScreenUpdating = True
     
-    MsgBox "Đã khôi phục " & restored & " textbox.", vbInformation
+    MsgBox "Da khoi phuc " & restored & " textbox.", vbInformation
     
     ' Xóa undo buffer
     m_UndoCount = 0
     Erase m_UndoActions
+    
+    On Error GoTo 0
 End Sub
 
 ' ===========================================================================================
@@ -167,6 +190,7 @@ Private Sub CollectActionsForShape(ByVal slideIndex As Long, _
     Dim currentPath As String
     Dim rawText As String
     Dim newText As String
+    Dim shapeName As String
     
     On Error Resume Next
     If shp Is Nothing Then Exit Sub
@@ -178,6 +202,13 @@ Private Sub CollectActionsForShape(ByVal slideIndex As Long, _
         currentPath = pathSoFar & "/" & CStr(shp.Id)
     End If
     
+    ' Lấy tên shape
+    shapeName = shp.Name
+    If Err.Number <> 0 Or Len(shapeName) = 0 Then
+        shapeName = "Shape" & shp.Id
+    End If
+    Err.Clear
+    
     ' Xử lý group
     If shp.Type = msoGroup Then
         Dim gi As Shape
@@ -187,8 +218,18 @@ Private Sub CollectActionsForShape(ByVal slideIndex As Long, _
         Exit Sub
     End If
     
+    ' Bỏ qua các shape không phải text
+    If shp.Type <> msoTextBox And shp.Type <> msoPlaceholder And shp.Type <> msoAutoShape Then
+        Exit Sub
+    End If
+    
     ' Lấy text
     rawText = GetShapeText(shp)
+    If Err.Number <> 0 Then
+        Err.Clear
+        Exit Sub
+    End If
+    
     If Len(Trim(rawText)) = 0 Then Exit Sub
     
     ' Lọc: giữ dòng có ký tự Unicode, xóa dòng chỉ ASCII
@@ -197,11 +238,13 @@ Private Sub CollectActionsForShape(ByVal slideIndex As Long, _
     ' Thêm action nếu có thay đổi
     If Len(Trim(newText)) = 0 Then
         ' Xóa shape vì rỗng
-        AddAction actions, actionCount, slideIndex, currentPath, rawText, "", True
+        AddAction actions, actionCount, slideIndex, currentPath, shapeName, rawText, "", True
     ElseIf Not TextsEqual(rawText, newText) Then
         ' Cập nhật text
-        AddAction actions, actionCount, slideIndex, currentPath, rawText, newText, False
+        AddAction actions, actionCount, slideIndex, currentPath, shapeName, rawText, newText, False
     End If
+    
+    On Error GoTo 0
 End Sub
 
 ' Thêm action vào mảng
@@ -209,6 +252,7 @@ Private Sub AddAction(ByRef actions() As ActionItem, _
                       ByRef actionCount As Long, _
                       ByVal slideIndex As Long, _
                       ByVal path As String, _
+                      ByVal shapeName As String, _
                       ByVal originalText As String, _
                       ByVal newText As String, _
                       ByVal deleteShape As Boolean)
@@ -218,6 +262,7 @@ Private Sub AddAction(ByRef actions() As ActionItem, _
     With actions(actionCount - 1)
         .SlideIndex = slideIndex
         .ShapeIdPath = path
+        .ShapeName = shapeName
         .OriginalText = originalText
         .NewText = newText
         .DeleteShape = deleteShape
