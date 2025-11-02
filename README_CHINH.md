@@ -1,0 +1,209 @@
+# PowerPoint Cleaner - C?ng c? d?n d?p PowerPoint
+
+**?ng d?ng Python v?i giao di?n ??p - Kh?ng c?n m? PowerPoint!**
+
+## ? T?nh n?ng
+
+### ??? X?a h?nh ?nh
+- X?a h?nh theo k?ch th??c c? th?
+- 4 ch? ??: AND, OR, Width only, Height only
+- T?y ch?nh dung sai
+
+### ?? L?c text  
+- **Gi? ti?ng Vi?t - X?a ti?ng Anh** (khuy?n ngh?)
+- Gi? ti?ng Anh - X?a ti?ng Vi?t
+- X?a t?t c? text
+- Pattern t?y ch?nh (regex)
+
+### ?? T?nh n?ng kh?c
+- ? Preview tr??c khi x? l?
+- ? T? ??ng backup file g?c
+- ? Giao di?n tabs ??p m?t
+- ? Cross-platform (Windows/Mac/Linux)
+
+## ?? C?ch t?i v?
+
+### File c?n t?i:
+**`PowerPoint_Cleaner_v2.zip`** (29 KB)
+
+### Trong Cursor/VSCode:
+1. T?m file `PowerPoint_Cleaner_v2.zip` trong Explorer
+2. Click chu?t ph?i ? **Download**
+3. Ch?n n?i l?u (Desktop / Documents)
+4. Gi?i n?n file ZIP
+
+## ?? C?i ??t & Ch?y
+
+### Windows (3 b??c):
+
+```bash
+1. Gi?i n?n file ZIP
+
+2. Double-click: install.bat
+   (C?i ??t - ch? l?m 1 l?n)
+
+3. Double-click: run.bat
+   (Ch?y app)
+```
+
+### Mac/Linux:
+
+```bash
+1. Gi?i n?n file ZIP
+
+2. Terminal:
+   chmod +x install.sh run.sh
+   ./install.sh
+   (C?i ??t - ch? l?m 1 l?n)
+
+3. Ch?y:
+   ./run.sh
+```
+
+## ?? Y?u c?u h? th?ng
+
+- **Python 3.7+** (t?i t? python.org)
+  - ?? **Quan tr?ng:** Tick "Add Python to PATH" khi c?i
+- Th? vi?n `python-pptx` (t? ??ng c?i b?ng script)
+
+## ?? H??ng d?n s? d?ng
+
+### V? d? 1: X?a h?nh 1.6x1.6 inch
+
+1. Ch?n file PowerPoint
+2. Tab **"X?a h?nh ?nh"**
+3. Width: `1.6`, Height: `1.6`
+4. Ch? ??: **AND**
+5. Click "X? l? file"
+6. Xong!
+
+### V? d? 2: Gi? ti?ng Vi?t, x?a ti?ng Anh
+
+**Tr??c:**
+```
+Hello World
+Xin ch?o Vi?t Nam
+English text
+Ti?ng Vi?t c? d?u
+```
+
+**Sau:**
+```
+Xin ch?o Vi?t Nam
+Ti?ng Vi?t c? d?u
+```
+
+**C?ch l?m:**
+1. Ch?n file PowerPoint
+2. Tab **"L?c text"**
+3. Ch?n: **"Gi? ti?ng Vi?t - X?a ti?ng Anh"**
+4. Click "X? l? file"
+5. Xong!
+
+## ?? C?u tr?c file trong ZIP
+
+```
+PowerPoint_Cleaner_v2.zip
+??? ppt_cleaner.py              ? App ch?nh (2-in-1)
+??? ppt_image_remover.py           App ??n gi?n
+??? requirements.txt               Th? vi?n c?n thi?t
+??? install.bat / install.sh       Script c?i ??t
+??? run.bat / run.sh               Script ch?y
+??? QUICK_START.txt             ? H??ng d?n nhanh
+??? DeleteSpecificSizedImages_Upgraded.vba  Code VBA
+??? README*.md                     T?i li?u chi ti?t
+```
+
+## ? X? l? l?i th??ng g?p
+
+### "python is not recognized"
+**Nguy?n nh?n:** Ch?a c?i Python ho?c ch?a add v?o PATH
+
+**Gi?i ph?p:**
+1. T?i Python t? python.org
+2. C?i l?i, **nh? tick "Add Python to PATH"**
+3. Restart Command Prompt
+
+### "No module named 'pptx'"
+**Nguy?n nh?n:** Ch?a c?i th? vi?n
+
+**Gi?i ph?p:**
+```bash
+pip install python-pptx
+```
+
+### "Permission denied"
+**Nguy?n nh?n:** File PowerPoint ?ang m?
+
+**Gi?i ph?p:**
+- ??ng PowerPoint
+- ??ng c? Preview/File Explorer n?u ?ang xem file
+
+### File ZIP kh?ng gi?i n?n ???c
+**Gi?i ph?p:**
+- T?i l?i file ZIP
+- D?ng WinRAR ho?c 7-Zip
+
+## ?? T?i li?u chi ti?t
+
+Trong file ZIP c? c?c file h??ng d?n ??y ??:
+
+- **`QUICK_START.txt`** - H??ng d?n nhanh (m? b?ng Notepad)
+- **`README_CLEANER.md`** - H??ng d?n ??y ?? app Python
+- **`README_TOOL.md`** - H??ng d?n app x?a ?nh
+- **`VBA_UPGRADE_NOTES.md`** - H??ng d?n code VBA
+- **`HUONG_DAN_TAI_VE.md`** - H??ng d?n t?i v? c?i ??t
+
+## ?? Bonus: Code VBA
+
+N?u mu?n d?ng code VBA trong PowerPoint:
+
+1. M? file `DeleteSpecificSizedImages_Upgraded.vba` b?ng Notepad
+2. Copy to?n b? code
+3. PowerPoint ? Alt+F11 (VBA Editor)
+4. Insert ? Module
+5. Paste code v?o
+6. Alt+F8 ? Ch?n macro ? Run
+
+## ?? Tips
+
+? **Lu?n b?t "T? ??ng backup"** - An to?n tuy?t ??i
+? **Preview tr??c** - Ki?m tra k? tr??c khi x?a
+? **Test v?i file nh?** - Th? nghi?m tr??c khi x? l? file l?n
+? **??ng PowerPoint** - Tr?nh l?i Permission denied
+
+## ?? So s?nh VBA vs Python
+
+| T?nh n?ng | VBA | Python Tool |
+|-----------|-----|-------------|
+| C?n PowerPoint | ? | ? |
+| Giao di?n GUI | ? | ? |
+| Preview | ? | ? |
+| Backup t? ??ng | ? | ? |
+| Cross-platform | ?? | ? |
+| D? s? d?ng | ??? | ????? |
+
+## ?? T?m t?t - 3 b??c duy nh?t
+
+```
+1. T?i ZIP ? Gi?i n?n
+2. Ch?y install (1 l?n)
+3. Ch?y run (m?i l?n d?ng)
+```
+
+**??n gi?n v?y th?i!** ??
+
+---
+
+## ?? H? tr?
+
+**Python:** https://www.python.org/downloads/  
+**Library:** https://python-pptx.readthedocs.io/  
+**Regex:** https://regex101.com/
+
+---
+
+**Version:** 2.0  
+**Date:** 2025-11-02  
+**Platform:** Windows / Mac / Linux  
+**License:** Free to use

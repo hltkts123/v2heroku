@@ -1,0 +1,68 @@
+
+╔══════════════════════════════════════════════════════════════╗
+║        POWERPOINT CLEANER - HUONG DAN NHANH                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+█ CAI DAT (Chi 1 lan):
+
+  Windows:
+    1. Cai Python tu python.org (Tick "Add to PATH")
+    2. Double-click: install.bat
+  
+  Mac/Linux:
+    1. Terminal: chmod +x install.sh
+    2. Chay: ./install.sh
+
+█ CHAY UNG DUNG:
+
+  Windows: Double-click run.bat
+  Mac/Linux: ./run.sh
+
+█ SU DUNG:
+
+  1. Chon file PowerPoint (.pptx)
+  2. Chon tab:
+     - Xoa hinh anh: Xoa theo kich thuoc
+     - Loc text: Giu tieng Viet / tieng Anh
+  3. Cau hinh
+  4. Preview (xem truoc)
+  5. Xu ly file
+  6. Xong!
+
+█ VI DU:
+
+  Xoa hinh 1.6x1.6 inch:
+    Tab "Xoa hinh anh" > Width=1.6, Height=1.6
+    > Che do AND > Xu ly
+  
+  Giu tieng Viet, xoa tieng Anh:
+    Tab "Loc text" > "Giu tieng Viet"
+    > Xu ly
+
+█ LUU Y:
+
+  - Chi ho tro file .pptx (khong ho tro .ppt cu)
+  - Nen bat "Tu dong backup"
+  - Dong PowerPoint truoc khi xu ly
+
+█ LOI THUONG GAP:
+
+  "python not found"
+    → Chua cai Python hoac chua add vao PATH
+  
+  "No module named pptx"
+    → Chay lai install.bat/install.sh
+  
+  "Permission denied"
+    → Dong file PowerPoint dang mo
+
+═══════════════════════════════════════════════════════════════
+
+Files trong goi:
+  - ppt_cleaner.py: App chinh (xoa anh + loc text)
+  - ppt_image_remover.py: App don gian (chi xoa anh)
+  - *.vba: Code VBA (chay trong PowerPoint)
+  - README*.md: Huong dan chi tiet
+
+Website: python.org
+Code: python-pptx library

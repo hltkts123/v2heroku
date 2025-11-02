@@ -1,0 +1,95 @@
+╔══════════════════════════════════════════════════════════════╗
+║              DANH SACH FILES CAN TAI                         ║
+╚══════════════════════════════════════════════════════════════╝
+
+█ CHI CAN TAI DUY NHAT 1 FILE NAY:
+
+  ⭐ PowerPoint_Cleaner_v2.zip (31 KB)
+  
+     Chua tat ca:
+     - App Python (xoa anh + loc text)
+     - Code VBA
+     - Huong dan day du
+     - Scripts cai dat/chay
+     - Vi du su dung
+
+█ HOAC TAI TUNG FILE (NEU KHONG TAI DUOC ZIP):
+
+  CAC FILE QUAN TRONG:
+  
+  ✅ ppt_cleaner.py              - App chinh
+  ✅ requirements.txt            - Thu vien Python
+  ✅ install.bat (Windows)       - Script cai dat
+  ✅ install.sh (Mac/Linux)      - Script cai dat
+  ✅ run.bat (Windows)           - Script chay
+  ✅ run.sh (Mac/Linux)          - Script chay
+  
+  FILES HUONG DAN:
+  
+  📖 README_CHINH.md             - Huong dan chinh
+  📖 QUICK_START.txt             - Huong dan nhanh
+  📖 BAT_DAU_O_DAY.md            - File chi dan
+  
+  FILES TUY CHON:
+  
+  ⚪ ppt_image_remover.py        - App don gian
+  ⚪ DeleteSpecificSizedImages_Upgraded.vba  - Code VBA
+  ⚪ VBA_UPGRADE_NOTES.md        - Huong dan VBA
+
+█ CACH TAI TRONG CURSOR/VSCODE:
+
+  1. Tim file trong Explorer (sidebar trai)
+  
+  2. Click chuot phai vao file
+  
+  3. Chon:
+     - "Download..." HOAC
+     - "Reveal in File Explorer" HOAC
+     - "Show in Folder"
+  
+  4. Chon noi luu (Desktop / Documents)
+
+█ SAU KHI TAI:
+
+  NEU TAI FILE ZIP:
+    1. Giai nen file
+    2. Mo folder vua giai nen
+    3. Doc file README_CHINH.md hoac QUICK_START.txt
+    4. Chay install
+    5. Chay run
+  
+  NEU TAI TUNG FILE:
+    1. Tao folder moi (vi du: PowerPoint_Cleaner)
+    2. Copy tat ca files vao folder do
+    3. Doc README_CHINH.md
+    4. Chay install
+    5. Chay run
+
+█ LUU Y QUAN TRONG:
+
+  ⚠️ Tat ca files phai o CUNG 1 FOLDER
+  ⚠️ Doc file QUICK_START.txt hoac README_CHINH.md truoc
+  ⚠️ Can cai Python (python.org)
+  ⚠️ Tick "Add Python to PATH" khi cai Python
+
+█ KIEM TRA DA TAI DUNG:
+
+  Sau khi giai nen ZIP, folder phai co:
+  
+  ✓ Files .py (mau xanh/icon Python)
+  ✓ Files .bat hoac .sh (scripts)
+  ✓ Files .md (huong dan)
+  ✓ File .txt (QUICK_START.txt)
+  ✓ Files .vba (code VBA)
+
+═══════════════════════════════════════════════════════════════
+
+🎯 KHUYEN NGHI:
+
+   → Chi can tai: PowerPoint_Cleaner_v2.zip
+   → Giai nen
+   → Doc QUICK_START.txt
+   → Chay install va run
+   → XONG!
+
+═══════════════════════════════════════════════════════════════
