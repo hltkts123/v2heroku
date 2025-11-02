@@ -167,21 +167,22 @@ class PowerPointCleanerBatch:
         
         # Action buttons
         button_frame = tk.Frame(main_frame)
-        button_frame.pack(fill=tk.X, pady=(5, 0))
+        button_frame.pack(fill=tk.X, pady=(10, 0))
         
         self.process_btn = tk.Button(
             button_frame,
-            text="Xu ly tat ca files",
+            text="? XU LY TAT CA FILES",
             command=self.process_all_files,
             bg="#27ae60",
             fg="white",
-            font=("Arial", 12, "bold"),
+            font=("Arial", 13, "bold"),
             cursor="hand2",
-            relief=tk.FLAT,
-            padx=30,
-            pady=12
+            relief=tk.RAISED,
+            padx=40,
+            pady=15,
+            borderwidth=3
         )
-        self.process_btn.pack(fill=tk.X)
+        self.process_btn.pack(fill=tk.X, ipady=5)
         
         # Status bar
         self.status_label = tk.Label(
@@ -420,7 +421,7 @@ class PowerPointCleanerBatch:
                 elif msg[0] == 'done':
                     _, results = msg
                     self.processing = False
-                    self.process_btn.config(state=tk.NORMAL, text="Xu ly tat ca files")
+                    self.process_btn.config(state=tk.NORMAL, text="? XU LY TAT CA FILES")
                     self.progress_bar['value'] = 100
                     self.progress_label.config(text="Hoan tat!")
                     self.show_results(results)
