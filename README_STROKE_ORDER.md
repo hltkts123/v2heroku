@@ -5,7 +5,7 @@
 ### ? Cai tien so voi phien ban cu:
 
 1. **Da luong (Multi-threading)**
-   - Tai nhieu anh song song (toi da 5 anh cung luc)
+   - Tai nhieu anh song song (toi da 10 anh cung luc)
    - UI khong bi dong bang trong khi tai
    - Toc do tai nhanh hon dang ke
 

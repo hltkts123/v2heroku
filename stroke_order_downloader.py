@@ -23,7 +23,7 @@ class StrokeOrderDownloader:
     
     BASE_URL = "http://www.strokeorder.info/mandarin.php"
     DEFAULT_TIMEOUT = 10
-    MAX_WORKERS = 5
+    MAX_WORKERS = 10
     
     def __init__(self):
         self.session = requests.Session()

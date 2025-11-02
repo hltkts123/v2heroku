@@ -91,7 +91,7 @@ Cac van de thuong gap:
 Version: 2.0
 Update: 2025-11-02
 Tinh nang:
-  - Da luong (tai 5 anh song song)
+  - Da luong (tai 10 anh song song)
   - Luu nho thu muc
   - Mo thu muc truc tiep
   - Giao dien hien dai

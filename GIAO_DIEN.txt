@@ -100,7 +100,7 @@ Text mau XAM (Gray)
 4. Ung dung:
    - Phan tich input
    - Loai bo trung lap
-   - Tai song song 5 anh cung luc
+   - Tai song song 10 anh cung luc
    - Hien thi tien trinh
    - Luu file vao thu muc
 5. Hoan thanh:
