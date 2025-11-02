@@ -4,11 +4,15 @@ Phien ban cai tien voi da luong va UI hien dai
 """
 
 import os
+import sys
+import json
+import subprocess
+import platform
 import requests
 from bs4 import BeautifulSoup
 import tkinter as tk
 from tkinter import messagebox, filedialog, ttk
-from typing import List, Optional
+from typing import List, Optional, Dict
 import threading
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -114,10 +118,12 @@ class StrokeOrderDownloader:
 class StrokeOrderApp:
     """Ung dung GUI cho viec tai anh thu tu net"""
     
+    CONFIG_FILE = Path.home() / ".stroke_order_config.json"
+    
     def __init__(self, root: tk.Tk):
         self.root = root
         self.root.title("Tai Anh Thu Tu Net Chu Han")
-        self.root.geometry("700x550")
+        self.root.geometry("700x580")
         self.root.resizable(False, False)
         
         # Thiet lap thu muc mac dinh (cross-platform)
@@ -125,11 +131,45 @@ class StrokeOrderApp:
         self.default_folder = home_dir / "Stroke_images"
         self.default_folder.mkdir(parents=True, exist_ok=True)
         
-        self.folder_path_var = tk.StringVar(value=str(self.default_folder))
+        # Load config tu lan su dung truoc
+        saved_folder = self._load_config()
+        initial_folder = saved_folder if saved_folder else str(self.default_folder)
+        
+        self.folder_path_var = tk.StringVar(value=initial_folder)
         self.downloader: Optional[StrokeOrderDownloader] = None
         self.is_downloading = False
         
         self._setup_ui()
+    
+    def _load_config(self) -> Optional[str]:
+        """
+        Load cau hinh tu file
+        
+        Returns:
+            Thu muc da luu hoac None
+        """
+        try:
+            if self.CONFIG_FILE.exists():
+                with open(self.CONFIG_FILE, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                    folder = config.get('last_folder')
+                    # Kiem tra thu muc co ton tai khong
+                    if folder and Path(folder).exists():
+                        return folder
+        except Exception:
+            pass
+        return None
+    
+    def _save_config(self):
+        """Luu cau hinh vao file"""
+        try:
+            config = {
+                'last_folder': self.folder_path_var.get()
+            }
+            with open(self.CONFIG_FILE, 'w', encoding='utf-8') as f:
+                json.dump(config, f, ensure_ascii=False, indent=2)
+        except Exception:
+            pass
     
     def _setup_ui(self):
         """Thiet lap giao dien nguoi dung"""
@@ -141,13 +181,13 @@ class StrokeOrderApp:
         # Tieu de
         title_label = ttk.Label(
             main_frame, 
-            text="Tai Anh Thu Tu Net Chu Han",
+            text="?? Tai Anh Thu Tu Net Chu Han",
             font=("Arial", 16, "bold")
         )
         title_label.pack(pady=(0, 10))
         
         # Frame nhap lieu
-        input_frame = ttk.LabelFrame(main_frame, text="Nhap du lieu", padding="10")
+        input_frame = ttk.LabelFrame(main_frame, text="?? Nhap du lieu", padding="10")
         input_frame.pack(fill=tk.X, pady=5)
         
         instruction_label = ttk.Label(
@@ -161,7 +201,7 @@ class StrokeOrderApp:
         self.entry.bind("<Return>", lambda e: self.start_download())
         
         # Frame thu muc
-        folder_frame = ttk.LabelFrame(main_frame, text="Thu muc luu anh", padding="10")
+        folder_frame = ttk.LabelFrame(main_frame, text="?? Thu muc luu anh", padding="10")
         folder_frame.pack(fill=tk.X, pady=5)
         
         folder_display_frame = ttk.Frame(folder_frame)
@@ -171,16 +211,29 @@ class StrokeOrderApp:
             folder_display_frame, 
             textvariable=self.folder_path_var,
             foreground="blue",
-            wraplength=500
+            wraplength=450
         )
         self.folder_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
         
+        # Buttons frame ben phai
+        folder_buttons_frame = ttk.Frame(folder_display_frame)
+        folder_buttons_frame.pack(side=tk.RIGHT, padx=(10, 0))
+        
         folder_button = ttk.Button(
-            folder_display_frame, 
-            text="Chon thu muc", 
-            command=self.select_folder
+            folder_buttons_frame, 
+            text="?? Chon", 
+            command=self.select_folder,
+            width=10
         )
-        folder_button.pack(side=tk.RIGHT, padx=(10, 0))
+        folder_button.pack(side=tk.LEFT, padx=2)
+        
+        open_folder_button = ttk.Button(
+            folder_buttons_frame, 
+            text="??? Mo", 
+            command=self.open_folder,
+            width=10
+        )
+        open_folder_button.pack(side=tk.LEFT, padx=2)
         
         # Frame nut dieu khien
         button_frame = ttk.Frame(main_frame)
@@ -207,7 +260,7 @@ class StrokeOrderApp:
         progress_frame = ttk.Frame(main_frame)
         progress_frame.pack(fill=tk.X, pady=5)
         
-        self.progress_label = ttk.Label(progress_frame, text="San sang")
+        self.progress_label = ttk.Label(progress_frame, text="? San sang")
         self.progress_label.pack()
         
         self.progress_bar = ttk.Progressbar(
@@ -218,7 +271,7 @@ class StrokeOrderApp:
         self.progress_bar.pack(fill=tk.X, pady=5)
         
         # Khu vuc hien thi ket qua
-        result_frame = ttk.LabelFrame(main_frame, text="Ket qua", padding="5")
+        result_frame = ttk.LabelFrame(main_frame, text="?? Ket qua", padding="5")
         result_frame.pack(fill=tk.BOTH, expand=True, pady=5)
         
         # Scrollbar cho text widget
@@ -245,6 +298,30 @@ class StrokeOrderApp:
         folder_selected = filedialog.askdirectory(initialdir=self.folder_path_var.get())
         if folder_selected:
             self.folder_path_var.set(folder_selected)
+            self._save_config()  # Luu config khi chon thu muc moi
+    
+    def open_folder(self):
+        """Mo thu muc trong file explorer"""
+        folder_path = self.folder_path_var.get()
+        
+        # Tao thu muc neu chua ton tai
+        if not Path(folder_path).exists():
+            try:
+                Path(folder_path).mkdir(parents=True, exist_ok=True)
+            except Exception as e:
+                messagebox.showerror("Loi", f"Khong the tao thu muc: {e}")
+                return
+        
+        try:
+            system = platform.system()
+            if system == "Windows":
+                os.startfile(folder_path)
+            elif system == "Darwin":  # macOS
+                subprocess.run(["open", folder_path])
+            else:  # Linux and other Unix-like
+                subprocess.run(["xdg-open", folder_path])
+        except Exception as e:
+            messagebox.showerror("Loi", f"Khong the mo thu muc: {e}")
     
     def log_message(self, message: str, tag: str = "info"):
         """
@@ -286,7 +363,7 @@ class StrokeOrderApp:
         
         words_input = self.entry.get().strip()
         if not words_input:
-            messagebox.showwarning("Canh bao", "Ban chua nhap tu nao!")
+            messagebox.showwarning("?? Canh bao", "Ban chua nhap tu nao!")
             return
         
         folder_path = Path(self.folder_path_var.get())
@@ -294,8 +371,11 @@ class StrokeOrderApp:
             try:
                 folder_path.mkdir(parents=True, exist_ok=True)
             except Exception as e:
-                messagebox.showerror("Loi", f"Khong the tao thu muc: {e}")
+                messagebox.showerror("? Loi", f"Khong the tao thu muc: {e}")
                 return
+        
+        # Luu config khi bat dau tai
+        self._save_config()
         
         # Chuan bi UI
         self.is_downloading = True
@@ -364,7 +444,7 @@ class StrokeOrderApp:
                 
                 # Update progress
                 self.progress_bar["value"] = i
-                self.progress_label.config(text=f"Dang xu ly: {i}/{len(characters)}")
+                self.progress_label.config(text=f"? Dang xu ly: {i}/{len(characters)}")
                 self.root.update_idletasks()
         
         # Hoan thanh
@@ -392,7 +472,7 @@ class StrokeOrderApp:
         self.download_button.config(state=tk.NORMAL)
         self.cancel_button.config(state=tk.DISABLED)
         self.entry.config(state=tk.NORMAL)
-        self.progress_label.config(text="Hoan thanh")
+        self.progress_label.config(text="? Hoan thanh")
         self.downloader = None
 
 
