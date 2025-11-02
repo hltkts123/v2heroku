@@ -3,6 +3,11 @@
                     Tai Anh Thu Tu Net Chu Han
 ================================================================================
 
+QUAN TRONG: PHIEN BAN NAY KHONG CO EMOJI!
+------------------------------------------
+Phien ban nay su dung 100% KY TU ASCII de tranh loi hien thi.
+Giao dien van dep va ro rang, nhung khong co icon/emoji.
+
 BUOC 1: CAI DAT PYTHON (neu chua co)
 ----------------------------------------
 - Tai Python tai: https://www.python.org/downloads/
@@ -22,22 +27,26 @@ BUOC 3: CHAY UNG DUNG
 XONG! Giao dien se mo ra ngay!
 
 ================================================================================
-                            VE EMOJI/ICON
+                            VE ICON/EMOJI
 ================================================================================
 
-Ung dung su dung EMOJI de dep mat hon:
-  ?? ?? ?? ?? ?? ? ? ?? ?? v.v.
+PHIEN BAN NAY: KHONG CO EMOJI
+-----------------------------
+- Su dung TEXT ASCII thuan tuy: [OK], [ERR], [INFO], [>], [+]
+- Hien thi TOT tren MOI he thong
+- KHONG con loi dau hoi (?) hay o vuong ([])
 
-HIEN THI TOT TREN:
-  ? Windows 10 va cao hon
-  ? macOS (tat ca phien ban)
-  ? Linux voi font Unicode day du
-
-KHONG HIEN THI TOT TREN:
-  ? Windows 7, 8, 8.1 (se hien thi o vuong)
-
-Neu Windows cu, emoji se hien thi la cac o vuong [] nhung UNG DUNG VAN
-CHAY TOT VA DAY DU CHUC NANG!
+CAC KY HIU SU DUNG:
+- [OK] - Thanh cong
+- [ERR] - Loi
+- [!] - Canh bao
+- [INFO] - Thong tin
+- [SUCCESS] - Hoan thanh
+- [STATS] - Thong ke
+- [+] - Chon
+- [>] - Mo
+- [X] - Huy
+- >> << - Bat dau
 
 ================================================================================
                             BUILD THANH FILE EXE
@@ -67,7 +76,7 @@ NEU GAP LOI BUILD:
                             CAC FILE TRONG ZIP
 ================================================================================
 
-stroke_order_downloader.py  ? File chinh cua ung dung (CO EMOJI)
+stroke_order_downloader.py  ? File chinh (100% ASCII, khong emoji)
 requirements.txt            ? Danh sach thu vien can cai
 README_STROKE_ORDER.md      ? Huong dan tong quan
 HUONG_DAN.md                ? Huong dan chi tiet day du
@@ -81,6 +90,10 @@ build_exe.sh               ? Build tren Linux/macOS
                             CAU HOI THUONG GAP
 ================================================================================
 
+Q: Tai sao khong co emoji?
+A: Vi nhieu he thong khong ho tro emoji trong Tkinter.
+   Phien ban nay dung ASCII de chay tot tren MOI he thong!
+
 Q: Lam sao de khong phai cai Python?
 A: Build thanh file EXE:
    - Chay: build_exe.bat
@@ -90,10 +103,6 @@ A: Build thanh file EXE:
 Q: Loi "pyinstaller is not recognized"?
 A: Doc file HUONG_DAN_BUILD_EXE.md de biet cach sua!
    Hoac thu chay: python -m pip install pyinstaller
-
-Q: Tai sao emoji hien thi la o vuong?
-A: Ban dang dung Windows 7/8. Emoji chi hien thi tot tren Windows 10+.
-   Ung dung van chay binh thuong, chi la khong dep thoi!
 
 Q: Ung dung luu anh o dau?
 A: Mac dinh:
@@ -114,7 +123,7 @@ A: 10 anh song song! Rat nhanh!
 
 1. Mo ung dung
 2. Nhap chu Han vao o input (vi du: ????)
-3. Click "?? Bat dau tai"
+3. Click ">> BAT DAU TAI <<"
 4. Xem anh trong thu muc Stroke_images!
 
 DON GIAN VAY THOI!
@@ -132,27 +141,26 @@ Cac van de thuong gap:
 - "ModuleNotFoundError" ? Chay: pip install -r requirements.txt
 - "pyinstaller not recognized" ? Doc HUONG_DAN_BUILD_EXE.md
 - "Timeout" ? Kiem tra internet
-- Emoji la o vuong ? Binh thuong tren Windows cu!
 
 ================================================================================
                            PHIEN BAN
 ================================================================================
 
-Version: 2.1
+Version: 2.2 (ASCII EDITION)
 Update: 2025-11-02
 Tinh nang:
   - Da luong (tai 10 anh song song) - NHANH GAP DOI!
   - Luu nho thu muc da chon
   - Mo thu muc truc tiep
-  - Giao dien hien dai voi emoji
+  - Giao dien ASCII (khong emoji, khong loi)
   - Cross-platform (Windows/Mac/Linux)
   - Build EXE de dang
 
-Thay doi moi nhat:
-  - Tang toc do tai len 10 anh song song (tu 5)
-  - Sua file build_exe.bat de xu ly loi tot hon
-  - Them huong dan build EXE chi tiet
-  - Giu nguyen emoji (dep tren Windows 10+)
+Thay doi phien ban nay:
+  - XOA TAT CA emoji/icon
+  - Su dung 100% ky tu ASCII
+  - Khong con loi dau hoi (?) hay o vuong
+  - Chay tot tren MOI Windows (7/8/10/11)
 
 ================================================================================
 

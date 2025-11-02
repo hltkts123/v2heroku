@@ -1,0 +1,95 @@
+================================================================================
+                    DA SUA LOI ICON/EMOJI!
+================================================================================
+
+VAN DE BAN GAP:
+--------------
+Icon/emoji hien thi thanh dau hoi (?)
+
+NGUYEN NHAN:
+-----------
+Tkinter khong ho tro emoji tot tren nhieu he thong Windows
+
+GIAI PHAP:
+---------
+XOA TAT CA emoji, dung 100% ky tu ASCII
+
+================================================================================
+                        THAY DOI CU THE
+================================================================================
+
+TRUOC (Bi loi):
+---------------
+Title: ? Tai Anh Thu Tu Net Chu Han
+Button: ? Bat dau tai
+Message: ? Da tai, ? Loi, ? Canh bao
+
+SAU (ASCII - Khong loi):
+-------------------------
+Title: TAI ANH THU TU NET CHU HAN
+Button: >> BAT DAU TAI <<
+Message: [OK] Da tai, [ERR] Loi, [!] Canh bao
+
+================================================================================
+                        CAC KY HIU MOI
+================================================================================
+
+[OK]      = Thanh cong
+[ERR]     = Loi  
+[!]       = Canh bao
+[INFO]    = Thong tin
+[SUCCESS] = Hoan thanh
+[STATS]   = Thong ke
+
+[+] Chon Thu Muc
+[>] Mo Thu Muc
+>> BAT DAU TAI <<
+[X] HUY BO
+
+================================================================================
+                        FILE DA DUOC CAP NHAT
+================================================================================
+
+stroke_order_downloader.py
+  -> XOA TAT CA emoji
+  -> Dung 100% ASCII
+  -> Hien thi tot tren MOI he thong
+
+README_FIRST.txt
+  -> Giai thich ve phien ban ASCII
+
+THAY_DOI_MOI.txt
+  -> Chi tiet cac thay doi
+
+================================================================================
+                        CACH SU DUNG
+================================================================================
+
+1. Cai dat:
+   pip install -r requirements.txt
+
+2. Chay:
+   python stroke_order_downloader.py
+
+3. Kiem tra:
+   - Khong con dau hoi (?)
+   - Khong con o vuong []
+   - Tat ca text hien thi ro rang!
+
+================================================================================
+                        CAM KET
+================================================================================
+
+PHIEN BAN NAY:
+  ? KHONG con loi hien thi
+  ? CHAY tot tren MOI Windows (7/8/10/11)
+  ? KHONG can font dac biet
+  ? Van DAY DU chuc nang
+
+Neu van gap loi hien thi, hay lien he!
+
+================================================================================
+
+        FILE MOI DA SAN SANG - HAY TAI VE VA THU LAI!
+
+================================================================================
