@@ -3,18 +3,16 @@
 """
 PowerPoint Cleaner Tool - Batch Processing
 Cong cu don dep PowerPoint: Xu ly NHIEU file cung luc
-Khong can mo PowerPoint, chay doc lap
+Ho tro xu ly textbox long nhau (nested/group shapes)
 """
 
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 from pptx import Presentation
-from pptx.util import Inches
+from pptx.enum.shapes import MSO_SHAPE_TYPE
 import os
 import shutil
 from datetime import datetime
-from pathlib import Path
-import re
 from threading import Thread
 import queue
 
@@ -22,12 +20,12 @@ class PowerPointCleanerBatch:
     def __init__(self, root):
         self.root = root
         self.root.title("PowerPoint Cleaner - Xu ly nhieu file")
-        self.root.geometry("950x850")
-        self.root.resizable(True, True)  # Cho phep dieu chinh kich thuoc
-        self.root.minsize(800, 700)  # Kich thuoc toi thieu
+        self.root.geometry("950x900")
+        self.root.resizable(True, True)
+        self.root.minsize(800, 750)
         
         # Variables
-        self.file_paths = []  # Danh sach files
+        self.file_paths = []
         self.auto_backup = tk.BooleanVar(value=True)
         self.processing = False
         self.result_queue = queue.Queue()
@@ -52,7 +50,7 @@ class PowerPointCleanerBatch:
         
         subtitle_label = tk.Label(
             header_frame,
-            text="Xu ly NHIEU file cung luc - Tiet kiem thoi gian",
+            text="Xu ly NHIEU file - Ho tro textbox long nhau",
             font=("Arial", 10),
             bg="#2c3e50",
             fg="#ecf0f1"
@@ -134,6 +132,22 @@ class PowerPointCleanerBatch:
         self.file_count_label = tk.Label(file_frame, text="Chua chon file nao", font=("Arial", 9), fg="gray")
         self.file_count_label.pack(pady=(5, 0))
         
+        # Processing mode selection
+        mode_frame = tk.LabelFrame(main_frame, text="2. Chon chuc nang xu ly", font=("Arial", 11, "bold"), padx=10, pady=10)
+        mode_frame.pack(fill=tk.X, pady=(0, 10))
+        
+        self.process_mode = tk.StringVar(value="both")
+        
+        modes = [
+            ("Xu ly CA HAI: Xoa hinh anh VA loc text", "both"),
+            ("CHI xoa hinh anh", "image_only"),
+            ("CHI loc text", "text_only")
+        ]
+        
+        for text, value in modes:
+            tk.Radiobutton(mode_frame, text=text, variable=self.process_mode, value=value,
+                          font=("Arial", 10), command=self.update_tabs_visibility).pack(anchor="w", pady=2)
+        
         # Notebook (Tabs)
         self.notebook = ttk.Notebook(main_frame)
         self.notebook.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
@@ -176,7 +190,7 @@ class PowerPointCleanerBatch:
             command=self.process_all_files,
             bg="#27ae60",
             fg="white",
-            font=("Arial", 13, "bold"),
+            font=("Arial", 14, "bold"),
             cursor="hand2",
             relief=tk.RAISED,
             padx=40,
@@ -200,8 +214,8 @@ class PowerPointCleanerBatch:
     
     def create_image_tab(self):
         """Tab xoa hinh anh"""
-        image_frame = ttk.Frame(self.notebook)
-        self.notebook.add(image_frame, text=" Xoa hinh anh")
+        self.image_frame = ttk.Frame(self.notebook)
+        self.notebook.add(self.image_frame, text=" Xoa hinh anh")
         
         # Variables
         self.img_width = tk.DoubleVar(value=1.6)
@@ -210,7 +224,7 @@ class PowerPointCleanerBatch:
         self.img_mode = tk.StringVar(value="and")
         
         # Size settings
-        size_frame = tk.LabelFrame(image_frame, text="Kich thuoc (inch)", font=("Arial", 10, "bold"), padx=10, pady=10)
+        size_frame = tk.LabelFrame(self.image_frame, text="Kich thuoc (inch)", font=("Arial", 10, "bold"), padx=10, pady=10)
         size_frame.pack(fill=tk.X, padx=20, pady=10)
         
         # Width
@@ -238,7 +252,7 @@ class PowerPointCleanerBatch:
         tk.Label(tol_frame, text="inch", font=("Arial", 9)).pack(side=tk.LEFT)
         
         # Match mode
-        mode_frame = tk.LabelFrame(image_frame, text="Che do so khop", font=("Arial", 10, "bold"), padx=10, pady=5)
+        mode_frame = tk.LabelFrame(self.image_frame, text="Che do so khop", font=("Arial", 10, "bold"), padx=10, pady=5)
         mode_frame.pack(fill=tk.X, padx=20)
         
         modes = [
@@ -254,15 +268,24 @@ class PowerPointCleanerBatch:
     
     def create_text_tab(self):
         """Tab loc text"""
-        text_frame = ttk.Frame(self.notebook)
-        self.notebook.add(text_frame, text=" Loc text")
+        self.text_frame = ttk.Frame(self.notebook)
+        self.notebook.add(self.text_frame, text=" Loc text")
         
         # Variables
         self.text_mode = tk.StringVar(value="keep_vietnamese")
         self.delete_empty_shapes = tk.BooleanVar(value=True)
         
+        # Info
+        info_label = tk.Label(
+            self.text_frame,
+            text="XU LY DE QUY: Tu dong xu ly textbox trong groups va nested shapes",
+            font=("Arial", 9, "italic"),
+            fg="#16a085"
+        )
+        info_label.pack(pady=5)
+        
         # Mode selection
-        mode_frame = tk.LabelFrame(text_frame, text="Che do loc", font=("Arial", 10, "bold"), padx=10, pady=10)
+        mode_frame = tk.LabelFrame(self.text_frame, text="Che do loc", font=("Arial", 10, "bold"), padx=10, pady=10)
         mode_frame.pack(fill=tk.X, padx=20, pady=10)
         
         modes = [
@@ -276,11 +299,16 @@ class PowerPointCleanerBatch:
                           font=("Arial", 9)).pack(anchor="w", pady=2)
         
         # Options
-        opt_frame = tk.LabelFrame(text_frame, text="Tuy chon", font=("Arial", 10, "bold"), padx=10, pady=10)
+        opt_frame = tk.LabelFrame(self.text_frame, text="Tuy chon", font=("Arial", 10, "bold"), padx=10, pady=10)
         opt_frame.pack(fill=tk.X, padx=20)
         
         tk.Checkbutton(opt_frame, text="Xoa textbox rong sau khi loc", 
                       variable=self.delete_empty_shapes, font=("Arial", 9)).pack(anchor="w")
+    
+    def update_tabs_visibility(self):
+        """Cap nhat hien thi tabs theo mode"""
+        # Tabs luon hien, chi la thong tin
+        pass
     
     def add_files(self):
         """Them files"""
@@ -356,35 +384,36 @@ class PowerPointCleanerBatch:
             return
         
         # Confirm
-        current_tab = self.notebook.tab(self.notebook.select(), "text")
-        action = "xoa hinh anh" if "hinh anh" in current_tab.lower() else "loc text"
+        mode = self.process_mode.get()
+        mode_text = {
+            "both": "XOA HINH ANH VA LOC TEXT",
+            "image_only": "CHI XOA HINH ANH",
+            "text_only": "CHI LOC TEXT"
+        }
         
         if not messagebox.askyesno("Xac nhan", 
-            f"Xu ly {len(self.file_paths)} file voi tac vu: {action}?\n\n"
+            f"Xu ly {len(self.file_paths)} file voi che do:\n\n"
+            f"{mode_text[mode]}\n\n"
             "Thao tac nay khong the hoan tac!"):
             return
         
-        # Start processing in thread
+        # Start processing
         self.processing = True
         self.process_btn.config(state=tk.DISABLED, text="Dang xu ly...")
         
         thread = Thread(target=self.process_files_thread, daemon=True)
         thread.start()
         
-        # Monitor progress
         self.root.after(100, self.check_progress)
     
     def process_files_thread(self):
         """Xu ly files trong thread rieng"""
         total = len(self.file_paths)
         results = []
-        
-        current_tab = self.notebook.tab(self.notebook.select(), "text")
-        is_image_mode = "hinh anh" in current_tab.lower()
+        mode = self.process_mode.get()
         
         for idx, file_path in enumerate(self.file_paths, 1):
             try:
-                # Update progress
                 progress = (idx / total) * 100
                 filename = os.path.basename(file_path)
                 self.result_queue.put(('progress', progress, f"Dang xu ly ({idx}/{total}): {filename}"))
@@ -394,18 +423,111 @@ class PowerPointCleanerBatch:
                     self.create_backup(file_path)
                 
                 # Process
-                if is_image_mode:
-                    result = self.process_single_image_file(file_path)
-                else:
-                    result = self.process_single_text_file(file_path)
-                
+                result = self.process_single_file(file_path, mode)
                 results.append({'file': filename, 'status': 'success', 'data': result})
                 
             except Exception as e:
                 results.append({'file': os.path.basename(file_path), 'status': 'error', 'data': str(e)})
         
-        # Done
         self.result_queue.put(('done', results))
+    
+    def process_single_file(self, file_path, mode):
+        """Xu ly 1 file theo mode"""
+        prs = Presentation(file_path)
+        result = {}
+        
+        if mode in ["both", "image_only"]:
+            img_result = self.process_images(prs)
+            result.update(img_result)
+        
+        if mode in ["both", "text_only"]:
+            txt_result = self.process_texts(prs)
+            result.update(txt_result)
+        
+        prs.save(file_path)
+        return result
+    
+    def process_images(self, prs):
+        """Xu ly xoa hinh anh"""
+        deleted_count = 0
+        total_images = 0
+        
+        for slide in prs.slides:
+            shapes_to_delete = []
+            
+            for shape in slide.shapes:
+                if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                    total_images += 1
+                    width_inches = shape.width / 914400
+                    height_inches = shape.height / 914400
+                    
+                    if self.check_image_match(width_inches, height_inches):
+                        shapes_to_delete.append(shape)
+            
+            for shape in shapes_to_delete:
+                sp = shape.element
+                sp.getparent().remove(sp)
+                deleted_count += 1
+        
+        return {'total_images': total_images, 'deleted_images': deleted_count}
+    
+    def process_texts(self, prs):
+        """Xu ly loc text - HO TRO DE QUY"""
+        modified_count = 0
+        deleted_count = 0
+        total_textboxes = 0
+        
+        for slide in prs.slides:
+            # Collect all changes first
+            changes = []
+            self.collect_text_changes(slide.shapes, changes)
+            
+            # Count total textboxes
+            total_textboxes += len(changes)
+            
+            # Apply text updates first
+            for change in changes:
+                if not change['delete']:
+                    self.set_shape_text(change['shape'], change['new_text'])
+                    modified_count += 1
+            
+            # Delete empty shapes
+            shapes_to_delete = [c['shape'] for c in changes if c['delete']]
+            for shape in shapes_to_delete:
+                try:
+                    sp = shape.element
+                    sp.getparent().remove(sp)
+                    deleted_count += 1
+                except:
+                    pass
+        
+        return {'total_textboxes': total_textboxes, 'modified_text': modified_count, 'deleted_text': deleted_count}
+    
+    def collect_text_changes(self, shapes, changes):
+        """Thu thap thay doi text - DE QUY xu ly group"""
+        for shape in shapes:
+            try:
+                # Xu ly group de quy
+                if shape.shape_type == MSO_SHAPE_TYPE.GROUP:
+                    self.collect_text_changes(shape.shapes, changes)
+                    continue
+                
+                # Chi xu ly shapes co text
+                if self.has_text(shape):
+                    original_text = self.get_shape_text(shape)
+                    new_text = self.filter_text(original_text)
+                    
+                    if new_text != original_text:
+                        delete_it = len(new_text.strip()) == 0 and self.delete_empty_shapes.get()
+                        changes.append({
+                            'shape': shape,
+                            'original': original_text,
+                            'new_text': new_text,
+                            'delete': delete_it
+                        })
+            except Exception as e:
+                # Skip shapes that cause errors
+                continue
     
     def check_progress(self):
         """Kiem tra tien trinh"""
@@ -433,68 +555,11 @@ class PowerPointCleanerBatch:
         if self.processing:
             self.root.after(100, self.check_progress)
     
-    def process_single_image_file(self, file_path):
-        """Xu ly xoa hinh anh cho 1 file"""
-        prs = Presentation(file_path)
-        deleted_count = 0
-        total_images = 0
-        
-        for slide in prs.slides:
-            shapes_to_delete = []
-            
-            for shape in slide.shapes:
-                if shape.shape_type == 13:
-                    total_images += 1
-                    width_inches = shape.width / 914400
-                    height_inches = shape.height / 914400
-                    
-                    if self.check_image_match(width_inches, height_inches):
-                        shapes_to_delete.append(shape)
-            
-            for shape in shapes_to_delete:
-                sp = shape.element
-                sp.getparent().remove(sp)
-                deleted_count += 1
-        
-        prs.save(file_path)
-        return {'total': total_images, 'deleted': deleted_count}
-    
-    def process_single_text_file(self, file_path):
-        """Xu ly loc text cho 1 file"""
-        prs = Presentation(file_path)
-        modified_count = 0
-        deleted_count = 0
-        total_textboxes = 0
-        
-        for slide in prs.slides:
-            shapes_to_delete = []
-            
-            for shape in slide.shapes:
-                if self.has_text(shape):
-                    total_textboxes += 1
-                    original_text = self.get_shape_text(shape)
-                    new_text = self.filter_text(original_text)
-                    
-                    if new_text != original_text:
-                        if len(new_text.strip()) == 0 and self.delete_empty_shapes.get():
-                            shapes_to_delete.append(shape)
-                            deleted_count += 1
-                        else:
-                            self.set_shape_text(shape, new_text)
-                            modified_count += 1
-            
-            for shape in shapes_to_delete:
-                sp = shape.element
-                sp.getparent().remove(sp)
-        
-        prs.save(file_path)
-        return {'total': total_textboxes, 'modified': modified_count, 'deleted': deleted_count}
-    
     def show_results(self, results):
         """Hien thi ket qua"""
         result_window = tk.Toplevel(self.root)
         result_window.title("Ket qua xu ly")
-        result_window.geometry("700x500")
+        result_window.geometry("750x550")
         
         # Header
         success_count = sum(1 for r in results if r['status'] == 'success')
@@ -517,8 +582,7 @@ class PowerPointCleanerBatch:
         text_widget = scrolledtext.ScrolledText(content_frame, font=("Courier", 9), wrap=tk.WORD)
         text_widget.pack(fill=tk.BOTH, expand=True)
         
-        current_tab = self.notebook.tab(self.notebook.select(), "text")
-        is_image_mode = "hinh anh" in current_tab.lower()
+        mode = self.process_mode.get()
         
         for idx, result in enumerate(results, 1):
             text_widget.insert(tk.END, f"\n{'='*70}\n")
@@ -526,16 +590,19 @@ class PowerPointCleanerBatch:
             text_widget.insert(tk.END, f"{'='*70}\n")
             
             if result['status'] == 'success':
-                text_widget.insert(tk.END, "Trang thai: THANH CONG\n")
+                text_widget.insert(tk.END, "Trang thai: THANH CONG\n\n")
                 data = result['data']
                 
-                if is_image_mode:
-                    text_widget.insert(tk.END, f"Tong hinh anh: {data['total']}\n")
-                    text_widget.insert(tk.END, f"Da xoa: {data['deleted']}\n")
-                else:
-                    text_widget.insert(tk.END, f"Tong textbox: {data['total']}\n")
-                    text_widget.insert(tk.END, f"Da cap nhat: {data['modified']}\n")
-                    text_widget.insert(tk.END, f"Da xoa: {data['deleted']}\n")
+                if mode in ["both", "image_only"]:
+                    text_widget.insert(tk.END, "[HINH ANH]\n")
+                    text_widget.insert(tk.END, f"  Tong: {data.get('total_images', 0)}\n")
+                    text_widget.insert(tk.END, f"  Da xoa: {data.get('deleted_images', 0)}\n\n")
+                
+                if mode in ["both", "text_only"]:
+                    text_widget.insert(tk.END, "[TEXT]\n")
+                    text_widget.insert(tk.END, f"  Tong textbox: {data.get('total_textboxes', 0)}\n")
+                    text_widget.insert(tk.END, f"  Da cap nhat: {data.get('modified_text', 0)}\n")
+                    text_widget.insert(tk.END, f"  Da xoa: {data.get('deleted_text', 0)}\n")
             else:
                 text_widget.insert(tk.END, f"Trang thai: LOI\n")
                 text_widget.insert(tk.END, f"Chi tiet: {result['data']}\n")
@@ -605,16 +672,19 @@ class PowerPointCleanerBatch:
         return text
     
     def keep_unicode_lines(self, text):
+        """Giu dong co Unicode (tieng Viet)"""
         lines = text.split('\n')
         result = [line for line in lines if self.has_unicode_char(line)]
         return '\n'.join(result)
     
     def keep_ascii_lines(self, text):
+        """Giu dong chi ASCII (tieng Anh)"""
         lines = text.split('\n')
         result = [line for line in lines if not self.has_unicode_char(line) and line.strip()]
         return '\n'.join(result)
     
     def has_unicode_char(self, line):
+        """Kiem tra co ky tu Unicode khong"""
         if not line.strip():
             return False
         return any(ord(char) > 127 for char in line)

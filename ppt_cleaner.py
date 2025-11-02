@@ -1,31 +1,29 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-PowerPoint Cleaner Tool
-Cong cu don dep PowerPoint: Xoa hinh anh & Loc text
-Khong can mo PowerPoint, chay doc lap
+PowerPoint Cleaner Tool - Single File Processing
+Cong cu don dep PowerPoint: Xu ly 1 file
+Ho tro xu ly textbox long nhau (nested/group shapes)
 """
 
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, scrolledtext
 from pptx import Presentation
-from pptx.util import Inches
+from pptx.enum.shapes import MSO_SHAPE_TYPE
 import os
 import shutil
 from datetime import datetime
-from pathlib import Path
-import re
 
 class PowerPointCleaner:
     def __init__(self, root):
         self.root = root
-        self.root.title("PowerPoint Cleaner - Cong cu don dep PowerPoint")
-        self.root.geometry("900x800")
-        self.root.resizable(True, True)  # Cho phep dieu chinh kich thuoc
-        self.root.minsize(750, 650)  # Kich thuoc toi thieu
+        self.root.title("PowerPoint Cleaner")
+        self.root.geometry("900x850")
+        self.root.resizable(True, True)
+        self.root.minsize(750, 700)
         
         # Variables
-        self.file_path = tk.StringVar()
+        self.file_path = None
         self.auto_backup = tk.BooleanVar(value=True)
         
         self.create_widgets()
@@ -34,13 +32,13 @@ class PowerPointCleaner:
         """Tao giao dien"""
         
         # Header
-        header_frame = tk.Frame(self.root, bg="#2c3e50", height=80)
+        header_frame = tk.Frame(self.root, bg="#2c3e50", height=70)
         header_frame.pack(fill=tk.X)
         
         title_label = tk.Label(
             header_frame,
             text="PowerPoint Cleaner",
-            font=("Arial", 20, "bold"),
+            font=("Arial", 18, "bold"),
             bg="#2c3e50",
             fg="white"
         )
@@ -48,8 +46,8 @@ class PowerPointCleaner:
         
         subtitle_label = tk.Label(
             header_frame,
-            text="Xoa hinh anh & Loc text - Khong can mo PowerPoint",
-            font=("Arial", 10),
+            text="Xu ly 1 file - Ho tro textbox long nhau",
+            font=("Arial", 9),
             bg="#2c3e50",
             fg="#ecf0f1"
         )
@@ -61,13 +59,23 @@ class PowerPointCleaner:
         
         # File selection
         file_frame = tk.LabelFrame(main_frame, text="1. Chon file PowerPoint", font=("Arial", 11, "bold"), padx=10, pady=10)
-        file_frame.pack(fill=tk.X, pady=(0, 10))
+        file_frame.pack(fill=tk.X, pady=(0, 15))
         
-        file_entry = tk.Entry(file_frame, textvariable=self.file_path, font=("Arial", 10), state="readonly")
-        file_entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 10))
+        btn_frame = tk.Frame(file_frame)
+        btn_frame.pack(fill=tk.X)
+        
+        self.file_label = tk.Label(
+            btn_frame,
+            text="Chua chon file",
+            font=("Arial", 10),
+            fg="gray",
+            anchor="w",
+            width=50
+        )
+        self.file_label.pack(side=tk.LEFT, padx=5)
         
         browse_btn = tk.Button(
-            file_frame,
+            btn_frame,
             text="Chon file...",
             command=self.browse_file,
             bg="#3498db",
@@ -79,9 +87,25 @@ class PowerPointCleaner:
         )
         browse_btn.pack(side=tk.RIGHT)
         
+        # Processing mode
+        mode_frame = tk.LabelFrame(main_frame, text="2. Chon chuc nang xu ly", font=("Arial", 11, "bold"), padx=10, pady=10)
+        mode_frame.pack(fill=tk.X, pady=(0, 15))
+        
+        self.process_mode = tk.StringVar(value="both")
+        
+        modes = [
+            ("Xu ly CA HAI: Xoa hinh anh VA loc text", "both"),
+            ("CHI xoa hinh anh", "image_only"),
+            ("CHI loc text", "text_only")
+        ]
+        
+        for text, value in modes:
+            tk.Radiobutton(mode_frame, text=text, variable=self.process_mode, value=value,
+                          font=("Arial", 10), command=self.update_tabs_visibility).pack(anchor="w", pady=2)
+        
         # Notebook (Tabs)
         self.notebook = ttk.Notebook(main_frame)
-        self.notebook.pack(fill=tk.BOTH, expand=True, pady=(0, 10))
+        self.notebook.pack(fill=tk.BOTH, expand=True, pady=(0, 15))
         
         # Tab 1: Xoa hinh anh
         self.create_image_tab()
@@ -90,12 +114,12 @@ class PowerPointCleaner:
         self.create_text_tab()
         
         # Options
-        options_frame = tk.LabelFrame(main_frame, text="Tuy chon chung", font=("Arial", 11, "bold"), padx=10, pady=10)
-        options_frame.pack(fill=tk.X, pady=(0, 10))
+        options_frame = tk.LabelFrame(main_frame, text="Tuy chon", font=("Arial", 11, "bold"), padx=10, pady=10)
+        options_frame.pack(fill=tk.X, pady=(0, 15))
         
         backup_cb = tk.Checkbutton(
             options_frame,
-            text="Tu dong backup file goc truoc khi xu ly (khuyen nghi)",
+            text="Tu dong backup truoc khi xu ly",
             variable=self.auto_backup,
             font=("Arial", 10)
         )
@@ -103,40 +127,27 @@ class PowerPointCleaner:
         
         # Action buttons
         button_frame = tk.Frame(main_frame)
-        button_frame.pack(fill=tk.X, pady=(5, 0))
+        button_frame.pack(fill=tk.X, pady=(10, 0))
         
-        preview_btn = tk.Button(
+        self.process_btn = tk.Button(
             button_frame,
-            text="Preview - Xem truoc",
-            command=self.preview_changes,
-            bg="#f39c12",
-            fg="white",
-            font=("Arial", 11, "bold"),
-            cursor="hand2",
-            relief=tk.FLAT,
-            padx=30,
-            pady=10
-        )
-        preview_btn.pack(side=tk.LEFT, padx=(0, 10), fill=tk.X, expand=True)
-        
-        process_btn = tk.Button(
-            button_frame,
-            text="Xu ly file",
+            text="? XU LY FILE",
             command=self.process_file,
             bg="#27ae60",
             fg="white",
-            font=("Arial", 11, "bold"),
+            font=("Arial", 13, "bold"),
             cursor="hand2",
-            relief=tk.FLAT,
-            padx=30,
-            pady=10
+            relief=tk.RAISED,
+            padx=40,
+            pady=12,
+            borderwidth=3
         )
-        process_btn.pack(side=tk.LEFT, fill=tk.X, expand=True)
+        self.process_btn.pack(fill=tk.X, ipady=5)
         
         # Status bar
         self.status_label = tk.Label(
             self.root,
-            text="San sang",
+            text="San sang - Chon file de bat dau",
             font=("Arial", 9),
             bg="#ecf0f1",
             fg="#2c3e50",
@@ -148,8 +159,8 @@ class PowerPointCleaner:
     
     def create_image_tab(self):
         """Tab xoa hinh anh"""
-        image_frame = ttk.Frame(self.notebook)
-        self.notebook.add(image_frame, text=" Xoa hinh anh")
+        self.image_frame = ttk.Frame(self.notebook)
+        self.notebook.add(self.image_frame, text=" Xoa hinh anh")
         
         # Variables
         self.img_width = tk.DoubleVar(value=1.6)
@@ -157,18 +168,9 @@ class PowerPointCleaner:
         self.img_tolerance = tk.DoubleVar(value=0.01)
         self.img_mode = tk.StringVar(value="and")
         
-        # Instructions
-        info_label = tk.Label(
-            image_frame,
-            text="Xoa hinh anh theo kich thuoc cu the",
-            font=("Arial", 10, "italic"),
-            fg="#7f8c8d"
-        )
-        info_label.pack(pady=10)
-        
         # Size settings
-        size_frame = tk.LabelFrame(image_frame, text="Kich thuoc (inch)", font=("Arial", 10, "bold"), padx=10, pady=10)
-        size_frame.pack(fill=tk.X, padx=20, pady=(0, 10))
+        size_frame = tk.LabelFrame(self.image_frame, text="Kich thuoc (inch)", font=("Arial", 10, "bold"), padx=10, pady=10)
+        size_frame.pack(fill=tk.X, padx=20, pady=10)
         
         # Width
         width_frame = tk.Frame(size_frame)
@@ -195,7 +197,7 @@ class PowerPointCleaner:
         tk.Label(tol_frame, text="inch", font=("Arial", 9)).pack(side=tk.LEFT)
         
         # Match mode
-        mode_frame = tk.LabelFrame(image_frame, text="Che do so khop", font=("Arial", 10, "bold"), padx=10, pady=5)
+        mode_frame = tk.LabelFrame(self.image_frame, text="Che do so khop", font=("Arial", 10, "bold"), padx=10, pady=5)
         mode_frame.pack(fill=tk.X, padx=20)
         
         modes = [
@@ -211,419 +213,192 @@ class PowerPointCleaner:
     
     def create_text_tab(self):
         """Tab loc text"""
-        text_frame = ttk.Frame(self.notebook)
-        self.notebook.add(text_frame, text=" Loc text")
+        self.text_frame = ttk.Frame(self.notebook)
+        self.notebook.add(self.text_frame, text=" Loc text")
         
         # Variables
         self.text_mode = tk.StringVar(value="keep_vietnamese")
-        self.custom_pattern = tk.StringVar()
+        self.delete_empty_shapes = tk.BooleanVar(value=True)
         
-        # Instructions
+        # Info
         info_label = tk.Label(
-            text_frame,
-            text="Loc va xoa text trong cac textbox",
-            font=("Arial", 10, "italic"),
-            fg="#7f8c8d"
+            self.text_frame,
+            text="XU LY DE QUY: Tu dong xu ly textbox trong groups va nested shapes",
+            font=("Arial", 9, "italic"),
+            fg="#16a085"
         )
-        info_label.pack(pady=10)
+        info_label.pack(pady=5)
         
         # Mode selection
-        mode_frame = tk.LabelFrame(text_frame, text="Che do loc", font=("Arial", 10, "bold"), padx=10, pady=10)
-        mode_frame.pack(fill=tk.X, padx=20, pady=(0, 10))
+        mode_frame = tk.LabelFrame(self.text_frame, text="Che do loc", font=("Arial", 10, "bold"), padx=10, pady=10)
+        mode_frame.pack(fill=tk.X, padx=20, pady=10)
         
         modes = [
-            ("Giu tieng Viet - Xoa tieng Anh (khuyen nghi)", "keep_vietnamese"),
+            ("Giu tieng Viet - Xoa tieng Anh", "keep_vietnamese"),
             ("Chi giu tieng Anh - Xoa tieng Viet", "keep_english"),
-            ("Xoa tat ca text", "delete_all"),
-            ("Xoa theo pattern tuy chinh (regex)", "custom")
+            ("Xoa tat ca text", "delete_all")
         ]
         
         for text, value in modes:
             tk.Radiobutton(mode_frame, text=text, variable=self.text_mode, value=value,
-                          font=("Arial", 9), command=self.on_text_mode_change).pack(anchor="w", pady=2)
-        
-        # Custom pattern
-        self.custom_frame = tk.LabelFrame(text_frame, text="Pattern tuy chinh (Regex)", 
-                                          font=("Arial", 10, "bold"), padx=10, pady=10)
-        self.custom_frame.pack(fill=tk.X, padx=20, pady=(0, 10))
-        
-        tk.Label(self.custom_frame, text="Xoa dong khop voi pattern:", 
-                font=("Arial", 9)).pack(anchor="w")
-        
-        pattern_entry = tk.Entry(self.custom_frame, textvariable=self.custom_pattern, 
-                                font=("Arial", 9))
-        pattern_entry.pack(fill=tk.X, pady=5)
-        
-        tk.Label(self.custom_frame, text="Vi du: ^[0-9]+$ (xoa dong chi co so)", 
-                font=("Arial", 8), fg="gray").pack(anchor="w")
-        
-        self.custom_frame.pack_forget()  # An mac dinh
+                          font=("Arial", 9)).pack(anchor="w", pady=2)
         
         # Options
-        opt_frame = tk.LabelFrame(text_frame, text="Tuy chon", font=("Arial", 10, "bold"), padx=10, pady=10)
+        opt_frame = tk.LabelFrame(self.text_frame, text="Tuy chon", font=("Arial", 10, "bold"), padx=10, pady=10)
         opt_frame.pack(fill=tk.X, padx=20)
         
-        self.delete_empty_shapes = tk.BooleanVar(value=True)
         tk.Checkbutton(opt_frame, text="Xoa textbox rong sau khi loc", 
                       variable=self.delete_empty_shapes, font=("Arial", 9)).pack(anchor="w")
-        
-        # Examples
-        example_frame = tk.LabelFrame(text_frame, text="Vi du", font=("Arial", 10, "bold"), padx=10, pady=10)
-        example_frame.pack(fill=tk.X, padx=20, pady=(10, 0))
-        
-        example_text = tk.Text(example_frame, height=6, font=("Courier", 8), wrap=tk.WORD, 
-                               bg="#f8f9fa", relief=tk.FLAT)
-        example_text.pack(fill=tk.X)
-        
-        example_content = """Truoc:
-Hello World
-Xin chao Viet Nam
-English text
-Tieng Viet co dau
-
-Sau (che do "Giu tieng Viet"):
-Xin chao Viet Nam
-Tieng Viet co dau"""
-        
-        example_text.insert("1.0", example_content)
-        example_text.config(state=tk.DISABLED)
     
-    def on_text_mode_change(self):
-        """Hien/an custom pattern frame"""
-        if self.text_mode.get() == "custom":
-            self.custom_frame.pack(fill=tk.X, padx=20, pady=(0, 10), before=self.custom_frame.master.winfo_children()[-1])
-        else:
-            self.custom_frame.pack_forget()
+    def update_tabs_visibility(self):
+        """Cap nhat hien thi tabs theo mode"""
+        pass
     
     def browse_file(self):
-        """Chon file PowerPoint"""
+        """Chon file"""
         filename = filedialog.askopenfilename(
             title="Chon file PowerPoint",
-            filetypes=[
-                ("PowerPoint files", "*.pptx"),
-                ("All files", "*.*")
-            ]
+            filetypes=[("PowerPoint files", "*.pptx"), ("All files", "*.*")]
         )
         if filename:
-            self.file_path.set(filename)
-            self.update_status(f"Da chon: {os.path.basename(filename)}")
-    
-    def update_status(self, message):
-        """Cap nhat status bar"""
-        self.status_label.config(text=message)
-        self.root.update()
-    
-    def preview_changes(self):
-        """Xem truoc thay doi"""
-        if not self.file_path.get():
-            messagebox.showwarning("Canh bao", "Vui long chon file PowerPoint!")
-            return
-        
-        current_tab = self.notebook.tab(self.notebook.select(), "text")
-        
-        if "hinh anh" in current_tab.lower():
-            self.preview_image_changes()
-        else:
-            self.preview_text_changes()
-    
-    def preview_image_changes(self):
-        """Preview xoa hinh anh"""
-        try:
-            self.update_status("Dang phan tich hinh anh...")
-            prs = Presentation(self.file_path.get())
-            
-            images_to_delete = []
-            total_images = 0
-            
-            for slide_idx, slide in enumerate(prs.slides, 1):
-                for shape in slide.shapes:
-                    if shape.shape_type == 13:  # Picture
-                        total_images += 1
-                        width_inches = shape.width / 914400
-                        height_inches = shape.height / 914400
-                        
-                        if self.check_image_match(width_inches, height_inches):
-                            images_to_delete.append({
-                                'slide': slide_idx,
-                                'name': shape.name,
-                                'width': width_inches,
-                                'height': height_inches
-                            })
-            
-            self.show_preview_window("Hinh anh se xoa", images_to_delete, total_images, "image")
-            self.update_status("San sang")
-            
-        except Exception as e:
-            messagebox.showerror("Loi", f"Khong the doc file:\n{str(e)}")
-            self.update_status("Loi!")
-    
-    def preview_text_changes(self):
-        """Preview loc text"""
-        try:
-            self.update_status("Dang phan tich text...")
-            prs = Presentation(self.file_path.get())
-            
-            changes = []
-            total_textboxes = 0
-            
-            for slide_idx, slide in enumerate(prs.slides, 1):
-                for shape in slide.shapes:
-                    if self.has_text(shape):
-                        total_textboxes += 1
-                        original_text = self.get_shape_text(shape)
-                        new_text = self.filter_text(original_text)
-                        
-                        if new_text != original_text:
-                            changes.append({
-                                'slide': slide_idx,
-                                'name': shape.name,
-                                'original': original_text[:100] + "..." if len(original_text) > 100 else original_text,
-                                'new': new_text[:100] + "..." if len(new_text) > 100 else new_text,
-                                'deleted': len(new_text.strip()) == 0
-                            })
-            
-            self.show_preview_window("Text se thay doi", changes, total_textboxes, "text")
-            self.update_status("San sang")
-            
-        except Exception as e:
-            messagebox.showerror("Loi", f"Khong the doc file:\n{str(e)}")
-            self.update_status("Loi!")
-    
-    def show_preview_window(self, title, items, total, item_type):
-        """Hien thi cua so preview"""
-        preview_window = tk.Toplevel(self.root)
-        preview_window.title(f"Preview - {title}")
-        preview_window.geometry("700x550")
-        
-        # Header
-        if item_type == "image":
-            header_text = f"Tim thay {len(items)} hinh anh se xoa (Tong: {total})"
-        else:
-            header_text = f"Tim thay {len(items)} textbox se thay doi (Tong: {total})"
-        
-        header = tk.Label(
-            preview_window,
-            text=header_text,
-            font=("Arial", 12, "bold"),
-            bg="#e74c3c",
-            fg="white",
-            pady=10
-        )
-        header.pack(fill=tk.X)
-        
-        # Content
-        content_frame = tk.Frame(preview_window, padx=10, pady=10)
-        content_frame.pack(fill=tk.BOTH, expand=True)
-        
-        if item_type == "image":
-            self.show_image_preview_content(content_frame, items)
-        else:
-            self.show_text_preview_content(content_frame, items)
-        
-        # Close button
-        close_btn = tk.Button(
-            preview_window,
-            text="Dong",
-            command=preview_window.destroy,
-            bg="#95a5a6",
-            fg="white",
-            font=("Arial", 10),
-            padx=30,
-            pady=5
-        )
-        close_btn.pack(pady=10)
-    
-    def show_image_preview_content(self, parent, items):
-        """Hien thi preview cho hinh anh"""
-        scrollbar = tk.Scrollbar(parent)
-        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        
-        listbox = tk.Listbox(parent, font=("Courier", 9), yscrollcommand=scrollbar.set)
-        listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
-        scrollbar.config(command=listbox.yview)
-        
-        if items:
-            for img in items:
-                item = f"Slide {img['slide']:3d} | {img['name']:35s} | {img['width']:.2f}x{img['height']:.2f} inch"
-                listbox.insert(tk.END, item)
-        else:
-            listbox.insert(tk.END, "Khong tim thay hinh anh nao phu hop!")
-    
-    def show_text_preview_content(self, parent, items):
-        """Hien thi preview cho text"""
-        text_widget = scrolledtext.ScrolledText(parent, font=("Courier", 9), wrap=tk.WORD)
-        text_widget.pack(fill=tk.BOTH, expand=True)
-        
-        if items:
-            for idx, item in enumerate(items, 1):
-                status = "[XOA TEXTBOX]" if item['deleted'] else "[CAP NHAT]"
-                text_widget.insert(tk.END, f"\n{'='*70}\n")
-                text_widget.insert(tk.END, f"{idx}. Slide {item['slide']} - {item['name']} {status}\n")
-                text_widget.insert(tk.END, f"{'='*70}\n")
-                text_widget.insert(tk.END, f"Truoc:\n{item['original']}\n\n")
-                text_widget.insert(tk.END, f"Sau:\n{item['new'] if item['new'] else '[Rong - se xoa]'}\n")
-        else:
-            text_widget.insert(tk.END, "Khong tim thay text nao can thay doi!")
-        
-        text_widget.config(state=tk.DISABLED)
+            self.file_path = filename
+            self.file_label.config(text=os.path.basename(filename), fg="green")
+            self.status_label.config(text=f"Da chon: {os.path.basename(filename)}")
     
     def process_file(self):
         """Xu ly file"""
-        if not self.file_path.get():
-            messagebox.showwarning("Canh bao", "Vui long chon file PowerPoint!")
+        if not self.file_path:
+            messagebox.showwarning("Canh bao", "Vui long chon file truoc!")
             return
         
-        current_tab = self.notebook.tab(self.notebook.select(), "text")
+        if not os.path.exists(self.file_path):
+            messagebox.showerror("Loi", "File khong ton tai!")
+            return
         
-        if "hinh anh" in current_tab.lower():
-            self.process_images()
-        else:
-            self.process_text()
-    
-    def process_images(self):
-        """Xu ly xoa hinh anh"""
+        mode = self.process_mode.get()
         mode_text = {
-            "and": "CA width VA height khop",
-            "or": "width HOAC height khop",
-            "width_only": "chi width khop",
-            "height_only": "chi height khop"
+            "both": "XOA HINH ANH VA LOC TEXT",
+            "image_only": "CHI XOA HINH ANH",
+            "text_only": "CHI LOC TEXT"
         }
         
-        confirm_msg = f"""Xoa hinh anh voi cai dat:
-
-Width: {self.img_width.get()} inch
-Height: {self.img_height.get()} inch
-Che do: {mode_text[self.img_mode.get()]}
-
-Tiep tuc?"""
-        
-        if not messagebox.askyesno("Xac nhan", confirm_msg):
+        if not messagebox.askyesno("Xac nhan", 
+            f"Xu ly file voi che do:\n\n{mode_text[mode]}\n\nThao tac nay khong the hoan tac!"):
             return
         
         try:
-            file_path = self.file_path.get()
-            
+            # Backup
             if self.auto_backup.get():
-                self.update_status("Dang backup...")
-                backup_path = self.create_backup(file_path)
+                backup_path = self.create_backup(self.file_path)
+                self.status_label.config(text=f"Da backup: {os.path.basename(backup_path)}")
             
-            self.update_status("Dang xu ly...")
-            prs = Presentation(file_path)
+            # Process
+            self.status_label.config(text="Dang xu ly...")
+            self.root.update()
             
-            deleted_count = 0
-            total_images = 0
+            prs = Presentation(self.file_path)
+            result = {}
             
-            for slide in prs.slides:
-                shapes_to_delete = []
-                
-                for shape in slide.shapes:
-                    if shape.shape_type == 13:
-                        total_images += 1
-                        width_inches = shape.width / 914400
-                        height_inches = shape.height / 914400
-                        
-                        if self.check_image_match(width_inches, height_inches):
-                            shapes_to_delete.append(shape)
-                
-                for shape in shapes_to_delete:
+            if mode in ["both", "image_only"]:
+                img_result = self.process_images(prs)
+                result.update(img_result)
+            
+            if mode in ["both", "text_only"]:
+                txt_result = self.process_texts(prs)
+                result.update(txt_result)
+            
+            prs.save(self.file_path)
+            
+            self.show_result(result, mode)
+            self.status_label.config(text="Hoan tat!")
+            
+        except Exception as e:
+            messagebox.showerror("Loi", f"Loi khi xu ly file:\n{str(e)}")
+            self.status_label.config(text="Loi!")
+    
+    def process_images(self, prs):
+        """Xu ly xoa hinh anh"""
+        deleted_count = 0
+        total_images = 0
+        
+        for slide in prs.slides:
+            shapes_to_delete = []
+            
+            for shape in slide.shapes:
+                if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                    total_images += 1
+                    width_inches = shape.width / 914400
+                    height_inches = shape.height / 914400
+                    
+                    if self.check_image_match(width_inches, height_inches):
+                        shapes_to_delete.append(shape)
+            
+            for shape in shapes_to_delete:
+                sp = shape.element
+                sp.getparent().remove(sp)
+                deleted_count += 1
+        
+        return {'total_images': total_images, 'deleted_images': deleted_count}
+    
+    def process_texts(self, prs):
+        """Xu ly loc text - HO TRO DE QUY"""
+        modified_count = 0
+        deleted_count = 0
+        total_textboxes = 0
+        
+        for slide in prs.slides:
+            # Collect all changes first
+            changes = []
+            self.collect_text_changes(slide.shapes, changes)
+            
+            # Count total textboxes
+            total_textboxes += len(changes)
+            
+            # Apply text updates first
+            for change in changes:
+                if not change['delete']:
+                    self.set_shape_text(change['shape'], change['new_text'])
+                    modified_count += 1
+            
+            # Delete empty shapes
+            shapes_to_delete = [c['shape'] for c in changes if c['delete']]
+            for shape in shapes_to_delete:
+                try:
                     sp = shape.element
                     sp.getparent().remove(sp)
                     deleted_count += 1
-            
-            self.update_status("Dang luu...")
-            prs.save(file_path)
-            
-            messagebox.showinfo(
-                "Hoan tat!",
-                f"Da xoa hinh anh thanh cong!\n\n"
-                f"Tong: {total_images}\n"
-                f"Da xoa: {deleted_count}\n"
-                f"Con lai: {total_images - deleted_count}"
-            )
-            
-            self.update_status("Hoan tat!")
-            
-        except Exception as e:
-            messagebox.showerror("Loi", f"Khong the xu ly:\n{str(e)}")
-            self.update_status("Loi!")
+                except:
+                    pass
+        
+        return {'total_textboxes': total_textboxes, 'modified_text': modified_count, 'deleted_text': deleted_count}
     
-    def process_text(self):
-        """Xu ly loc text"""
-        mode_names = {
-            "keep_vietnamese": "Giu tieng Viet - Xoa tieng Anh",
-            "keep_english": "Giu tieng Anh - Xoa tieng Viet",
-            "delete_all": "Xoa tat ca text",
-            "custom": "Pattern tuy chinh"
-        }
-        
-        mode = self.text_mode.get()
-        mode_name = mode_names.get(mode, mode)
-        
-        confirm_msg = f"""Loc text voi che do:
-
-{mode_name}
-
-Xoa textbox rong: {'Co' if self.delete_empty_shapes.get() else 'Khong'}
-
-Tiep tuc?"""
-        
-        if not messagebox.askyesno("Xac nhan", confirm_msg):
-            return
-        
-        try:
-            file_path = self.file_path.get()
-            
-            if self.auto_backup.get():
-                self.update_status("Dang backup...")
-                backup_path = self.create_backup(file_path)
-            
-            self.update_status("Dang xu ly...")
-            prs = Presentation(file_path)
-            
-            modified_count = 0
-            deleted_count = 0
-            total_textboxes = 0
-            
-            for slide in prs.slides:
-                shapes_to_delete = []
+    def collect_text_changes(self, shapes, changes):
+        """Thu thap thay doi text - DE QUY xu ly group"""
+        for shape in shapes:
+            try:
+                # Xu ly group de quy
+                if shape.shape_type == MSO_SHAPE_TYPE.GROUP:
+                    self.collect_text_changes(shape.shapes, changes)
+                    continue
                 
-                for shape in slide.shapes:
-                    if self.has_text(shape):
-                        total_textboxes += 1
-                        original_text = self.get_shape_text(shape)
-                        new_text = self.filter_text(original_text)
-                        
-                        if new_text != original_text:
-                            if len(new_text.strip()) == 0 and self.delete_empty_shapes.get():
-                                shapes_to_delete.append(shape)
-                                deleted_count += 1
-                            else:
-                                self.set_shape_text(shape, new_text)
-                                modified_count += 1
-                
-                for shape in shapes_to_delete:
-                    sp = shape.element
-                    sp.getparent().remove(sp)
-            
-            self.update_status("Dang luu...")
-            prs.save(file_path)
-            
-            messagebox.showinfo(
-                "Hoan tat!",
-                f"Da loc text thanh cong!\n\n"
-                f"Tong textbox: {total_textboxes}\n"
-                f"Da cap nhat: {modified_count}\n"
-                f"Da xoa: {deleted_count}"
-            )
-            
-            self.update_status("Hoan tat!")
-            
-        except Exception as e:
-            messagebox.showerror("Loi", f"Khong the xu ly:\n{str(e)}")
-            self.update_status("Loi!")
+                # Chi xu ly shapes co text
+                if self.has_text(shape):
+                    original_text = self.get_shape_text(shape)
+                    new_text = self.filter_text(original_text)
+                    
+                    if new_text != original_text:
+                        delete_it = len(new_text.strip()) == 0 and self.delete_empty_shapes.get()
+                        changes.append({
+                            'shape': shape,
+                            'original': original_text,
+                            'new_text': new_text,
+                            'delete': delete_it
+                        })
+            except Exception as e:
+                # Skip shapes that cause errors
+                continue
     
     def check_image_match(self, width_inches, height_inches):
-        """Kiem tra hinh anh co khop khong"""
         target_width = self.img_width.get()
         target_height = self.img_height.get()
         tolerance = self.img_tolerance.get()
@@ -640,32 +415,27 @@ Tiep tuc?"""
             return width_match
         elif mode == "height_only":
             return height_match
-        
         return False
     
     def has_text(self, shape):
-        """Kiem tra shape co text khong"""
         try:
             return shape.has_text_frame and shape.text_frame.text.strip()
         except:
             return False
     
     def get_shape_text(self, shape):
-        """Lay text tu shape"""
         try:
             return shape.text_frame.text
         except:
             return ""
     
     def set_shape_text(self, shape, text):
-        """Set text cho shape"""
         try:
             shape.text_frame.text = text
         except:
             pass
     
     def filter_text(self, text):
-        """Loc text theo che do"""
         mode = self.text_mode.get()
         
         if mode == "keep_vietnamese":
@@ -674,65 +444,27 @@ Tiep tuc?"""
             return self.keep_ascii_lines(text)
         elif mode == "delete_all":
             return ""
-        elif mode == "custom":
-            return self.filter_by_pattern(text)
-        
         return text
     
     def keep_unicode_lines(self, text):
         """Giu dong co Unicode (tieng Viet)"""
         lines = text.split('\n')
-        result = []
-        
-        for line in lines:
-            if self.has_unicode_char(line):
-                result.append(line)
-        
+        result = [line for line in lines if self.has_unicode_char(line)]
         return '\n'.join(result)
     
     def keep_ascii_lines(self, text):
         """Giu dong chi ASCII (tieng Anh)"""
         lines = text.split('\n')
-        result = []
-        
-        for line in lines:
-            if not self.has_unicode_char(line) and line.strip():
-                result.append(line)
-        
+        result = [line for line in lines if not self.has_unicode_char(line) and line.strip()]
         return '\n'.join(result)
     
     def has_unicode_char(self, line):
         """Kiem tra co ky tu Unicode khong"""
         if not line.strip():
             return False
-        
-        for char in line:
-            if ord(char) > 127:
-                return True
-        
-        return False
-    
-    def filter_by_pattern(self, text):
-        """Loc theo regex pattern"""
-        try:
-            pattern = self.custom_pattern.get()
-            if not pattern:
-                return text
-            
-            lines = text.split('\n')
-            result = []
-            
-            for line in lines:
-                if not re.search(pattern, line):
-                    result.append(line)
-            
-            return '\n'.join(result)
-        except Exception as e:
-            messagebox.showwarning("Loi pattern", f"Pattern khong hop le:\n{str(e)}")
-            return text
+        return any(ord(char) > 127 for char in line)
     
     def create_backup(self, file_path):
-        """Tao backup file"""
         file_dir = os.path.dirname(file_path)
         file_name = os.path.basename(file_path)
         name_without_ext = os.path.splitext(file_name)[0]
@@ -743,6 +475,59 @@ Tiep tuc?"""
         
         shutil.copy2(file_path, backup_path)
         return backup_path
+    
+    def show_result(self, result, mode):
+        """Hien thi ket qua"""
+        result_window = tk.Toplevel(self.root)
+        result_window.title("Ket qua xu ly")
+        result_window.geometry("600x400")
+        
+        # Header
+        header = tk.Label(
+            result_window,
+            text="Hoan tat!",
+            font=("Arial", 14, "bold"),
+            bg="#27ae60",
+            fg="white",
+            pady=10
+        )
+        header.pack(fill=tk.X)
+        
+        # Content
+        content_frame = tk.Frame(result_window, padx=20, pady=20)
+        content_frame.pack(fill=tk.BOTH, expand=True)
+        
+        text_widget = scrolledtext.ScrolledText(content_frame, font=("Courier", 10), wrap=tk.WORD)
+        text_widget.pack(fill=tk.BOTH, expand=True)
+        
+        text_widget.insert(tk.END, f"File: {os.path.basename(self.file_path)}\n")
+        text_widget.insert(tk.END, f"{'='*50}\n\n")
+        
+        if mode in ["both", "image_only"]:
+            text_widget.insert(tk.END, "[HINH ANH]\n")
+            text_widget.insert(tk.END, f"  Tong hinh: {result.get('total_images', 0)}\n")
+            text_widget.insert(tk.END, f"  Da xoa: {result.get('deleted_images', 0)}\n\n")
+        
+        if mode in ["both", "text_only"]:
+            text_widget.insert(tk.END, "[TEXT]\n")
+            text_widget.insert(tk.END, f"  Tong textbox: {result.get('total_textboxes', 0)}\n")
+            text_widget.insert(tk.END, f"  Da cap nhat: {result.get('modified_text', 0)}\n")
+            text_widget.insert(tk.END, f"  Da xoa: {result.get('deleted_text', 0)}\n")
+        
+        text_widget.config(state=tk.DISABLED)
+        
+        # Close button
+        close_btn = tk.Button(
+            result_window,
+            text="Dong",
+            command=result_window.destroy,
+            bg="#95a5a6",
+            fg="white",
+            font=("Arial", 10),
+            padx=30,
+            pady=5
+        )
+        close_btn.pack(pady=10)
 
 
 def main():
