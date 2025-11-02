@@ -58,8 +58,10 @@ Sub DeleteSpecificSizedImages_Enhanced()
     targetSizePoints = targetSizeInches * POINTS_PER_INCH
     
     ' Xac nhan truoc khi xoa
-    userResponse = MsgBox("Ban co chac chan muon xoa tat ca hinh anh co kich thuoc " & _
-                          targetSizeInches & " inch?" & vbCrLf & vbCrLf & _
+    userResponse = MsgBox("Ban co chac chan muon xoa tat ca hinh anh co:" & vbCrLf & _
+                          "- Chieu rong (width) = " & targetSizeInches & " inch" & vbCrLf & _
+                          "- Chieu cao (height) = " & targetSizeInches & " inch" & vbCrLf & vbCrLf & _
+                          "(Chi xoa khi CA HAI kich thuoc deu khop)" & vbCrLf & vbCrLf & _
                           "Thao tac nay khong the hoan tac!", _
                           vbYesNo + vbQuestion, "Xac nhan")
     
@@ -78,8 +80,9 @@ Sub DeleteSpecificSizedImages_Enhanced()
             If shape.Type = msoPicture Or shape.Type = msoLinkedPicture Then
                 totalImages = totalImages + 1
                 
-                ' Kiem tra kich thuoc voi dung sai
-                If IsTargetSize(shape, targetSizePoints, TOLERANCE) Then
+                ' Kiem tra CA width VA height deu khop (AND thay vi OR)
+                If (Abs(shape.Width - targetSizePoints) < TOLERANCE) And _
+                   (Abs(shape.Height - targetSizePoints) < TOLERANCE) Then
                     ' Ghi log thong tin shape truoc khi xoa (tuy chon)
                     Debug.Print "Da xoa: Slide " & slide.SlideIndex & _
                                 ", Shape: " & shape.Name & _
@@ -98,7 +101,7 @@ Sub DeleteSpecificSizedImages_Enhanced()
     MsgBox "Hoan tat!" & vbCrLf & vbCrLf & _
            "Tong so hinh anh: " & totalImages & vbCrLf & _
            "Da xoa: " & deletedCount & " hinh anh" & vbCrLf & _
-           "Kich thuoc: " & targetSizeInches & " inch", _
+           "Kich thuoc: " & targetSizeInches & "x" & targetSizeInches & " inch (WxH)", _
            vbInformation, "Ket qua"
     
     Exit Sub
@@ -110,8 +113,11 @@ End Sub
 
 ' ============================================================================
 ' Function: Kiem tra xem shape co dung kich thuoc muc tieu khong
+' Note: Function nay khong duoc su dung nua trong Enhanced (da inline)
+'       Giu lai de tuong thich voi code cu
 ' ============================================================================
 Private Function IsTargetSize(shape As shape, targetSize As Single, tolerance As Single) As Boolean
+    ' Phien ban cu: OR logic
     IsTargetSize = (Abs(shape.Width - targetSize) < tolerance) Or _
                    (Abs(shape.Height - targetSize) < tolerance)
 End Function
