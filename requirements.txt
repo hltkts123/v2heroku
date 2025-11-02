@@ -1,0 +1,4 @@
+# PowerPoint Image Remover - Dependencies
+# C?c th? vi?n c?n thi?t ?? ch?y ?ng d?ng
+
+python-pptx>=0.6.21
