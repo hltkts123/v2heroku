@@ -1,173 +1,260 @@
 ================================================================================
-                    PHIEN BAN 2.2 - ASCII EDITION
+                    PHIEN BAN 3.0 - GEMINI AI EDITION
 ================================================================================
 
 NGAY CAP NHAT: 2025-11-02
-PHIEN BAN: 2.2 (ASCII Edition - Khong emoji)
+PHIEN BAN: 3.0 (Gemini AI Edition)
 
 ================================================================================
-                          THAY DOI QUAN TRONG
+                      TINH NANG MOI: GEMINI AI OCR
 ================================================================================
 
-DA XOA TAT CA EMOJI/ICON!
--------------------------
-Ly do: Nhieu he thong khong hien thi duoc emoji trong Tkinter, 
-       bi loi thanh dau hoi (?) hoac o vuong ([]).
+THEM TINH NANG AI NHAN DANG CHU HAN TU ANH!
+--------------------------------------------
 
-GIAI PHAP: Su dung 100% KY TU ASCII
-------------------------------------
+Ban khong can GO CHU nua! Chi can:
+1. Chup anh (hoac chon anh co san)
+2. Click nut
+3. AI tu dong nhan dang
+4. Bat dau tai!
 
-Truoc (bi loi):          Sau (ASCII):
----------------          ------------
-[emoji] ? ?              [OK] ? Hien thi tot
-[emoji] ? ?              [ERR] ? Hien thi tot
-[emoji] ? ?              [INFO] ? Hien thi tot
-[emoji] ? [?]            [+] Chon ? Hien thi tot
-[emoji] ? [?]            [>] Mo ? Hien thi tot
-
-KET QUA: Hien thi HOAN HAO tren MOI Windows (7/8/10/11)!
+NHANH, DE, CHINH XAC!
 
 ================================================================================
-                          CAC KY HIU MOI
+                        CHI TIET TINH NANG MOI
 ================================================================================
 
-THAY VI EMOJI, BAY GIO DUNG:
+1. GEMINI AI OCR
+   - Tich hop Google Gemini AI (mien phi!)
+   - Nhan dang chu Han tu anh
+   - Ho tro nhieu loai anh:
+     * Anh chup man hinh
+     * Anh chup tu sach/tai lieu
+     * Anh chup bang dien thoai
+     * Anh quet (scan)
+     * Anh viet tay
 
-[OK]      - Tai thanh cong
-[ERR]     - Loi
-[!]       - Canh bao
-[INFO]    - Thong tin
-[SUCCESS] - Hoan thanh
-[STATS]   - Thong ke
-[NOTIFY]  - Thong bao
+2. PREVIEW ANH
+   - Hien thi anh truoc khi xu ly
+   - Resize tu dong cho vua man hinh
+   - De kiem tra anh da chon dung chua
 
-[+] Chon Thu Muc     - Chon thu muc
-[>] Mo Thu Muc       - Mo thu muc
->> BAT DAU TAI <<    - Bat dau tai anh
-[X] HUY BO           - Huy qua trinh
+3. LUU API KEY TU DONG
+   - API key duoc luu vao file config
+   - Khong can nhap lai moi lan
+   - An toan, chi luu tren may ban
+
+4. GIAO DIEN MOI
+   - Tang kich thuoc len 800x720px
+   - Them phan Gemini AI o tren
+   - Nut va huong dan ro rang
+   - Mau sac phan biet: Tim cho AI
+
+5. HUONG DAN LAY API KEY
+   - Click nut "[?] Lay API Key"
+   - Hien thi huong dan chi tiet
+   - Link truc tiep den trang lay API
 
 ================================================================================
-                        UU DIEM PHIEN BAN NAY
+                        CACH SU DUNG MOI
 ================================================================================
 
-? KHONG CON LOI HIEN THI
-  - Khong co dau hoi (?)
-  - Khong co o vuong ([])
-  - Hien thi ro rang tren moi he thong
+TRUOC (Cach cu - go thu cong):
+-------------------------------
+1. Xem anh co chu Han
+2. Go tung chu vao may tinh (mat thoi gian!)
+3. Click tai
+4. Mat 5-10 phut cho nhieu chu!
 
-? CHAY TOT TREN MOI WINDOWS
-  - Windows 7, 8, 8.1, 10, 11
-  - Khong can font Unicode dac biet
+SAU (Cach moi - dung AI):
+--------------------------
+1. Click "Chon Anh"
+2. Click "Nhan Dang Chu Han"
+3. Doi 2-5 giay
+4. Click tai
+5. XONG! Chi 30 giay!
 
-? VAN GIU DAY DU CHUC NANG
-  - Tai 10 anh song song
-  - Luu nho thu muc
-  - Mo thu muc truc tiep
-  - Thanh tien trinh
-  - Mau sac ro rang
+TOC DO: Nhanh hon 10-20 LAN!
 
-? BUILD EXE DE DANG
-  - File build_exe.bat da sua
-  - Tu dong xu ly loi
-  - Huong dan chi tiet
+================================================================================
+                        YEU CAU HE THONG MOI
+================================================================================
+
+Thu vien them:
+- google-generativeai>=0.3.0  (Gemini AI)
+- Pillow>=10.0.0              (Xu ly anh)
+
+Cau hinh them:
+- Gemini API Key (lay mien phi tai https://aistudio.google.com/app/apikey)
+- Ket noi internet (de goi API)
+
+Khong doi:
+- Python 3.7+
+- Tkinter
+- requests, beautifulsoup4
 
 ================================================================================
                         SO SANH PHIEN BAN
 ================================================================================
 
-PHIEN BAN 2.1 (Co emoji):
-- Dep tren Windows 10+
-- Bi loi tren Windows 7/8
-- Hien thi dau hoi (?)
+PHIEN BAN 2.2 (ASCII Edition):
+- Khong co AI
+- Phai go chu thu cong
+- Cham
+- De sai khi go
 
-PHIEN BAN 2.2 (ASCII):
-- Hien thi tot tren TAT CA Windows
-- Khong co emoji
-- Text ASCII ro rang
+PHIEN BAN 3.0 (Gemini AI Edition):
+- CO AI nhan dang chu Han
+- Tu dong, khong can go
+- Nhanh (2-5 giay)
+- Chinh xac cao (AI Google)
+- Van giu tat ca tinh nang cu
 
 ================================================================================
-                          CAC FILE DA SUA
+                        CAC FILE DA THAY DOI
 ================================================================================
 
 stroke_order_downloader.py
-  - Xoa tat ca emoji
-  - Su dung ASCII thuan tuy
-  - Van giu day du chuc nang
+  - Them class GeminiOCR
+  - Them UI cho upload anh
+  - Them preview anh
+  - Them xu ly OCR
+  - Tang kich thuoc cua so
+  - Luu API key vao config
+  - Them mau tim cho AI messages
+
+requirements.txt
+  - Them google-generativeai
+  - Them Pillow
 
 README_FIRST.txt
-  - Cap nhat thong tin ve ASCII
-  - Giai thich ly do khong dung emoji
+  - Them huong dan ve Gemini AI
+  - Cap nhat phien ban 3.0
+  - Them phan FAQ ve AI
 
 THAY_DOI_MOI.txt
   - File nay (cap nhat)
 
 ================================================================================
-                        CACH SU DUNG
+                        CAC FILE MOI
 ================================================================================
 
-1. CHAY TRUC TIEP:
+HUONG_DAN_GEMINI_AI.md
+  - Huong dan chi tiet ve Gemini AI
+  - Cach lay API key
+  - Cach su dung OCR
+  - Khac phuc loi AI
+  - FAQ ve AI
+
+================================================================================
+                        CACH CAI DAT & SU DUNG
+================================================================================
+
+1. CAI DAT THU VIEN MOI:
    pip install -r requirements.txt
-   python stroke_order_downloader.py
 
-2. BUILD EXE:
-   build_exe.bat
-   
-   File EXE o: dist\StrokeOrderDownloader.exe
+2. LAY API KEY:
+   - Truy cap: https://aistudio.google.com/app/apikey
+   - Dang nhap Google
+   - Click "Create API Key"
+   - Copy API key
 
-3. SU DUNG:
-   - Nhap chu Han: ????
-   - Click: >> BAT DAU TAI <<
-   - Xem anh trong Stroke_images
+3. CAU HINH:
+   - Mo ung dung
+   - Dan API key vao o "Gemini API Key"
+   - Click "Luu API Key"
 
-================================================================================
-                          CAU HOI THUONG GAP
-================================================================================
-
-Q: Tai sao bo emoji?
-A: Vi nhieu nguoi gap loi hien thi thanh dau hoi (?).
-   ASCII an toan hon va chay tot tren moi he thong!
-
-Q: Co dep hon emoji khong?
-A: Khong dep bang emoji, NHUNG HIEN THI TOT!
-   Uu tien la UNG DUNG CHAY TOT, khong bi loi.
-
-Q: Co the co lai emoji khong?
-A: Neu ban dung Windows 10+ va muon emoji, hay lien he.
-   Nhung nen dung phien ban ASCII de tranh loi!
-
-Q: Emoji bi loi the nao?
-A: Hien thi thanh dau hoi (?), o vuong ([]), hoac ky tu rac.
-   Phien ban ASCII khong con van de nay!
+4. SU DUNG:
+   - Click "[+] Chon Anh Chua Chu Han"
+   - Chon anh co chu Han
+   - Click "[AI] Nhan Dang Chu Han"
+   - Doi 2-5 giay
+   - Chu Han se tu dong dien vao
+   - Click "Bat dau tai"
 
 ================================================================================
-                        TINH NANG CHINH
+                        UU DIEM TINH NANG MOI
 ================================================================================
 
-? Tai 10 anh song song (nhanh gap doi)
-? Giao dien ASCII (khong loi)
-? Luu nho thu muc da chon
-? Nut mo thu muc truc tiep
-? Thanh tien trinh voi phan tram
-? Build EXE de dang
-? Cross-platform
-? Loai bo ky tu trung lap
-? Thong ke chi tiet
+? TIET KIEM THOI GIAN
+  - Khong can go chu
+  - Tu dong hoa 100%
+  - Nhanh hon 10-20 lan
+
+? CHINH XAC CAO
+  - AI Google Gemini
+  - Nhan dang tot ca chu viet tay
+  - It loi
+
+? DE SU DUNG
+  - Chi 3 click
+  - Giao dien don gian
+  - Co huong dan chi tiet
+
+? MIEN PHI
+  - API key mien phi
+  - 1500 request/ngay
+  - Du dung ca ngay
+
+? LINH HOAT
+  - Ho tro nhieu loai anh
+  - Anh mo van nhan dang duoc
+  - Khong can anh chat luong cao
 
 ================================================================================
-                        TEST NGAY
+                        CAU HOI THUONG GAP
 ================================================================================
 
-BAY GIO KHONG CON LOI HIEN THI NUA!
+Q: Co phai tra phi khong?
+A: KHONG! Gemini API hien tai MIEN PHI!
 
-1. Giai nen file ZIP
-2. Chay: python stroke_order_downloader.py
-3. Kiem tra: Tat ca text deu hien thi ro rang!
-4. Khong con dau hoi (?), khong con o vuong!
+Q: Co gioi han khong?
+A: Co: 1500 request/ngay. Nhung qua du dung!
 
-Neu van gap loi, doc file HUONG_DAN_BUILD_EXE.md
+Q: Can internet khong?
+A: CAN! De goi Gemini API.
+
+Q: Anh mo co nhan dang duoc khong?
+A: DUOC! Gemini rat manh, anh mo van ok.
+
+Q: Co nhan dang chu viet tay khong?
+A: CO! Gemini rat gioi voi chu viet tay.
+
+Q: Neu khong muon dung AI thi sao?
+A: Van go chu binh thuong nhu cu!
+
+Q: API key co an toan khong?
+A: AN TOAN! Chi luu tren may ban.
+
+Q: Neu AI nhan dang sai thi sao?
+A: Co the sua trong o input truoc khi tai.
+
+================================================================================
+                        TEST NGAY!
+================================================================================
+
+1. Cai dat: pip install -r requirements.txt
+2. Lay API key: https://aistudio.google.com/app/apikey
+3. Mo ung dung
+4. Luu API key
+5. Chon anh co chu Han
+6. Click "Nhan Dang Chu Han"
+7. Xem phep mau AI!
+
+================================================================================
+                        KET LUAN
+================================================================================
+
+Phien ban 3.0 la buoc dot pha lon:
+- THEM AI vao ung dung
+- TIET KIEM thoi gian rat nhieu
+- TANG hieu qua lam viec
+- VAN MIEN PHI!
+
+Day la tinh nang ma ban se THICH ngay!
 
 ================================================================================
 
-          PHIEN BAN ASCII - AN TOAN - KHONG LOI HIEN THI!
+        AI TOAN TAP - TUONG LAI CUA HOC CHU HAN!
 
 ================================================================================
