@@ -219,22 +219,92 @@ Sub DeleteSpecificSizedImages_Advanced()
     Dim shape As shape
     Dim targetWidth As Single
     Dim targetHeight As Single
+    Dim targetWidthPoints As Single
+    Dim targetHeightPoints As Single
     Dim matchMode As String
     Dim deletedCount As Long
     Dim shapeIndex As Long
+    Dim inputWidth As String
+    Dim inputHeight As String
     
-    ' Cho phep nguoi dung chon che do so khop
-    matchMode = InputBox("Chon che do so khop:" & vbCrLf & _
+    ' Buoc 1: Cho phep nguoi dung chon che do so khop
+    matchMode = InputBox("Chon che do so khop:" & vbCrLf & vbCrLf & _
                          "1 - Xoa khi width HOAC height khop" & vbCrLf & _
                          "2 - Xoa khi CA width VA height khop" & vbCrLf & _
-                         "3 - Xoa khi width khop" & vbCrLf & _
-                         "4 - Xoa khi height khop", _
+                         "3 - Xoa khi CHI width khop" & vbCrLf & _
+                         "4 - Xoa khi CHI height khop", _
                          "Che do so khop", "1")
     
     If matchMode = "" Or Not IsNumeric(matchMode) Then Exit Sub
+    If Val(matchMode) < 1 Or Val(matchMode) > 4 Then
+        MsgBox "Lua chon khong hop le! Vui long chon tu 1-4.", vbExclamation, "Loi"
+        Exit Sub
+    End If
     
-    targetWidth = 1.6 * 72
-    targetHeight = 1.6 * 72
+    ' Buoc 2: Nhap kich thuoc width (neu can)
+    If matchMode = "1" Or matchMode = "2" Or matchMode = "3" Then
+        inputWidth = InputBox("Nhap chieu RONG (width) can xoa (inch):" & vbCrLf & _
+                              "Vi du: 1.6", _
+                              "Nhap chieu rong", "1.6")
+        
+        If inputWidth = "" Then Exit Sub
+        
+        If Not IsNumeric(inputWidth) Then
+            MsgBox "Gia tri width khong hop le! Vui long nhap so.", vbExclamation, "Loi"
+            Exit Sub
+        End If
+        
+        targetWidth = CSng(inputWidth)
+        If targetWidth <= 0 Then
+            MsgBox "Kich thuoc width phai lon hon 0!", vbExclamation, "Loi"
+            Exit Sub
+        End If
+        targetWidthPoints = targetWidth * POINTS_PER_INCH
+    End If
+    
+    ' Buoc 3: Nhap kich thuoc height (neu can)
+    If matchMode = "1" Or matchMode = "2" Or matchMode = "4" Then
+        inputHeight = InputBox("Nhap chieu CAO (height) can xoa (inch):" & vbCrLf & _
+                               "Vi du: 1.6", _
+                               "Nhap chieu cao", "1.6")
+        
+        If inputHeight = "" Then Exit Sub
+        
+        If Not IsNumeric(inputHeight) Then
+            MsgBox "Gia tri height khong hop le! Vui long nhap so.", vbExclamation, "Loi"
+            Exit Sub
+        End If
+        
+        targetHeight = CSng(inputHeight)
+        If targetHeight <= 0 Then
+            MsgBox "Kich thuoc height phai lon hon 0!", vbExclamation, "Loi"
+            Exit Sub
+        End If
+        targetHeightPoints = targetHeight * POINTS_PER_INCH
+    End If
+    
+    ' Buoc 4: Xac nhan truoc khi xoa
+    Dim confirmMsg As String
+    Select Case matchMode
+        Case "1"
+            confirmMsg = "Xoa hinh co width = " & targetWidth & " inch HOAC height = " & targetHeight & " inch"
+        Case "2"
+            confirmMsg = "Xoa hinh co width = " & targetWidth & " inch VA height = " & targetHeight & " inch"
+        Case "3"
+            confirmMsg = "Xoa hinh co width = " & targetWidth & " inch"
+        Case "4"
+            confirmMsg = "Xoa hinh co height = " & targetHeight & " inch"
+    End Select
+    
+    If MsgBox("Ban co chac chan muon:" & vbCrLf & vbCrLf & _
+              confirmMsg & "?" & vbCrLf & vbCrLf & _
+              "Thao tac nay khong the hoan tac!", _
+              vbYesNo + vbQuestion, "Xac nhan") = vbNo Then
+        MsgBox "Da huy thao tac.", vbInformation, "Thong bao"
+        Exit Sub
+    End If
+    
+    ' Buoc 5: Xu ly xoa hinh anh
     deletedCount = 0
     
     For Each slide In ActivePresentation.Slides
@@ -247,18 +317,24 @@ Sub DeleteSpecificSizedImages_Advanced()
                 
                 Select Case matchMode
                     Case "1" ' Width HOAC Height
-                        shouldDelete = (Abs(shape.Width - targetWidth) < 1) Or _
-                                      (Abs(shape.Height - targetHeight) < 1)
+                        shouldDelete = (Abs(shape.Width - targetWidthPoints) < TOLERANCE) Or _
+                                      (Abs(shape.Height - targetHeightPoints) < TOLERANCE)
                     Case "2" ' Width VA Height
-                        shouldDelete = (Abs(shape.Width - targetWidth) < 1) And _
-                                      (Abs(shape.Height - targetHeight) < 1)
+                        shouldDelete = (Abs(shape.Width - targetWidthPoints) < TOLERANCE) And _
+                                      (Abs(shape.Height - targetHeightPoints) < TOLERANCE)
                     Case "3" ' Chi Width
-                        shouldDelete = (Abs(shape.Width - targetWidth) < 1)
+                        shouldDelete = (Abs(shape.Width - targetWidthPoints) < TOLERANCE)
                     Case "4" ' Chi Height
-                        shouldDelete = (Abs(shape.Height - targetHeight) < 1)
+                        shouldDelete = (Abs(shape.Height - targetHeightPoints) < TOLERANCE)
                 End Select
                 
                 If shouldDelete Then
+                    ' Ghi log
+                    Debug.Print "Da xoa: Slide " & slide.SlideIndex & _
+                                ", Shape: " & shape.Name & _
+                                ", Width: " & Round(shape.Width / POINTS_PER_INCH, 2) & "in" & _
+                                ", Height: " & Round(shape.Height / POINTS_PER_INCH, 2) & "in"
+                    
                     shape.Delete
                     deletedCount = deletedCount + 1
                 End If
@@ -266,7 +342,11 @@ Sub DeleteSpecificSizedImages_Advanced()
         Next shapeIndex
     Next slide
     
-    MsgBox "Da xoa " & deletedCount & " hinh anh!", vbInformation, "Ket qua"
+    ' Buoc 6: Hien thi ket qua
+    MsgBox "Hoan tat!" & vbCrLf & vbCrLf & _
+           "Da xoa: " & deletedCount & " hinh anh" & vbCrLf & _
+           confirmMsg, _
+           vbInformation, "Ket qua"
     Exit Sub
 
 ErrorHandler:
