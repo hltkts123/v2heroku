@@ -1,0 +1,6 @@
+# PowerPoint Cleaner requirements
+python-pptx>=0.6.21
+
+# Stroke Order Downloader requirements
+requests>=2.25.0
+beautifulsoup4>=4.9.0
