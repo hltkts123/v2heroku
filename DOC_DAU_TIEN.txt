@@ -1,0 +1,159 @@
+================================================================================
+                *** DOC FILE NAY TRUOC KHI BAT DAU! ***
+================================================================================
+
+Chao mung den voi STROKE ORDER DOWNLOADER!
+
+Ban co 2 PHIEN BAN de chon:
+
+================================================================================
+                        PHIEN BAN 1: THONG THUONG
+================================================================================
+
+FILE: stroke_order_downloader.py
+THU VIEN: Tkinter (co san)
+
+? Giao dien thong thuong
+? Khong can cai them
+? Nhe, nhanh
+? File EXE nho
+
+CHAY:
+```
+pip install -r requirements.txt
+python stroke_order_downloader.py
+```
+
+================================================================================
+                        PHIEN BAN 2: HIEN DAI ???
+================================================================================
+
+FILE: stroke_order_downloader_modern.py
+THU VIEN: CustomTkinter
+
+? GIAO DIEN HIEN DAI, DEP!
+? Dark mode / Light mode
+? Animation muot ma
+? Nut bam bo tron dep
+? Giong Windows 11 / macOS
+
+CHAY:
+```
+pip install -r requirements_modern.txt
+python stroke_order_downloader_modern.py
+```
+
+================================================================================
+                        KHUYEN NGHI
+================================================================================
+
+*** CHON PHIEN BAN HIEN DAI! ***
+
+Vi sao?
+- DEP hon RAT NHIEU!
+- Chi can them 1 lenh cai dat
+- Dark mode bao ve mat
+- Van nhanh, van de dung
+
+================================================================================
+                        FILE TRONG ZIP
+================================================================================
+
+DOC_DAU_TIEN.txt              ? File nay (doc xong roi!)
+SO_SANH_2_PHIEN_BAN.txt       ? So sanh chi tiet 2 phien ban
+
+--- PHIEN BAN THONG THUONG ---
+stroke_order_downloader.py    ? Code phien ban thong thuong
+requirements.txt              ? Thu vien cho phien ban thong thuong
+
+--- PHIEN BAN HIEN DAI ---
+stroke_order_downloader_modern.py  ? Code phien ban hien dai
+requirements_modern.txt       ? Thu vien cho phien ban hien dai
+HUONG_DAN_MODERN_UI.md        ? Huong dan chi tiet phien ban hien dai
+
+--- CHUNG ---
+README_FIRST.txt              ? Huong dan tong quat
+HUONG_DAN.md                  ? Huong dan su dung
+HUONG_DAN_BUILD_EXE.md        ? Huong dan build EXE
+build_exe.bat                 ? Build EXE (Windows)
+build_simple.bat              ? Build EXE don gian
+
+================================================================================
+                    BAT DAU NHANH - 3 PHUT!
+================================================================================
+
+PHIEN BAN THONG THUONG:
+-----------------------
+1. pip install -r requirements.txt
+2. python stroke_order_downloader.py
+3. XONG!
+
+PHIEN BAN HIEN DAI (KHUYEN NGHI):
+----------------------------------
+1. pip install -r requirements_modern.txt
+2. python stroke_order_downloader_modern.py
+3. XONG!
+
+================================================================================
+                        CAU HOI NHANH
+================================================================================
+
+Q: Phien ban nao tot hon?
+A: HIEN DAI! Dep hon nhieu!
+
+Q: Phien ban thong thuong co kem khong?
+A: Khong kem! Chi la giao dien co dien thoi.
+
+Q: Toi nen chon cai nao?
+A: HIEN DAI! Trust me!
+
+Q: Co the dung ca 2 khong?
+A: Duoc! Cai va chay ca 2 de so sanh!
+
+Q: Phien ban hien dai co kho khong?
+A: KHONG! Giong het phien ban thong thuong!
+
+Q: Can Python phien ban nao?
+A: Python 3.7+ (ca 2 phien ban)
+
+================================================================================
+                        TINH NANG CHINH
+================================================================================
+
+CA 2 PHIEN BAN DEU CO:
+
+? Tai 10 anh song song (nhanh!)
+? Luu nho thu muc da chon
+? Nut mo thu muc truc tiep
+? Thanh tien trinh
+? Thong ke ket qua
+? Khong co emoji (khong bi loi)
+? Cross-platform (Windows/Mac/Linux)
+
+================================================================================
+                        HUONG DAN CHI TIET
+================================================================================
+
+Neu can them thong tin, doc cac file:
+
+- SO_SANH_2_PHIEN_BAN.txt     ? So sanh chi tiet
+- HUONG_DAN_MODERN_UI.md      ? Huong dan phien ban hien dai
+- HUONG_DAN.md                ? Huong dan chung
+- HUONG_DAN_BUILD_EXE.md      ? Build file EXE
+
+================================================================================
+                        BAT DAU NGAY!
+================================================================================
+
+1. Chon phien ban (khuyen nghi: HIEN DAI)
+2. Mo Command Prompt / Terminal
+3. Chay 2 lenh:
+   - pip install -r requirements_modern.txt
+   - python stroke_order_downloader_modern.py
+4. TAN HUONG giao dien dep!
+
+================================================================================
+
+        *** CHON PHIEN BAN HIEN DAI - BAN SE THICH NO! ***
+
+================================================================================

@@ -1,0 +1,243 @@
+================================================================================
+                    SO SANH 2 PHIEN BAN GIAO DIEN
+================================================================================
+
+BAN CO 2 LUA CHON:
+
+1. PHIEN BAN THONG THUONG (Tkinter)
+   - File: stroke_order_downloader.py
+   
+2. PHIEN BAN HIEN DAI (CustomTkinter) 
+   - File: stroke_order_downloader_modern.py
+
+================================================================================
+                        PHIEN BAN 1: THONG THUONG
+================================================================================
+
+File: stroke_order_downloader.py
+Thu vien: Tkinter (co san trong Python)
+
+GIAO DIEN:
+- Co dien, nhat nham
+- Mau sac don dieu (xam trang)
+- Nut bam vuong vuong
+- Font chu he thong
+- Khong co dark mode
+
+UU DIEM:
+? Khong can cai them thu vien
+? Nhe
+? File EXE nho (khoang 15MB)
+? Chay nhanh
+? On dinh
+
+NHUOC DIEM:
+? Giao dien cu ki
+? Khong dep
+? Khong co dark mode
+? Tro nhu phan mem 20 nam truoc
+
+KHUYEN NGHI:
+- Dung neu ban thich don gian
+- Dung neu may cau hinh thap
+- Dung neu khong thich cai dat nhieu
+
+CAI DAT:
+```
+pip install -r requirements.txt
+python stroke_order_downloader.py
+```
+
+================================================================================
+                        PHIEN BAN 2: HIEN DAI
+================================================================================
+
+File: stroke_order_downloader_modern.py
+Thu vien: CustomTkinter
+
+GIAO DIEN:
+- HIEN DAI, dep mat!
+- Mau sac sinh dong
+- Nut bam bo tron, dep
+- Font chu dep
+- CO dark mode / light mode
+- Animation muot ma
+- Giong Windows 11 / macOS
+
+UU DIEM:
+? GIAO DIEN DEP!!!
+? Dark mode bao ve mat
+? Hien dai, chuyen nghiep
+? Animation muot
+? De nhin, de dung
+? Theo xu huong 2024
+
+NHUOC DIEM:
+? Can cai them customtkinter
+? File EXE lon hon (khoang 20MB)
+? That ra... khong co nhuoc diem gi!
+
+KHUYEN NGHI: *** CHON PHIEN BAN NAY! ***
+- DEP hon rat nhieu!
+- Van nhanh, van de dung
+- Chi can cai them 1 thu vien
+- Xung dang!
+
+CAI DAT:
+```
+pip install -r requirements_modern.txt
+python stroke_order_downloader_modern.py
+```
+
+================================================================================
+                        BANG SO SANH CHI TIET
+================================================================================
+
+| Tinh nang              | Thong thuong | Hien dai    |
+|------------------------|--------------|-------------|
+| Giao dien              | Co dien      | HIEN DAI    |
+| Mau sac                | Nhat nham    | Sinh dong   |
+| Dark mode              | Khong        | CO          |
+| Animation              | Khong        | CO          |
+| Nut bam                | Vuong        | Bo tron     |
+| Font chu               | He thong     | Dep         |
+| Toc do                 | Nhanh        | Nhanh       |
+| Tai 10 anh song song   | CO           | CO          |
+| Luu thu muc            | CO           | CO          |
+| Mo thu muc             | CO           | CO          |
+| File EXE               | 15MB         | 20MB        |
+| Cai dat                | De           | De (1 lenh) |
+| Do dep                 | 3/10         | 10/10       |
+
+================================================================================
+                        TUONG TUONG GIAO DIEN
+================================================================================
+
+PHIEN BAN THONG THUONG (Tkinter):
+----------------------------------
+[Giao dien co dien, mau xam nhat]
+????????????????????????????????????
+? TAI ANH THU TU NET CHU HAN       ?
+????????????????????????????????????
+? Nhap chu Han:                    ?
+? [_____________________________]  ?
+?                                  ?
+? Thu muc: C:\...\Stroke_images   ?
+? [Chon] [Mo]                     ?
+?                                  ?
+? [  BAT DAU TAI  ] [ HUY BO ]    ?
+?                                  ?
+? San sang                         ?
+? [???????????????????] 40%       ?
+?                                  ?
+? Ket qua:                         ?
+? ??????????????????????????????  ?
+? ? Da tai: ?                  ?  ?
+? ? Da tai: ?                  ?  ?
+? ??????????????????????????????  ?
+????????????????????????????????????
+
+? Giao dien nhat nham, khong noi bat
+? Nut bam vuong, khong dep
+? Mau sac don dieu
+
+
+PHIEN BAN HIEN DAI (CustomTkinter):
+------------------------------------
+[Giao dien hien dai, mau sac dep]
+???????????????????????????????????
+?                                   ?
+?  ?? TAI ANH THU TU NET CHU HAN    ?
+?                                   ?
+???????????????????????????????????
+?                                   ?
+?  Nhap cac ky tu tieng Trung:     ?
+?  ?????????????????????????????   ?
+?  ? Vi du: ????           ?   ?
+?  ?????????????????????????????   ?
+?                                   ?
+?  ?? Thu muc luu anh:              ?
+?     C:\Users\...\Stroke_images    ?
+?                                   ?
+?  ??????????????? ???????????????  ?
+?  ? ?? Chon     ? ? ??? Mo       ?  ?
+?  ?    Thu Muc  ? ?    Thu Muc  ?  ?
+?  ??????????????? ???????????????  ?
+?                                   ?
+?     ?????????????????????         ?
+?     ?  ?? BAT DAU TAI   ?         ?
+?     ?????????????????????         ?
+?     ?????????????????????         ?
+?     ?  ? HUY BO        ?         ?
+?     ?????????????????????         ?
+?                                   ?
+?  ? San sang                       ?
+?  ???????????????????? 70%        ?
+?                                   ?
+?  ?? Ket qua                       ?
+?  ?????????????????????????????   ?
+?  ? ? Da tai: ?               ?   ?
+?  ? ? Da tai: ?               ?   ?
+?  ? ?? Hoan tat!               ?   ?
+?  ?????????????????????????????   ?
+?                                   ?
+?  Giao dien: [?? Che do toi]      ?
+?                                   ?
+???????????????????????????????????
+
+? Giao dien hien dai, noi bat
+? Nut bam bo tron, dep mat
+? Mau sac sinh dong, hop ly
+? Dark mode bao ve mat
+? Animation muot ma
+
+================================================================================
+                        KET LUAN & KHUYEN NGHI
+================================================================================
+
+NEU BAN MUON:
+- Giao dien DEP      ? Chon HIEN DAI
+- Don gian, nhe     ? Chon THONG THUONG
+- Dark mode         ? Chon HIEN DAI
+- File EXE nho      ? Chon THONG THUONG
+- Dep nhu app 2024  ? Chon HIEN DAI
+- Giao dien cu ki   ? Chon THONG THUONG
+
+KHUYEN NGHI CUA TOI: *** CHON PHIEN BAN HIEN DAI! ***
+
+LY DO:
+1. DEP hon RAT NHIEU
+2. Chi can cai them 1 lenh
+3. Van nhanh nhu cu
+4. Dark mode bao ve mat
+5. Chuyen nghiep hon
+6. Theo xu huong 2024
+7. Ban se THICH no!
+
+================================================================================
+                        CACH CHON
+================================================================================
+
+BUOC 1: Quyet dinh chon phien ban nao
+
+BUOC 2: Cai dat tuong ung
+
+PHIEN BAN THONG THUONG:
+```bash
+pip install -r requirements.txt
+python stroke_order_downloader.py
+```
+
+PHIEN BAN HIEN DAI (KHUYEN NGHI):
+```bash
+pip install -r requirements_modern.txt
+python stroke_order_downloader_modern.py
+```
+
+BUOC 3: Tan huong!
+
+================================================================================
+
+      CHON PHIEN BAN HIEN DAI - BAN SE KHONG HOI HAN!
+
+================================================================================
