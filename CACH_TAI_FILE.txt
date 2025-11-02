@@ -1,0 +1,82 @@
+================================================================================
+                    CACH TAI FILE ZIP VE MAY
+================================================================================
+
+FILE ZIP DA DUOC TAO THANH CONG!
+
+Ten file: StrokeOrderDownloader.zip
+Kich thuoc: 12 KB
+Vi tri: /workspace/StrokeOrderDownloader.zip
+
+================================================================================
+                        CACH 1: TAI TRUC TIEP
+================================================================================
+
+Neu ban dang dung Cursor/VS Code:
+
+1. Nhin sang ben trai, trong phan EXPLORER
+2. Tim file: "StrokeOrderDownloader.zip"
+3. Click chuot phai vao file
+4. Chon:
+   - "Download" (tren Cursor)
+   - "Download..." (tren VS Code)
+   - Hoac "Reveal in File Explorer" de xem trong thu muc
+
+================================================================================
+                    CACH 2: COPY FILE BANG LENH
+================================================================================
+
+Neu ban muon copy file den desktop:
+
+# Windows (PowerShell):
+Copy-Item /workspace/StrokeOrderDownloader.zip -Destination $HOME\Desktop\
+
+# Windows (Command Prompt):
+copy /workspace/StrokeOrderDownloader.zip %USERPROFILE%\Desktop\
+
+# Mac/Linux:
+cp /workspace/StrokeOrderDownloader.zip ~/Desktop/
+
+================================================================================
+                    SAU KHI TAI VE, LAM GI?
+================================================================================
+
+1. Giai nen file ZIP
+2. Mo file "README_FIRST.txt" de doc huong dan
+3. Cai dat Python (neu chua co)
+4. Chay lenh: pip install -r requirements.txt
+5. Chay ung dung: python stroke_order_downloader.py
+
+HOac build thanh EXE de khong can Python:
+- Windows: Chay "build_exe.bat"
+- Mac/Linux: Chay "build_exe.sh"
+
+================================================================================
+                        NOI DUNG FILE ZIP
+================================================================================
+
+File ZIP chua 8 file:
+
+? README_FIRST.txt              ? DOC FILE NAY TRUOC!
+? stroke_order_downloader.py    ? Code chinh
+? requirements.txt              ? Thu vien can thiet
+? README_STROKE_ORDER.md        ? Huong dan tong quan
+? HUONG_DAN.md                  ? Huong dan chi tiet
+? GIAO_DIEN.txt                 ? Mo ta giao dien
+? build_exe.bat                 ? Build EXE (Windows)
+? build_exe.sh                  ? Build EXE (Mac/Linux)
+
+================================================================================
+                        YEU CAU HE THONG
+================================================================================
+
+- Python 3.7 hoac cao hon
+- Ket noi internet (de tai anh)
+- Tkinter (thuong co san voi Python)
+- Windows/Mac/Linux deu chay duoc!
+
+================================================================================
+
+            FILE ZIP DA SAN SANG! HAY TAI VE VA SU DUNG!
+
+================================================================================
