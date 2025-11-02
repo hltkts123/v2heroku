@@ -20,8 +20,9 @@ class PowerPointCleaner:
     def __init__(self, root):
         self.root = root
         self.root.title("PowerPoint Cleaner - Cong cu don dep PowerPoint")
-        self.root.geometry("750x700")
-        self.root.resizable(False, False)
+        self.root.geometry("900x800")
+        self.root.resizable(True, True)  # Cho phep dieu chinh kich thuoc
+        self.root.minsize(750, 650)  # Kich thuoc toi thieu
         
         # Variables
         self.file_path = tk.StringVar()

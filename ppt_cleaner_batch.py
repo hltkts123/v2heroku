@@ -22,8 +22,9 @@ class PowerPointCleanerBatch:
     def __init__(self, root):
         self.root = root
         self.root.title("PowerPoint Cleaner - Xu ly nhieu file")
-        self.root.geometry("800x750")
-        self.root.resizable(False, False)
+        self.root.geometry("950x850")
+        self.root.resizable(True, True)  # Cho phep dieu chinh kich thuoc
+        self.root.minsize(800, 700)  # Kich thuoc toi thieu
         
         # Variables
         self.file_paths = []  # Danh sach files

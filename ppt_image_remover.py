@@ -22,6 +22,7 @@ class PowerPointImageRemover:
         self.root.geometry("700x600")
         self.root.resizable(False, False)
         
+        self.root.minsize(700, 600)  # Kich thuoc toi thieu
         # Variables
         self.file_path = tk.StringVar()
         self.width_value = tk.DoubleVar(value=1.6)
