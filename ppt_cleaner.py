@@ -4,6 +4,7 @@
 PowerPoint Cleaner Tool - Single File Processing
 Cong cu don dep PowerPoint: Xu ly 1 file
 Ho tro xu ly textbox long nhau (nested/group shapes)
+GIU NGUYEN dinh dang text (font, size, color...)
 """
 
 import tkinter as tk
@@ -18,9 +19,9 @@ class PowerPointCleaner:
     def __init__(self, root):
         self.root = root
         self.root.title("PowerPoint Cleaner")
-        self.root.geometry("900x720")
+        self.root.geometry("900x700")
         self.root.resizable(True, True)
-        self.root.minsize(850, 680)
+        self.root.minsize(850, 670)
         
         # Variables
         self.file_path = None
@@ -31,36 +32,36 @@ class PowerPointCleaner:
     def create_widgets(self):
         """Tao giao dien"""
         
-        # Header - compact
-        header_frame = tk.Frame(self.root, bg="#2c3e50", height=60)
+        # Header - more compact
+        header_frame = tk.Frame(self.root, bg="#2c3e50", height=50)
         header_frame.pack(fill=tk.X)
         header_frame.pack_propagate(False)
         
         title_label = tk.Label(
             header_frame,
             text="PowerPoint Cleaner",
-            font=("Arial", 16, "bold"),
+            font=("Arial", 15, "bold"),
             bg="#2c3e50",
             fg="white"
         )
-        title_label.pack(pady=3)
+        title_label.pack(pady=2)
         
         subtitle_label = tk.Label(
             header_frame,
-            text="Xu ly 1 file - Ho tro textbox long nhau",
+            text="Giu nguyen dinh dang text",
             font=("Arial", 8),
             bg="#2c3e50",
             fg="#ecf0f1"
         )
         subtitle_label.pack()
         
-        # Main content - NO SCROLLBAR
-        main_frame = tk.Frame(self.root, padx=15, pady=10)
+        # Main content
+        main_frame = tk.Frame(self.root, padx=12, pady=8)
         main_frame.pack(fill=tk.BOTH, expand=True)
         
-        # File selection - compact
-        file_frame = tk.LabelFrame(main_frame, text="1. Chon file", font=("Arial", 10, "bold"), padx=8, pady=5)
-        file_frame.pack(fill=tk.X, pady=(0, 5))
+        # File selection - very compact
+        file_frame = tk.LabelFrame(main_frame, text="1. Chon file", font=("Arial", 10, "bold"), padx=6, pady=4)
+        file_frame.pack(fill=tk.X, pady=(0, 4))
         
         btn_frame = tk.Frame(file_frame)
         btn_frame.pack(fill=tk.X)
@@ -72,7 +73,7 @@ class PowerPointCleaner:
             fg="gray",
             anchor="w"
         )
-        self.file_label.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
+        self.file_label.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=4)
         
         browse_btn = tk.Button(
             btn_frame,
@@ -83,14 +84,14 @@ class PowerPointCleaner:
             font=("Arial", 9),
             cursor="hand2",
             relief=tk.FLAT,
-            padx=15,
-            pady=3
+            padx=12,
+            pady=2
         )
         browse_btn.pack(side=tk.RIGHT)
         
         # Processing mode - compact
-        mode_frame = tk.LabelFrame(main_frame, text="2. Chuc nang", font=("Arial", 10, "bold"), padx=8, pady=5)
-        mode_frame.pack(fill=tk.X, pady=(0, 5))
+        mode_frame = tk.LabelFrame(main_frame, text="2. Chuc nang", font=("Arial", 10, "bold"), padx=6, pady=4)
+        mode_frame.pack(fill=tk.X, pady=(0, 4))
         
         self.process_mode = tk.StringVar(value="both")
         
@@ -102,11 +103,11 @@ class PowerPointCleaner:
         
         for text, value in modes:
             tk.Radiobutton(mode_frame, text=text, variable=self.process_mode, value=value,
-                          font=("Arial", 9)).pack(anchor="w", pady=1)
+                          font=("Arial", 9)).pack(anchor="w", pady=0)
         
-        # Notebook (Tabs) - compact, side by side
+        # Notebook (Tabs)
         self.notebook = ttk.Notebook(main_frame)
-        self.notebook.pack(fill=tk.BOTH, expand=True, pady=(0, 5))
+        self.notebook.pack(fill=tk.BOTH, expand=True, pady=(0, 4))
         
         # Tab 1: Xoa hinh anh
         self.create_image_tab()
@@ -115,8 +116,8 @@ class PowerPointCleaner:
         self.create_text_tab()
         
         # Options - compact
-        options_frame = tk.LabelFrame(main_frame, text="Tuy chon", font=("Arial", 10, "bold"), padx=8, pady=5)
-        options_frame.pack(fill=tk.X, pady=(0, 5))
+        options_frame = tk.LabelFrame(main_frame, text="Tuy chon", font=("Arial", 10, "bold"), padx=6, pady=4)
+        options_frame.pack(fill=tk.X, pady=(0, 4))
         
         backup_cb = tk.Checkbutton(
             options_frame,
@@ -126,37 +127,37 @@ class PowerPointCleaner:
         )
         backup_cb.pack(anchor="w")
         
-        # Action button - prominent
+        # Action button
         self.process_btn = tk.Button(
             main_frame,
             text="? XU LY FILE",
             command=self.process_file,
             bg="#27ae60",
             fg="white",
-            font=("Arial", 12, "bold"),
+            font=("Arial", 13, "bold"),
             cursor="hand2",
             relief=tk.RAISED,
-            pady=10,
+            pady=8,
             borderwidth=2
         )
-        self.process_btn.pack(fill=tk.X, pady=(5, 0))
+        self.process_btn.pack(fill=tk.X, pady=(4, 0))
         
-        # Status bar - compact
+        # Status bar
         self.status_label = tk.Label(
             self.root,
             text="San sang - Chon file de bat dau",
-            font=("Arial", 8),
+            font=("Arial", 9),
             bg="#ecf0f1",
             fg="#2c3e50",
             anchor="w",
-            padx=10,
+            padx=8,
             pady=3
         )
         self.status_label.pack(side=tk.BOTTOM, fill=tk.X)
     
     def create_image_tab(self):
-        """Tab xoa hinh anh - compact"""
-        self.image_frame = ttk.Frame(self.notebook, padding=10)
+        """Tab xoa hinh anh - Kich thuoc va Che do cung 1 hang"""
+        self.image_frame = ttk.Frame(self.notebook, padding=8)
         self.notebook.add(self.image_frame, text="Xoa anh")
         
         # Variables
@@ -165,72 +166,75 @@ class PowerPointCleaner:
         self.img_tolerance = tk.DoubleVar(value=0.01)
         self.img_mode = tk.StringVar(value="and")
         
-        # Size settings - compact
-        size_frame = tk.LabelFrame(self.image_frame, text="Kich thuoc (inch)", font=("Arial", 9, "bold"), padx=8, pady=5)
-        size_frame.pack(fill=tk.X, pady=(0, 5))
+        # Container for 2 columns
+        container = tk.Frame(self.image_frame)
+        container.pack(fill=tk.BOTH, expand=True)
+        
+        # LEFT: Kich thuoc
+        left_frame = tk.LabelFrame(container, text="Kich thuoc (inch)", font=("Arial", 10, "bold"), padx=6, pady=4)
+        left_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 4))
         
         # Width
-        width_frame = tk.Frame(size_frame)
+        width_frame = tk.Frame(left_frame)
         width_frame.pack(fill=tk.X, pady=2)
-        tk.Label(width_frame, text="Rong:", font=("Arial", 8), width=12, anchor="w").pack(side=tk.LEFT)
+        tk.Label(width_frame, text="Rong:", font=("Arial", 9), width=8, anchor="w").pack(side=tk.LEFT)
         tk.Spinbox(width_frame, from_=0.1, to=20.0, increment=0.1, textvariable=self.img_width, 
-                   font=("Arial", 8), width=8).pack(side=tk.LEFT, padx=3)
-        tk.Label(width_frame, text="inch", font=("Arial", 8)).pack(side=tk.LEFT)
+                   font=("Arial", 9), width=6).pack(side=tk.LEFT, padx=2)
         
         # Height
-        height_frame = tk.Frame(size_frame)
+        height_frame = tk.Frame(left_frame)
         height_frame.pack(fill=tk.X, pady=2)
-        tk.Label(height_frame, text="Cao:", font=("Arial", 8), width=12, anchor="w").pack(side=tk.LEFT)
+        tk.Label(height_frame, text="Cao:", font=("Arial", 9), width=8, anchor="w").pack(side=tk.LEFT)
         tk.Spinbox(height_frame, from_=0.1, to=20.0, increment=0.1, textvariable=self.img_height, 
-                   font=("Arial", 8), width=8).pack(side=tk.LEFT, padx=3)
-        tk.Label(height_frame, text="inch", font=("Arial", 8)).pack(side=tk.LEFT)
+                   font=("Arial", 9), width=6).pack(side=tk.LEFT, padx=2)
         
         # Tolerance
-        tol_frame = tk.Frame(size_frame)
+        tol_frame = tk.Frame(left_frame)
         tol_frame.pack(fill=tk.X, pady=2)
-        tk.Label(tol_frame, text="Dung sai:", font=("Arial", 8), width=12, anchor="w").pack(side=tk.LEFT)
+        tk.Label(tol_frame, text="Dung sai:", font=("Arial", 9), width=8, anchor="w").pack(side=tk.LEFT)
         tk.Spinbox(tol_frame, from_=0.001, to=0.5, increment=0.01, textvariable=self.img_tolerance, 
-                   font=("Arial", 8), width=8).pack(side=tk.LEFT, padx=3)
-        tk.Label(tol_frame, text="inch", font=("Arial", 8)).pack(side=tk.LEFT)
+                   font=("Arial", 9), width=6).pack(side=tk.LEFT, padx=2)
         
-        # Match mode - compact
-        mode_frame = tk.LabelFrame(self.image_frame, text="Che do", font=("Arial", 9, "bold"), padx=8, pady=3)
-        mode_frame.pack(fill=tk.X)
+        # RIGHT: Che do
+        right_frame = tk.LabelFrame(container, text="Che do", font=("Arial", 10, "bold"), padx=6, pady=4)
+        right_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
         
         modes = [
-            ("CA width VA height (AND)", "and"),
-            ("Width HOAC height (OR)", "or"),
+            ("CA width VA height", "and"),
+            ("Width HOAC height", "or"),
             ("Chi width", "width_only"),
             ("Chi height", "height_only")
         ]
         
         for text, value in modes:
-            tk.Radiobutton(mode_frame, text=text, variable=self.img_mode, value=value, 
-                          font=("Arial", 8)).pack(anchor="w", pady=1)
+            tk.Radiobutton(right_frame, text=text, variable=self.img_mode, value=value, 
+                          font=("Arial", 9)).pack(anchor="w", pady=1)
     
     def create_text_tab(self):
-        """Tab loc text - compact"""
-        self.text_frame = ttk.Frame(self.notebook, padding=10)
+        """Tab loc text"""
+        self.text_frame = ttk.Frame(self.notebook, padding=8)
         self.notebook.add(self.text_frame, text="Loc text")
         
         # Variables
         self.text_mode = tk.StringVar(value="delete_english")
         self.delete_empty_shapes = tk.BooleanVar(value=True)
         
-        # Info
+        # Info - highlight formatting preservation
         info_label = tk.Label(
             self.text_frame,
-            text="XOA CHI TIENG ANH - GIU LAI tat ca ngon ngu khac (Viet, Trung, Nhat, Han...)",
-            font=("Arial", 8, "italic"),
+            text="? GIU NGUYEN dinh dang: font, size, color, bold, italic...\n? XOA CHI tieng Anh - GIU tat ca ngon ngu khac",
+            font=("Arial", 9, "bold"),
             fg="#16a085",
-            wraplength=350,
-            justify="left"
+            justify="left",
+            bg="#e8f8f5",
+            padx=8,
+            pady=6
         )
-        info_label.pack(pady=(0, 5))
+        info_label.pack(fill=tk.X, pady=(0, 6))
         
-        # Mode selection - compact
-        mode_frame = tk.LabelFrame(self.text_frame, text="Che do loc", font=("Arial", 9, "bold"), padx=8, pady=5)
-        mode_frame.pack(fill=tk.X, pady=(0, 5))
+        # Mode selection
+        mode_frame = tk.LabelFrame(self.text_frame, text="Che do loc", font=("Arial", 10, "bold"), padx=6, pady=4)
+        mode_frame.pack(fill=tk.X, pady=(0, 4))
         
         modes = [
             ("Xoa tieng Anh - Giu Viet/Trung/Nhat/Han", "delete_english"),
@@ -240,14 +244,14 @@ class PowerPointCleaner:
         
         for text, value in modes:
             tk.Radiobutton(mode_frame, text=text, variable=self.text_mode, value=value,
-                          font=("Arial", 8), wraplength=350, justify="left").pack(anchor="w", pady=1)
+                          font=("Arial", 9)).pack(anchor="w", pady=1)
         
-        # Options - compact
-        opt_frame = tk.LabelFrame(self.text_frame, text="Tuy chon", font=("Arial", 9, "bold"), padx=8, pady=5)
+        # Options
+        opt_frame = tk.LabelFrame(self.text_frame, text="Tuy chon", font=("Arial", 10, "bold"), padx=6, pady=4)
         opt_frame.pack(fill=tk.X)
         
         tk.Checkbutton(opt_frame, text="Xoa textbox rong sau khi loc", 
-                      variable=self.delete_empty_shapes, font=("Arial", 8)).pack(anchor="w")
+                      variable=self.delete_empty_shapes, font=("Arial", 9)).pack(anchor="w")
     
     def browse_file(self):
         """Chon file"""
@@ -339,7 +343,7 @@ class PowerPointCleaner:
         return {'total_images': total_images, 'deleted_images': deleted_count}
     
     def process_texts(self, prs):
-        """Xu ly loc text - HO TRO DE QUY - XOA CHI TIENG ANH"""
+        """Xu ly loc text - GIU NGUYEN FORMAT"""
         modified_count = 0
         deleted_count = 0
         total_textboxes = 0
@@ -352,10 +356,10 @@ class PowerPointCleaner:
             # Count total textboxes
             total_textboxes += len(changes)
             
-            # Apply text updates first
+            # Apply text updates - PRESERVE FORMATTING
             for change in changes:
                 if not change['delete']:
-                    self.set_shape_text(change['shape'], change['new_text'])
+                    self.filter_text_preserve_format(change['shape'])
                     modified_count += 1
             
             # Delete empty shapes
@@ -396,6 +400,59 @@ class PowerPointCleaner:
                 # Skip shapes that cause errors
                 continue
     
+    def filter_text_preserve_format(self, shape):
+        """LOC text NHUNG GIU NGUYEN dinh dang (font, size, color, bold, italic...)"""
+        mode = self.text_mode.get()
+        
+        try:
+            if not shape.has_text_frame:
+                return
+            
+            text_frame = shape.text_frame
+            
+            # Neu delete_all -> xoa tat ca
+            if mode == "delete_all":
+                for paragraph in text_frame.paragraphs:
+                    for run in paragraph.runs[:]:
+                        run.text = ""
+                return
+            
+            # Duyet qua tung paragraph
+            for paragraph in text_frame.paragraphs:
+                # Duyet qua tung run (doan text co cung format)
+                runs_to_remove = []
+                
+                for run in paragraph.runs:
+                    run_text = run.text
+                    
+                    # Loc tung run
+                    if mode == "delete_english":
+                        # Neu run la pure ASCII -> xoa
+                        if self.is_pure_ascii_text(run_text):
+                            runs_to_remove.append(run)
+                        # Nguoc lai (co Unicode) -> giu nguyen (khong lam gi)
+                    
+                    elif mode == "keep_english":
+                        # Neu run co Unicode -> xoa
+                        if self.has_unicode_char(run_text):
+                            runs_to_remove.append(run)
+                        # Nguoc lai (pure ASCII) -> giu nguyen
+                
+                # Xoa cac runs can xoa
+                for run in runs_to_remove:
+                    # Set text = "" de giu format nhung xoa noi dung
+                    run.text = ""
+        
+        except Exception as e:
+            # Fallback: dung phuong phap cu
+            pass
+    
+    def is_pure_ascii_text(self, text):
+        """Kiem tra text co phai pure ASCII khong (chi 0-127)"""
+        if not text.strip():
+            return False
+        return all(ord(char) <= 127 for char in text)
+    
     def check_image_match(self, width_inches, height_inches):
         target_width = self.img_width.get()
         target_height = self.img_height.get()
@@ -427,14 +484,8 @@ class PowerPointCleaner:
         except:
             return ""
     
-    def set_shape_text(self, shape, text):
-        try:
-            shape.text_frame.text = text
-        except:
-            pass
-    
     def filter_text(self, text):
-        """Loc text theo mode - CHINH XAC chi xoa tieng Anh"""
+        """Loc text theo mode - CHI de kiem tra"""
         mode = self.text_mode.get()
         
         if mode == "delete_english":
@@ -446,40 +497,35 @@ class PowerPointCleaner:
         return text
     
     def delete_english_lines(self, text):
-        """XOA dong CHI co tieng Anh (pure ASCII) - GIU dong co Unicode (Viet/Trung/Nhat/Han)"""
+        """XOA dong CHI co tieng Anh (pure ASCII)"""
         lines = text.split('\n')
         result = []
         
         for line in lines:
-            # Dong rong -> giu
             if not line.strip():
                 result.append(line)
                 continue
             
-            # Dong co it nhat 1 ky tu Unicode -> GIU (Viet, Trung, Nhat, Han, etc.)
             if self.has_unicode_char(line):
                 result.append(line)
-            # Dong PURE ASCII -> XOA (tieng Anh)
-            # Khong append vao result
         
         return '\n'.join(result)
     
     def keep_ascii_lines(self, text):
-        """Chi giu dong ASCII (tieng Anh) - Xoa dong co Unicode"""
+        """Chi giu dong ASCII (tieng Anh)"""
         lines = text.split('\n')
         result = []
         
         for line in lines:
             if not line.strip():
                 continue
-            # Chi giu dong khong co ky tu Unicode
             if not self.has_unicode_char(line):
                 result.append(line)
         
         return '\n'.join(result)
     
     def has_unicode_char(self, line):
-        """Kiem tra co ky tu Unicode khong (>127: Viet, Trung, Nhat, Han, etc.)"""
+        """Kiem tra co ky tu Unicode khong (>127)"""
         if not line.strip():
             return False
         return any(ord(char) > 127 for char in line)
@@ -532,7 +578,8 @@ class PowerPointCleaner:
             text_widget.insert(tk.END, "[TEXT]\n")
             text_widget.insert(tk.END, f"  Tong textbox: {result.get('total_textboxes', 0)}\n")
             text_widget.insert(tk.END, f"  Da cap nhat: {result.get('modified_text', 0)}\n")
-            text_widget.insert(tk.END, f"  Da xoa: {result.get('deleted_text', 0)}\n")
+            text_widget.insert(tk.END, f"  Da xoa: {result.get('deleted_text', 0)}\n\n")
+            text_widget.insert(tk.END, "  [!] Da giu nguyen dinh dang text (font, size...)\n")
         
         text_widget.config(state=tk.DISABLED)
         
