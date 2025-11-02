@@ -155,7 +155,7 @@ ErrorHandler:
 End Sub
 
 ' ============================================================================
-' Procedure: Phien ban voi Progress Bar (tuy chon)
+' Procedure: Phien ban voi Progress Updates (tuy chon)
 ' ============================================================================
 Sub DeleteSpecificSizedImages_WithProgress()
     On Error GoTo ErrorHandler
@@ -167,18 +167,26 @@ Sub DeleteSpecificSizedImages_WithProgress()
     Dim deletedCount As Long
     Dim totalSlides As Long
     Dim currentSlide As Long
+    Dim progressInterval As Long
     
     targetSize = 1.6 * 72
     deletedCount = 0
     totalSlides = ActivePresentation.Slides.Count
     currentSlide = 0
+    progressInterval = 10 ' Hien thi progress moi 10 slides
+    
+    ' Thong bao bat dau
+    MsgBox "Bat dau xu ly " & totalSlides & " slides...", vbInformation, "Thong bao"
     
     For Each slide In ActivePresentation.Slides
         currentSlide = currentSlide + 1
         
-        ' Hien thi tien trinh trong status bar
-        Application.StatusBar = "Dang xu ly slide " & currentSlide & "/" & totalSlides & _
-                                " - Da xoa: " & deletedCount & " hinh anh..."
+        ' Hien thi tien trinh moi 10 slides (neu co nhieu slides)
+        ' Chi ap dung neu > 20 slides de khong spam qua nhieu msgbox
+        If totalSlides > 20 And currentSlide Mod progressInterval = 0 Then
+            Debug.Print "Dang xu ly slide " & currentSlide & "/" & totalSlides & _
+                        " - Da xoa: " & deletedCount & " hinh anh"
+        End If
         
         For shapeIndex = slide.Shapes.Count To 1 Step -1
             Set shape = slide.Shapes(shapeIndex)
@@ -192,14 +200,12 @@ Sub DeleteSpecificSizedImages_WithProgress()
         Next shapeIndex
     Next slide
     
-    Application.StatusBar = False ' Reset status bar
-    
-    MsgBox "Hoan tat! Da xoa " & deletedCount & " hinh anh co kich thuoc 1.6 inch.", _
+    MsgBox "Hoan tat! Da xoa " & deletedCount & " hinh anh co kich thuoc 1.6 inch." & vbCrLf & _
+           "Tong cong xu ly: " & totalSlides & " slides", _
            vbInformation, "Ket qua"
     Exit Sub
 
 ErrorHandler:
-    Application.StatusBar = False
     MsgBox "Da xay ra loi: " & Err.Description, vbCritical, "Loi"
 End Sub
 
