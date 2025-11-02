@@ -86,12 +86,12 @@ class StrokeOrderDownloader:
                 file_path = folder_path / f"{character}.gif"
                 with open(file_path, "wb") as f:
                     f.write(response.content)
-                return True, f"[OK] Da tai: {character}"
+                return True, f"? Da tai: {character}"
             else:
-                return False, f"[LOI] HTTP {response.status_code}: {character}"
+                return False, f"? Loi HTTP {response.status_code}: {character}"
                 
         except requests.RequestException as e:
-            return False, f"[LOI] Tai {character}: {str(e)}"
+            return False, f"? Loi tai {character}: {str(e)}"
     
     def process_character(self, character: str, folder_path: Path) -> tuple[bool, str]:
         """
@@ -110,7 +110,7 @@ class StrokeOrderDownloader:
         image_url = self.get_image_url(character)
         
         if not image_url:
-            return False, f"[CANH BAO] Khong tim thay anh cho '{character}'"
+            return False, f"?? Khong tim thay anh cho '{character}'"
         
         return self.download_image(image_url, character, folder_path)
 
@@ -123,7 +123,7 @@ class StrokeOrderApp:
     def __init__(self, root: tk.Tk):
         self.root = root
         self.root.title("Tai Anh Thu Tu Net Chu Han")
-        self.root.geometry("750x600")
+        self.root.geometry("700x580")
         self.root.resizable(False, False)
         
         # Thiet lap thu muc mac dinh (cross-platform)
@@ -181,84 +181,78 @@ class StrokeOrderApp:
         # Tieu de
         title_label = ttk.Label(
             main_frame, 
-            text="TAI ANH THU TU NET CHU HAN",
-            font=("Arial", 16, "bold"),
-            foreground="#2C3E50"
+            text="?? Tai Anh Thu Tu Net Chu Han",
+            font=("Arial", 16, "bold")
         )
-        title_label.pack(pady=(0, 15))
+        title_label.pack(pady=(0, 10))
         
         # Frame nhap lieu
-        input_frame = ttk.LabelFrame(main_frame, text=" NHAP DU LIEU ", padding="10")
+        input_frame = ttk.LabelFrame(main_frame, text="?? Nhap du lieu", padding="10")
         input_frame.pack(fill=tk.X, pady=5)
         
         instruction_label = ttk.Label(
             input_frame, 
-            text="Nhap cac ky tu tieng Trung (co the cach nhau bang dau phay hoac khoang trang):",
-            font=("Arial", 9)
+            text="Nhap cac ky tu tieng Trung (co the cach nhau bang dau phay hoac khoang trang):"
         )
-        instruction_label.pack(anchor=tk.W, pady=(0, 5))
+        instruction_label.pack(anchor=tk.W)
         
         self.entry = ttk.Entry(input_frame, font=("Arial", 14), width=50)
         self.entry.pack(fill=tk.X, pady=5)
         self.entry.bind("<Return>", lambda e: self.start_download())
         
         # Frame thu muc
-        folder_frame = ttk.LabelFrame(main_frame, text=" THU MUC LUU ANH ", padding="10")
+        folder_frame = ttk.LabelFrame(main_frame, text="?? Thu muc luu anh", padding="10")
         folder_frame.pack(fill=tk.X, pady=5)
         
-        # Hien thi duong dan
-        path_display_frame = ttk.Frame(folder_frame)
-        path_display_frame.pack(fill=tk.X, pady=(0, 5))
-        
-        ttk.Label(path_display_frame, text="Duong dan:", font=("Arial", 9, "bold")).pack(anchor=tk.W)
+        folder_display_frame = ttk.Frame(folder_frame)
+        folder_display_frame.pack(fill=tk.X)
         
         self.folder_label = ttk.Label(
-            path_display_frame, 
+            folder_display_frame, 
             textvariable=self.folder_path_var,
-            foreground="#2980B9",
-            wraplength=650,
-            font=("Arial", 9)
+            foreground="blue",
+            wraplength=450
         )
-        self.folder_label.pack(anchor=tk.W, pady=(2, 0))
+        self.folder_label.pack(side=tk.LEFT, fill=tk.X, expand=True)
         
-        # Buttons frame
-        folder_buttons_frame = ttk.Frame(folder_frame)
-        folder_buttons_frame.pack(fill=tk.X)
+        # Buttons frame ben phai
+        folder_buttons_frame = ttk.Frame(folder_display_frame)
+        folder_buttons_frame.pack(side=tk.RIGHT, padx=(10, 0))
         
         folder_button = ttk.Button(
             folder_buttons_frame, 
-            text="[+] Chon Thu Muc", 
+            text="?? Chon", 
             command=self.select_folder,
-            width=22
+            width=10
         )
-        folder_button.pack(side=tk.LEFT, padx=(0, 5))
+        folder_button.pack(side=tk.LEFT, padx=2)
         
         open_folder_button = ttk.Button(
             folder_buttons_frame, 
-            text="[>] Mo Thu Muc", 
+            text="??? Mo", 
             command=self.open_folder,
-            width=22
+            width=10
         )
-        open_folder_button.pack(side=tk.LEFT, padx=(0, 5))
+        open_folder_button.pack(side=tk.LEFT, padx=2)
         
         # Frame nut dieu khien
         button_frame = ttk.Frame(main_frame)
-        button_frame.pack(pady=15)
+        button_frame.pack(pady=10)
         
         self.download_button = ttk.Button(
             button_frame, 
-            text=">> BAT DAU TAI <<", 
+            text="?? Bat dau tai", 
             command=self.start_download,
-            width=25
+            width=20
         )
         self.download_button.pack(side=tk.LEFT, padx=5)
         
         self.cancel_button = ttk.Button(
             button_frame, 
-            text="[X] HUY BO", 
+            text="?? Huy", 
             command=self.cancel_download,
             state=tk.DISABLED,
-            width=25
+            width=20
         )
         self.cancel_button.pack(side=tk.LEFT, padx=5)
         
@@ -266,23 +260,18 @@ class StrokeOrderApp:
         progress_frame = ttk.Frame(main_frame)
         progress_frame.pack(fill=tk.X, pady=5)
         
-        self.progress_label = ttk.Label(
-            progress_frame, 
-            text="Trang thai: San sang",
-            font=("Arial", 9, "bold"),
-            foreground="#27AE60"
-        )
+        self.progress_label = ttk.Label(progress_frame, text="? San sang")
         self.progress_label.pack()
         
         self.progress_bar = ttk.Progressbar(
             progress_frame, 
             mode='determinate',
-            length=680
+            length=600
         )
         self.progress_bar.pack(fill=tk.X, pady=5)
         
         # Khu vuc hien thi ket qua
-        result_frame = ttk.LabelFrame(main_frame, text=" KET QUA ", padding="5")
+        result_frame = ttk.LabelFrame(main_frame, text="?? Ket qua", padding="5")
         result_frame.pack(fill=tk.BOTH, expand=True, pady=5)
         
         # Scrollbar cho text widget
@@ -291,23 +280,18 @@ class StrokeOrderApp:
         
         self.result_text = tk.Text(
             result_frame, 
-            height=13, 
-            font=("Consolas", 9),
-            yscrollcommand=scrollbar.set,
-            bg="#F8F9FA",
-            relief=tk.FLAT,
-            padx=5,
-            pady=5
+            height=12, 
+            font=("Arial", 10),
+            yscrollcommand=scrollbar.set
         )
         self.result_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.result_text.yview)
         
         # Them tags cho text mau sac
-        self.result_text.tag_config("success", foreground="#27AE60", font=("Consolas", 9, "bold"))
-        self.result_text.tag_config("error", foreground="#E74C3C", font=("Consolas", 9, "bold"))
-        self.result_text.tag_config("warning", foreground="#F39C12", font=("Consolas", 9, "bold"))
-        self.result_text.tag_config("info", foreground="#2980B9", font=("Consolas", 9))
-        self.result_text.tag_config("header", foreground="#2C3E50", font=("Consolas", 9, "bold"))
+        self.result_text.tag_config("success", foreground="green")
+        self.result_text.tag_config("error", foreground="red")
+        self.result_text.tag_config("warning", foreground="orange")
+        self.result_text.tag_config("info", foreground="blue")
     
     def select_folder(self):
         """Chon thu muc luu anh"""
@@ -315,7 +299,6 @@ class StrokeOrderApp:
         if folder_selected:
             self.folder_path_var.set(folder_selected)
             self._save_config()  # Luu config khi chon thu muc moi
-            self.log_message(f"[INFO] Da chon thu muc: {folder_selected}", "info")
     
     def open_folder(self):
         """Mo thu muc trong file explorer"""
@@ -337,7 +320,6 @@ class StrokeOrderApp:
                 subprocess.run(["open", folder_path])
             else:  # Linux and other Unix-like
                 subprocess.run(["xdg-open", folder_path])
-            self.log_message(f"[INFO] Da mo thu muc: {folder_path}", "info")
         except Exception as e:
             messagebox.showerror("Loi", f"Khong the mo thu muc: {e}")
     
@@ -381,7 +363,7 @@ class StrokeOrderApp:
         
         words_input = self.entry.get().strip()
         if not words_input:
-            messagebox.showwarning("Canh bao", "Ban chua nhap tu nao!")
+            messagebox.showwarning("?? Canh bao", "Ban chua nhap tu nao!")
             return
         
         folder_path = Path(self.folder_path_var.get())
@@ -389,7 +371,7 @@ class StrokeOrderApp:
             try:
                 folder_path.mkdir(parents=True, exist_ok=True)
             except Exception as e:
-                messagebox.showerror("Loi", f"Khong the tao thu muc: {e}")
+                messagebox.showerror("? Loi", f"Khong the tao thu muc: {e}")
                 return
         
         # Luu config khi bat dau tai
@@ -404,12 +386,9 @@ class StrokeOrderApp:
         
         # Parse input
         characters = self.parse_input(words_input)
-        self.log_message("=" * 70, "header")
-        self.log_message("          BAT DAU QUA TRINH TAI ANH          ", "header")
-        self.log_message("=" * 70, "header")
-        self.log_message(f"[INFO] Tim thay {len(characters)} ky tu duy nhat: {' '.join(characters)}", "info")
-        self.log_message(f"[INFO] Thu muc luu: {folder_path}", "info")
-        self.log_message("-" * 70, "info")
+        self.log_message(f"?? Tim thay {len(characters)} ky tu duy nhat", "info")
+        self.log_message(f"?? Thu muc luu: {folder_path}", "info")
+        self.log_message("?" * 60, "info")
         
         # Chay download trong thread rieng
         thread = threading.Thread(
@@ -455,37 +434,27 @@ class StrokeOrderApp:
                     if success:
                         self.log_message(message, "success")
                         success_count += 1
-                    elif "[LOI]" in message:
-                        self.log_message(message, "error")
-                        fail_count += 1
                     else:
-                        self.log_message(message, "warning")
+                        self.log_message(message, "error" if "?" in message else "warning")
                         fail_count += 1
                     
                 except Exception as e:
-                    self.log_message(f"[LOI] Xu ly '{char}': {str(e)}", "error")
+                    self.log_message(f"? Loi xu ly '{char}': {str(e)}", "error")
                     fail_count += 1
                 
                 # Update progress
                 self.progress_bar["value"] = i
-                percent = int((i / len(characters)) * 100)
-                self.progress_label.config(
-                    text=f"Trang thai: Dang xu ly {i}/{len(characters)} ({percent}%)",
-                    foreground="#F39C12"
-                )
+                self.progress_label.config(text=f"? Dang xu ly: {i}/{len(characters)}")
                 self.root.update_idletasks()
         
         # Hoan thanh
-        self.log_message("-" * 70, "info")
+        self.log_message("?" * 60, "info")
         if self.downloader._cancelled:
-            self.log_message("[THONG BAO] Da huy qua trinh tai!", "warning")
-            self.progress_label.config(text="Trang thai: Da huy", foreground="#E74C3C")
+            self.log_message("?? Da huy qua trinh tai!", "warning")
         else:
-            self.log_message("[THANH CONG] Qua trinh tai hoan tat!", "success")
-            self.progress_label.config(text="Trang thai: Hoan thanh", foreground="#27AE60")
+            self.log_message("?? Qua trinh tai hoan tat!", "success")
         
-        self.log_message(f"[THONG KE] Thanh cong: {success_count} | That bai: {fail_count} | Tong: {len(characters)}", "header")
-        self.log_message("=" * 70, "header")
+        self.log_message(f"?? Thong ke: {success_count} thanh cong, {fail_count} that bai", "info")
         
         # Reset UI
         self._reset_ui()
@@ -495,7 +464,7 @@ class StrokeOrderApp:
         if self.downloader:
             self.downloader.cancel()
             self.cancel_button.config(state=tk.DISABLED)
-            self.log_message("[THONG BAO] Dang huy qua trinh...", "warning")
+            self.log_message("? Dang huy...", "warning")
     
     def _reset_ui(self):
         """Reset UI ve trang thai ban dau"""
@@ -503,21 +472,13 @@ class StrokeOrderApp:
         self.download_button.config(state=tk.NORMAL)
         self.cancel_button.config(state=tk.DISABLED)
         self.entry.config(state=tk.NORMAL)
+        self.progress_label.config(text="? Hoan thanh")
         self.downloader = None
 
 
 def main():
     """Ham main de chay ung dung"""
     root = tk.Tk()
-    
-    # Set style cho Windows
-    style = ttk.Style()
-    if platform.system() == "Windows":
-        try:
-            style.theme_use('vista')
-        except:
-            style.theme_use('default')
-    
     app = StrokeOrderApp(root)
     root.mainloop()
 

@@ -1,0 +1,156 @@
+================================================================================
+                    CAC THAY DOI MOI - PHIEN BAN 2.1
+================================================================================
+
+NGAY CAP NHAT: 2025-11-02
+
+================================================================================
+                          DA SUA CAC VAN DE
+================================================================================
+
+1. ? GIU NGUYEN EMOJI/ICON
+   - Code da duoc doi lai de co day du emoji
+   - Dep tren Windows 10+, macOS, Linux
+   - Windows 7/8 se hien thi o vuong nhung van chay tot
+
+2. ? SUA LOI BUILD EXE
+   - File build_exe.bat da duoc viet lai hoan toan
+   - Tu dong kiem tra Python
+   - Tu dong cai PyInstaller
+   - Xu ly loi tot hon
+   - Tu dong mo thu muc chua file EXE sau khi build
+
+3. ? THEM HUONG DAN BUILD CHI TIET
+   - File moi: HUONG_DAN_BUILD_EXE.md
+   - Giai thich ro rang moi loi
+   - 3 cach build khac nhau
+   - Video demo tung buoc
+
+4. ? TANG TOC DO TAI
+   - Tu 5 anh song song ? 10 anh song song
+   - Nhanh gap doi!
+
+================================================================================
+                            CAC FILE MOI
+================================================================================
+
+HUONG_DAN_BUILD_EXE.md      ? Huong dan build EXE sieu chi tiet
+build_simple.bat            ? Cach build don gian nhat
+THAY_DOI_MOI.txt            ? File nay (danh sach thay doi)
+
+================================================================================
+                          CAC FILE DA SUA
+================================================================================
+
+stroke_order_downloader.py  ? Doi lai co emoji, MAX_WORKERS = 10
+build_exe.bat               ? Viet lai hoan toan, tu dong hon
+README_FIRST.txt            ? Cap nhat thong tin emoji va build
+README_STROKE_ORDER.md      ? Cap nhat toc do tai (10 anh)
+GIAO_DIEN.txt              ? Cap nhat thong tin (10 anh)
+
+================================================================================
+                    CACH SU DUNG FILE BUILD MOI
+================================================================================
+
+CACH 1: TU DONG (KHUYEN NGHI CHO BAN)
+---------------------------------------
+   build_exe.bat
+
+   File nay se:
+   ? Kiem tra Python da cai chua
+   ? Tu dong cai PyInstaller
+   ? Cai cac thu vien can thiet
+   ? Build file EXE
+   ? Mo thu muc chua file EXE
+
+CACH 2: DON GIAN NHAT
+---------------------------------------
+   build_simple.bat
+
+   Chi 2 lenh don gian:
+   - Cai PyInstaller
+   - Build EXE
+
+CACH 3: THU CONG (NEU 2 CACH TREN LOI)
+---------------------------------------
+   python -m pip install pyinstaller
+   python -m PyInstaller --onefile --windowed stroke_order_downloader.py
+
+================================================================================
+                        XU LY LOI "pyinstaller not recognized"
+================================================================================
+
+Loi nay xay ra vi:
+- PyInstaller chua duoc cai
+- HOAC Python khong co trong PATH
+
+GIAI PHAP:
+1. Dung file build_exe.bat moi (da sua)
+2. Hoac chay: python -m pip install pyinstaller
+3. Neu van loi, doc file: HUONG_DAN_BUILD_EXE.md
+
+================================================================================
+                        TIM FILE EXE SAU KHI BUILD
+================================================================================
+
+File EXE se o: dist\StrokeOrderDownloader.exe
+
+Neu KHONG tim thay:
+1. Kiem tra co loi trong qua trinh build khong
+2. Kiem tra thu muc "dist" co ton tai khong
+3. Thu build lai bang lenh thu cong
+4. Doc HUONG_DAN_BUILD_EXE.md de biet them
+
+================================================================================
+                            VE EMOJI
+================================================================================
+
+CO HIEN THI EMOJI KHONG?
+
+? HIEN THI TOT:
+   - Windows 10, 11
+   - macOS (all versions)
+   - Linux (with Unicode fonts)
+
+? HIEN THI O VUONG:
+   - Windows 7, 8, 8.1
+   - Mot so Linux cu
+   
+QUAN TRONG: Ung dung VAN CHAY TOT du emoji co hien thi hay khong!
+
+================================================================================
+                        TINH NANG CHINH
+================================================================================
+
+? Tai 10 anh song song (NHANH GAP DOI!)
+? Giao dien dep voi emoji
+? Luu nho thu muc da chon
+? Nut mo thu muc truc tiep
+? Thanh tien trinh voi phan tram
+? Build EXE de dang
+? Cross-platform (Windows/Mac/Linux)
+? Loai bo ky tu trung lap tu dong
+? Thong ke ket qua chi tiet
+
+================================================================================
+                        TEST NGAY
+================================================================================
+
+1. Chay truc tiep:
+   python stroke_order_downloader.py
+
+2. Build EXE:
+   build_exe.bat
+
+3. Nhap chu Han:
+   ????
+
+4. Click: ?? Bat dau tai
+
+5. Xem anh trong thu muc Stroke_images!
+
+================================================================================
+
+        FILE BUILD DA DUOC SUA - THU LAI VA BAO CAO KET QUA!
+
+================================================================================
