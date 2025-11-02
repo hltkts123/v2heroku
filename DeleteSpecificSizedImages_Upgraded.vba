@@ -1,18 +1,19 @@
 ' ============================================================================
 ' Module: DeleteSpecificSizedImages (Upgraded Version)
-' Description: X?a c?c h?nh ?nh c? k?ch th??c c? th? trong PowerPoint
+' Description: Xoa cac hinh anh co kich thuoc cu the trong PowerPoint
 ' Author: Upgraded Version
 ' Date: 2025-11-02
+' Note: Tieng Viet khong dau de tranh loi encoding trong VBA Editor
 ' ============================================================================
 
 Option Explicit
 
-' H?ng s?
+' Hang so
 Private Const POINTS_PER_INCH As Single = 72
 Private Const TOLERANCE As Single = 1 ' Dung sai (points)
 
 ' ============================================================================
-' Main Procedure - Phi?n b?n n?ng c?p v?i nhi?u t?nh n?ng m?i
+' Main Procedure - Phien ban nang cap voi nhieu tinh nang moi
 ' ============================================================================
 Sub DeleteSpecificSizedImages_Enhanced()
     On Error GoTo ErrorHandler
@@ -26,69 +27,69 @@ Sub DeleteSpecificSizedImages_Enhanced()
     Dim shapeIndex As Long
     Dim userResponse As VbMsgBoxResult
     
-    ' Kh?i t?o bi?n ??m
+    ' Khoi tao bien dem
     deletedCount = 0
     totalImages = 0
     
-    ' Y?u c?u ng??i d?ng nh?p k?ch th??c (t?nh b?ng inch)
+    ' Yeu cau nguoi dung nhap kich thuoc (tinh bang inch)
     Dim inputSize As String
-    inputSize = InputBox("Nh?p k?ch th??c h?nh ?nh c?n x?a (inch):", _
-                         "X?a h?nh ?nh theo k?ch th??c", "1.6")
+    inputSize = InputBox("Nhap kich thuoc hinh anh can xoa (inch):", _
+                         "Xoa hinh anh theo kich thuoc", "1.6")
     
-    ' Ki?m tra ng??i d?ng c? h?y kh?ng
+    ' Kiem tra nguoi dung co huy khong
     If inputSize = "" Then
-        MsgBox "?? h?y thao t?c.", vbInformation, "Th?ng b?o"
+        MsgBox "Da huy thao tac.", vbInformation, "Thong bao"
         Exit Sub
     End If
     
-    ' Chuy?n ??i v? ki?m tra gi? tr? nh?p v?o
+    ' Chuyen doi va kiem tra gia tri nhap vao
     If Not IsNumeric(inputSize) Then
-        MsgBox "Gi? tr? nh?p v?o kh?ng h?p l?. Vui l?ng nh?p s?.", vbExclamation, "L?i"
+        MsgBox "Gia tri nhap vao khong hop le. Vui long nhap so.", vbExclamation, "Loi"
         Exit Sub
     End If
     
     targetSizeInches = CSng(inputSize)
     
     If targetSizeInches <= 0 Then
-        MsgBox "K?ch th??c ph?i l?n h?n 0.", vbExclamation, "L?i"
+        MsgBox "Kich thuoc phai lon hon 0.", vbExclamation, "Loi"
         Exit Sub
     End If
     
     targetSizePoints = targetSizeInches * POINTS_PER_INCH
     
-    ' X?c nh?n tr??c khi x?a
-    userResponse = MsgBox("B?n c? ch?c ch?n mu?n x?a t?t c? h?nh ?nh c? k?ch th??c " & _
+    ' Xac nhan truoc khi xoa
+    userResponse = MsgBox("Ban co chac chan muon xoa tat ca hinh anh co kich thuoc " & _
                           targetSizeInches & " inch?" & vbCrLf & vbCrLf & _
-                          "Thao t?c n?y kh?ng th? ho?n t?c!", _
-                          vbYesNo + vbQuestion, "X?c nh?n")
+                          "Thao tac nay khong the hoan tac!", _
+                          vbYesNo + vbQuestion, "Xac nhan")
     
     If userResponse = vbNo Then
-        MsgBox "?? h?y thao t?c.", vbInformation, "Th?ng b?o"
+        MsgBox "Da huy thao tac.", vbInformation, "Thong bao"
         Exit Sub
     End If
     
-    ' T?t c?p nh?t m?n h?nh ?? t?ng t?c ?? x? l?
+    ' Tat cap nhat man hinh de tang toc do xu ly
     Application.ScreenUpdating = False
     
-    ' Duy?t qua t?ng slide
+    ' Duyet qua tung slide
     For Each slide In ActivePresentation.Slides
-        ' Duy?t ng??c ?? tr?nh l?i khi x?a shape
+        ' Duyet nguoc de tranh loi khi xoa shape
         For shapeIndex = slide.Shapes.Count To 1 Step -1
             Set shape = slide.Shapes(shapeIndex)
             
-            ' Ki?m tra n?u l? h?nh ?nh
+            ' Kiem tra neu la hinh anh
             If shape.Type = msoPicture Or shape.Type = msoLinkedPicture Then
                 totalImages = totalImages + 1
                 
-                ' Ki?m tra k?ch th??c v?i dung sai
+                ' Kiem tra kich thuoc voi dung sai
                 If IsTargetSize(shape, targetSizePoints, TOLERANCE) Then
-                    ' Ghi log th?ng tin shape tr??c khi x?a (t?y ch?n)
-                    Debug.Print "?? x?a: Slide " & slide.SlideIndex & _
+                    ' Ghi log thong tin shape truoc khi xoa (tuy chon)
+                    Debug.Print "Da xoa: Slide " & slide.SlideIndex & _
                                 ", Shape: " & shape.Name & _
                                 ", Width: " & Round(shape.Width / POINTS_PER_INCH, 2) & "in" & _
                                 ", Height: " & Round(shape.Height / POINTS_PER_INCH, 2) & "in"
                     
-                    ' X?a shape
+                    ' Xoa shape
                     shape.Delete
                     deletedCount = deletedCount + 1
                 End If
@@ -96,26 +97,26 @@ Sub DeleteSpecificSizedImages_Enhanced()
         Next shapeIndex
     Next slide
     
-    ' B?t l?i c?p nh?t m?n h?nh
+    ' Bat lai cap nhat man hinh
     Application.ScreenUpdating = True
     
-    ' Hi?n th? k?t qu?
-    MsgBox "Ho?n t?t!" & vbCrLf & vbCrLf & _
-           "T?ng s? h?nh ?nh: " & totalImages & vbCrLf & _
-           "?? x?a: " & deletedCount & " h?nh ?nh" & vbCrLf & _
-           "K?ch th??c: " & targetSizeInches & " inch", _
-           vbInformation, "K?t qu?"
+    ' Hien thi ket qua
+    MsgBox "Hoan tat!" & vbCrLf & vbCrLf & _
+           "Tong so hinh anh: " & totalImages & vbCrLf & _
+           "Da xoa: " & deletedCount & " hinh anh" & vbCrLf & _
+           "Kich thuoc: " & targetSizeInches & " inch", _
+           vbInformation, "Ket qua"
     
     Exit Sub
 
 ErrorHandler:
     Application.ScreenUpdating = True
-    MsgBox "?? x?y ra l?i: " & Err.Description & vbCrLf & _
-           "M? l?i: " & Err.Number, vbCritical, "L?i"
+    MsgBox "Da xay ra loi: " & Err.Description & vbCrLf & _
+           "Ma loi: " & Err.Number, vbCritical, "Loi"
 End Sub
 
 ' ============================================================================
-' Function: Ki?m tra xem shape c? ??ng k?ch th??c m?c ti?u kh?ng
+' Function: Kiem tra xem shape co dung kich thuoc muc tieu khong
 ' ============================================================================
 Private Function IsTargetSize(shape As shape, targetSize As Single, tolerance As Single) As Boolean
     IsTargetSize = (Abs(shape.Width - targetSize) < tolerance) Or _
@@ -123,7 +124,7 @@ Private Function IsTargetSize(shape As shape, targetSize As Single, tolerance As
 End Function
 
 ' ============================================================================
-' Procedure: Phi?n b?n ??n gi?n (gi? nguy?n logic g?c, s?a l?i)
+' Procedure: Phien ban don gian (giu nguyen logic goc, sua loi)
 ' ============================================================================
 Sub DeleteSpecificSizedImages_Simple()
     On Error GoTo ErrorHandler
@@ -133,18 +134,18 @@ Sub DeleteSpecificSizedImages_Simple()
     Dim targetSize As Single
     Dim shapeIndex As Long
     
-    ' S?a: Comment ghi 1.25 nh?ng code d?ng 1.6
-    ' ?? th?ng nh?t s? d?ng 1.6 inch
-    targetSize = 1.6 * 72 ' 1.6 inch chuy?n sang point (1 inch = 72 points)
+    ' Sua: Comment ghi 1.25 nhung code dung 1.6
+    ' Da thong nhat su dung 1.6 inch
+    targetSize = 1.6 * 72 ' 1.6 inch chuyen sang point (1 inch = 72 points)
     
-    ' Duy?t qua t?ng slide trong b?i thuy?t tr?nh
+    ' Duyet qua tung slide trong bai thuyet trinh
     For Each slide In ActivePresentation.Slides
-        ' Duy?t ng??c ?? tr?nh l?i khi x?a shape
-        ' (Quan tr?ng: khi x?a shape, index c?c shape sau s? thay ??i)
+        ' Duyet nguoc de tranh loi khi xoa shape
+        ' (Quan trong: khi xoa shape, index cac shape sau se thay doi)
         For shapeIndex = slide.Shapes.Count To 1 Step -1
             Set shape = slide.Shapes(shapeIndex)
             
-            ' Ki?m tra n?u l? h?nh ?nh v? c? k?ch th??c mong mu?n
+            ' Kiem tra neu la hinh anh va co kich thuoc mong muon
             If shape.Type = msoPicture Or shape.Type = msoLinkedPicture Then
                 If (Abs(shape.Width - targetSize) < 1 Or Abs(shape.Height - targetSize) < 1) Then
                     shape.Delete
@@ -153,15 +154,15 @@ Sub DeleteSpecificSizedImages_Simple()
         Next shapeIndex
     Next slide
     
-    MsgBox "?? x?a c?c h?nh ?nh c? k?ch th??c 1.6 inch!", vbInformation
+    MsgBox "Da xoa cac hinh anh co kich thuoc 1.6 inch!", vbInformation
     Exit Sub
 
 ErrorHandler:
-    MsgBox "?? x?y ra l?i: " & Err.Description, vbCritical, "L?i"
+    MsgBox "Da xay ra loi: " & Err.Description, vbCritical, "Loi"
 End Sub
 
 ' ============================================================================
-' Procedure: Phi?n b?n v?i Progress Bar (t?y ch?n)
+' Procedure: Phien ban voi Progress Bar (tuy chon)
 ' ============================================================================
 Sub DeleteSpecificSizedImages_WithProgress()
     On Error GoTo ErrorHandler
@@ -184,9 +185,9 @@ Sub DeleteSpecificSizedImages_WithProgress()
     For Each slide In ActivePresentation.Slides
         currentSlide = currentSlide + 1
         
-        ' Hi?n th? ti?n tr?nh trong status bar
-        Application.StatusBar = "?ang x? l? slide " & currentSlide & "/" & totalSlides & _
-                                " - ?? x?a: " & deletedCount & " h?nh ?nh..."
+        ' Hien thi tien trinh trong status bar
+        Application.StatusBar = "Dang xu ly slide " & currentSlide & "/" & totalSlides & _
+                                " - Da xoa: " & deletedCount & " hinh anh..."
         
         For shapeIndex = slide.Shapes.Count To 1 Step -1
             Set shape = slide.Shapes(shapeIndex)
@@ -203,18 +204,18 @@ Sub DeleteSpecificSizedImages_WithProgress()
     Application.ScreenUpdating = True
     Application.StatusBar = False ' Reset status bar
     
-    MsgBox "Ho?n t?t! ?? x?a " & deletedCount & " h?nh ?nh c? k?ch th??c 1.6 inch.", _
-           vbInformation, "K?t qu?"
+    MsgBox "Hoan tat! Da xoa " & deletedCount & " hinh anh co kich thuoc 1.6 inch.", _
+           vbInformation, "Ket qua"
     Exit Sub
 
 ErrorHandler:
     Application.ScreenUpdating = True
     Application.StatusBar = False
-    MsgBox "?? x?y ra l?i: " & Err.Description, vbCritical, "L?i"
+    MsgBox "Da xay ra loi: " & Err.Description, vbCritical, "Loi"
 End Sub
 
 ' ============================================================================
-' Procedure: Phi?n b?n v?i t?y ch?n n?ng cao
+' Procedure: Phien ban voi tuy chon nang cao
 ' ============================================================================
 Sub DeleteSpecificSizedImages_Advanced()
     On Error GoTo ErrorHandler
@@ -227,13 +228,13 @@ Sub DeleteSpecificSizedImages_Advanced()
     Dim deletedCount As Long
     Dim shapeIndex As Long
     
-    ' Cho ph?p ng??i d?ng ch?n ch? ?? so kh?p
-    matchMode = InputBox("Ch?n ch? ?? so kh?p:" & vbCrLf & _
-                         "1 - X?a khi width HO?C height kh?p" & vbCrLf & _
-                         "2 - X?a khi C? width V? height kh?p" & vbCrLf & _
-                         "3 - X?a khi width kh?p" & vbCrLf & _
-                         "4 - X?a khi height kh?p", _
-                         "Ch? ?? so kh?p", "1")
+    ' Cho phep nguoi dung chon che do so khop
+    matchMode = InputBox("Chon che do so khop:" & vbCrLf & _
+                         "1 - Xoa khi width HOAC height khop" & vbCrLf & _
+                         "2 - Xoa khi CA width VA height khop" & vbCrLf & _
+                         "3 - Xoa khi width khop" & vbCrLf & _
+                         "4 - Xoa khi height khop", _
+                         "Che do so khop", "1")
     
     If matchMode = "" Or Not IsNumeric(matchMode) Then Exit Sub
     
@@ -252,15 +253,15 @@ Sub DeleteSpecificSizedImages_Advanced()
                 shouldDelete = False
                 
                 Select Case matchMode
-                    Case "1" ' Width HO?C Height
+                    Case "1" ' Width HOAC Height
                         shouldDelete = (Abs(shape.Width - targetWidth) < 1) Or _
                                       (Abs(shape.Height - targetHeight) < 1)
-                    Case "2" ' Width V? Height
+                    Case "2" ' Width VA Height
                         shouldDelete = (Abs(shape.Width - targetWidth) < 1) And _
                                       (Abs(shape.Height - targetHeight) < 1)
-                    Case "3" ' Ch? Width
+                    Case "3" ' Chi Width
                         shouldDelete = (Abs(shape.Width - targetWidth) < 1)
-                    Case "4" ' Ch? Height
+                    Case "4" ' Chi Height
                         shouldDelete = (Abs(shape.Height - targetHeight) < 1)
                 End Select
                 
@@ -274,10 +275,10 @@ Sub DeleteSpecificSizedImages_Advanced()
     
     Application.ScreenUpdating = True
     
-    MsgBox "?? x?a " & deletedCount & " h?nh ?nh!", vbInformation, "K?t qu?"
+    MsgBox "Da xoa " & deletedCount & " hinh anh!", vbInformation, "Ket qua"
     Exit Sub
 
 ErrorHandler:
     Application.ScreenUpdating = True
-    MsgBox "?? x?y ra l?i: " & Err.Description, vbCritical, "L?i"
+    MsgBox "Da xay ra loi: " & Err.Description, vbCritical, "Loi"
 End Sub

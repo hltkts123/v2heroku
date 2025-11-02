@@ -12,7 +12,7 @@ Code VBA ?? ???c n?ng c?p v?i nhi?u phi?n b?n v? c?i ti?n ??ng k?.
 ```vba
 For shapeIndex = slide.Shapes.Count To 1 Step -1
     Set shape = slide.Shapes(shapeIndex)
-    ' ... x? l? v? x?a
+    ' ... xu ly va xoa
 Next shapeIndex
 ```
 
@@ -119,6 +119,10 @@ If shape.Type = msoPicture Or shape.Type = msoLinkedPicture Then
 - File l?n (>100 slides): d?ng phi?n b?n `WithProgress`
 - File nh?: d?ng phi?n b?n `Enhanced`
 
+?? **Ti?ng Vi?t trong VBA:**
+- Code VBA s? d?ng ti?ng Vi?t kh?ng d?u ?? tr?nh l?i encoding
+- MessageBox v? InputBox v?n hi?n th? b?nh th??ng trong PowerPoint
+
 ## Khuy?n ngh?:
 
 **Cho h?u h?t ng??i d?ng:** D?ng `DeleteSpecificSizedImages_Enhanced()`
@@ -131,10 +135,42 @@ If shape.Type = msoPicture Or shape.Type = msoLinkedPicture Then
 
 Khi ch?y phi?n b?n Enhanced, xem Immediate Window (`Ctrl + G`) ?? th?y log:
 ```
-?? x?a: Slide 1, Shape: Picture 5, Width: 1.6in, Height: 1.6in
-?? x?a: Slide 3, Shape: Picture 12, Width: 1.6in, Height: 0.8in
-?? x?a: Slide 5, Shape: Image_001, Width: 1.15in, Height: 1.6in
+Da xoa: Slide 1, Shape: Picture 5, Width: 1.6in, Height: 1.6in
+Da xoa: Slide 3, Shape: Picture 12, Width: 1.6in, Height: 0.8in
+Da xoa: Slide 5, Shape: Image_001, Width: 1.15in, Height: 1.6in
 ```
+
+## C?c c?i ti?n so v?i code g?c:
+
+### ? S?a l?i nghi?m tr?ng:
+```vba
+' CODE G?C (SAI) - Duy?t xu?i g?y l?i index
+For Each shape In slide.Shapes
+    If shape.Type = msoPicture Then
+        If (Abs(shape.Width - targetSize) < 1) Then
+            shape.Delete  ' X?a shape l?m index thay ??i!
+        End If
+    End If
+Next shape
+
+' CODE M?I (??NG) - Duy?t ng??c an to?n
+For shapeIndex = slide.Shapes.Count To 1 Step -1
+    Set shape = slide.Shapes(shapeIndex)
+    If shape.Type = msoPicture Or shape.Type = msoLinkedPicture Then
+        If (Abs(shape.Width - targetSize) < 1) Then
+            shape.Delete  ' An to?n v? duy?t ng??c
+        End If
+    End If
+Next shapeIndex
+```
+
+### ? Th?m t?nh n?ng m?i:
+- Input validation ??y v?o
+- Confirmation dialog tr??c khi x?a
+- Detailed statistics sau khi x?a
+- Performance optimization
+- Debug logging
+- Multiple matching modes
 
 ## Li?n h? & Support:
 
@@ -143,8 +179,16 @@ N?u c? v?n ?? ho?c c?n th?m t?nh n?ng, vui l?ng:
 2. ??m b?o PowerPoint Macro Security cho ph?p ch?y macros
 3. Ki?m tra file kh?ng b? protect/locked
 
+### C?ch b?t Macros trong PowerPoint:
+1. File > Options > Trust Center
+2. Trust Center Settings
+3. Macro Settings
+4. Ch?n "Enable all macros" (ho?c "Disable all macros with notification")
+
 ---
 
 **Version:** 2.0  
 **Date:** 2025-11-02  
-**Compatibility:** PowerPoint 2010 tr? l?n
+**Compatibility:** PowerPoint 2010 tr? l?n  
+**Language:** VBA (Visual Basic for Applications)  
+**Encoding Note:** Ti?ng Vi?t kh?ng d?u trong code ?? tr?nh l?i encoding
