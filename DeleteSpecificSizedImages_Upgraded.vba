@@ -68,9 +68,6 @@ Sub DeleteSpecificSizedImages_Enhanced()
         Exit Sub
     End If
     
-    ' Tat cap nhat man hinh de tang toc do xu ly
-    Application.ScreenUpdating = False
-    
     ' Duyet qua tung slide
     For Each slide In ActivePresentation.Slides
         ' Duyet nguoc de tranh loi khi xoa shape
@@ -97,9 +94,6 @@ Sub DeleteSpecificSizedImages_Enhanced()
         Next shapeIndex
     Next slide
     
-    ' Bat lai cap nhat man hinh
-    Application.ScreenUpdating = True
-    
     ' Hien thi ket qua
     MsgBox "Hoan tat!" & vbCrLf & vbCrLf & _
            "Tong so hinh anh: " & totalImages & vbCrLf & _
@@ -110,7 +104,6 @@ Sub DeleteSpecificSizedImages_Enhanced()
     Exit Sub
 
 ErrorHandler:
-    Application.ScreenUpdating = True
     MsgBox "Da xay ra loi: " & Err.Description & vbCrLf & _
            "Ma loi: " & Err.Number, vbCritical, "Loi"
 End Sub
@@ -180,8 +173,6 @@ Sub DeleteSpecificSizedImages_WithProgress()
     totalSlides = ActivePresentation.Slides.Count
     currentSlide = 0
     
-    Application.ScreenUpdating = False
-    
     For Each slide In ActivePresentation.Slides
         currentSlide = currentSlide + 1
         
@@ -201,7 +192,6 @@ Sub DeleteSpecificSizedImages_WithProgress()
         Next shapeIndex
     Next slide
     
-    Application.ScreenUpdating = True
     Application.StatusBar = False ' Reset status bar
     
     MsgBox "Hoan tat! Da xoa " & deletedCount & " hinh anh co kich thuoc 1.6 inch.", _
@@ -209,7 +199,6 @@ Sub DeleteSpecificSizedImages_WithProgress()
     Exit Sub
 
 ErrorHandler:
-    Application.ScreenUpdating = True
     Application.StatusBar = False
     MsgBox "Da xay ra loi: " & Err.Description, vbCritical, "Loi"
 End Sub
@@ -242,8 +231,6 @@ Sub DeleteSpecificSizedImages_Advanced()
     targetHeight = 1.6 * 72
     deletedCount = 0
     
-    Application.ScreenUpdating = False
-    
     For Each slide In ActivePresentation.Slides
         For shapeIndex = slide.Shapes.Count To 1 Step -1
             Set shape = slide.Shapes(shapeIndex)
@@ -273,12 +260,9 @@ Sub DeleteSpecificSizedImages_Advanced()
         Next shapeIndex
     Next slide
     
-    Application.ScreenUpdating = True
-    
     MsgBox "Da xoa " & deletedCount & " hinh anh!", vbInformation, "Ket qua"
     Exit Sub
 
 ErrorHandler:
-    Application.ScreenUpdating = True
     MsgBox "Da xay ra loi: " & Err.Description, vbCritical, "Loi"
 End Sub
