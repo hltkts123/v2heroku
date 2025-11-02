@@ -1,9 +1,9 @@
 #!/bin/bash
-# PowerPoint Image Remover - Run Script (Mac/Linux)
+# PowerPoint Cleaner - Run Script (Mac/Linux)
 # Script chay ung dung tren Mac/Linux
 
-echo "Dang khoi dong PowerPoint Image Remover..."
-python3 ppt_image_remover.py
+echo "Dang khoi dong PowerPoint Cleaner..."
+python3 ppt_cleaner.py
 
 if [ $? -ne 0 ]; then
     echo ""

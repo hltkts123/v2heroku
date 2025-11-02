@@ -1,9 +1,9 @@
 @echo off
-REM PowerPoint Image Remover - Run Script (Windows)
+REM PowerPoint Cleaner - Run Script (Windows)
 REM Script chay ung dung tren Windows
 
-echo Dang khoi dong PowerPoint Image Remover...
-python ppt_image_remover.py
+echo Dang khoi dong PowerPoint Cleaner...
+python ppt_cleaner.py
 
 if %errorlevel% neq 0 (
     echo.
