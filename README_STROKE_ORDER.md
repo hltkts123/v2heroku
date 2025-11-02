@@ -1,77 +1,77 @@
-# Stroke Order Downloader - T?i ?nh Th? T? N?t Ch? H?n
+# Stroke Order Downloader - Tai Anh Thu Tu Net Chu Han
 
-## T?nh n?ng m?i
+## Tinh nang moi
 
-### ? C?i ti?n so v?i phi?n b?n c?:
+### ? Cai tien so voi phien ban cu:
 
-1. **?a lu?ng (Multi-threading)**
-   - T?i nhi?u ?nh song song (t?i ?a 5 ?nh c?ng l?c)
-   - UI kh?ng b? ??ng b?ng trong khi t?i
-   - T?c ?? t?i nhanh h?n ??ng k?
+1. **Da luong (Multi-threading)**
+   - Tai nhieu anh song song (toi da 5 anh cung luc)
+   - UI khong bi dong bang trong khi tai
+   - Toc do tai nhanh hon dang ke
 
-2. **Thanh ti?n tr?nh (Progress Bar)**
-   - Hi?n th? ti?n ?? t?i ?nh
-   - Cho bi?t s? l??ng ?nh ?? x? l?
+2. **Thanh tien trinh (Progress Bar)**
+   - Hien thi tien do tai anh
+   - Cho biet so luong anh da xu ly
 
-3. **T? ch?c code t?t h?n**
-   - S? d?ng OOP v?i classes r? r?ng
-   - Type hints cho Python hi?n ??i
-   - D? b?o tr? v? m? r?ng
+3. **To chuc code tot hon**
+   - Su dung OOP voi classes ro rang
+   - Type hints cho Python hien dai
+   - De bao tri va mo rong
 
 4. **Cross-platform**
-   - Ho?t ??ng t?t tr?n Windows, macOS, v? Linux
-   - Th? m?c m?c ??nh t? ??ng ?i?u ch?nh theo h? ?i?u h?nh
+   - Hoat dong tot tren Windows, macOS, va Linux
+   - Thu muc mac dinh tu dong dieu chinh theo he dieu hanh
 
-5. **T?nh n?ng m?i**
-   - N?t **H?y** ?? d?ng qu? tr?nh t?i
-   - Lo?i b? k? t? tr?ng l?p t? ??ng
-   - Th?ng k? k?t qu? (th?nh c?ng/th?t b?i)
-   - M?u s?c ph?n bi?t c?c lo?i th?ng b?o
+5. **Tinh nang moi**
+   - Nut **Huy** de dung qua trinh tai
+   - Loai bo ky tu trung lap tu dong
+   - Thong ke ket qua (thanh cong/that bai)
+   - Mau sac phan biet cac loai thong bao
 
-6. **UI hi?n ??i h?n**
-   - S? d?ng ttk widgets (giao di?n ??p h?n)
-   - Scrollbar cho khu v?c k?t qu?
-   - Layout ???c t? ch?c t?t h?n
-   - H? tr? ph?m Enter ?? b?t ??u t?i
+6. **UI hien dai hon**
+   - Su dung ttk widgets (giao dien dep hon)
+   - Scrollbar cho khu vuc ket qua
+   - Layout duoc to chuc tot hon
+   - Ho tro phim Enter de bat dau tai
 
-7. **Error Handling t?t h?n**
-   - X? l? l?i chi ti?t v? r? r?ng
+7. **Error Handling tot hon**
+   - Xu ly loi chi tiet va ro rang
    - Session management cho requests
    - Timeout handling
 
-## C?i ??t
+## Cai dat
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## S? d?ng
+## Su dung
 
 ```bash
 python stroke_order_downloader.py
 ```
 
-### H??ng d?n:
+### Huong dan:
 
-1. Nh?p c?c k? t? ti?ng Trung v?o ? nh?p li?u
-2. (T?y ch?n) Ch?n th? m?c l?u ?nh kh?c
-3. Nh?n "B?t ??u t?i" ho?c ph?m Enter
-4. Xem k?t qu? trong khung b?n d??i
+1. Nhap cac ky tu tieng Trung vao o nhap lieu
+2. (Tuy chon) Chon thu muc luu anh khac
+3. Nhan "Bat dau tai" hoac phim Enter
+4. Xem ket qua trong khung ben duoi
 
-### V? d? input:
+### Vi du input:
 
-- `????` - C?c k? t? li?n nhau
-- `?,?,?,?` - C?ch nhau b?ng d?u ph?y
-- `? ? ? ?` - C?ch nhau b?ng kho?ng tr?ng
-- `??,??` - K?t h?p
+- `????` - Cac ky tu lien nhau
+- `?,?,?,?` - Cach nhau bang dau phay
+- `? ? ? ?` - Cach nhau bang khoang trang
+- `??,??` - Ket hop
 
-## Th? m?c m?c ??nh
+## Thu muc mac dinh
 
 - **Windows**: `C:\Users\<username>\Stroke_images`
 - **macOS/Linux**: `~/Stroke_images`
 
-## Y?u c?u h? th?ng
+## Yeu cau he thong
 
 - Python 3.7+
-- K?t n?i internet
-- Tkinter (th??ng ?i k?m v?i Python)
+- Ket noi internet
+- Tkinter (thuong di kem voi Python)

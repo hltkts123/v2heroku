@@ -1,6 +1,6 @@
 """
-?ng d?ng t?i ?nh th? t? n?t ch? H?n t? strokeorder.info
-Phi?n b?n c?i ti?n v?i ?a lu?ng v? UI hi?n ??i
+Ung dung tai anh thu tu net chu Han tu strokeorder.info
+Phien ban cai tien voi da luong va UI hien dai
 """
 
 import os
@@ -15,7 +15,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
 class StrokeOrderDownloader:
-    """Class qu?n l? vi?c t?i ?nh th? t? n?t ch? H?n"""
+    """Class quan ly viec tai anh thu tu net chu Han"""
     
     BASE_URL = "http://www.strokeorder.info/mandarin.php"
     DEFAULT_TIMEOUT = 10
@@ -29,18 +29,18 @@ class StrokeOrderDownloader:
         self._cancelled = False
     
     def cancel(self):
-        """H?y qu? tr?nh t?i"""
+        """Huy qua trinh tai"""
         self._cancelled = True
     
     def get_image_url(self, character: str) -> Optional[str]:
         """
-        L?y URL ?nh cho m?t k? t?
+        Lay URL anh cho mot ky tu
         
         Args:
-            character: K? t? c?n t?m ?nh
+            character: Ky tu can tim anh
             
         Returns:
-            URL c?a ?nh ho?c None n?u kh?ng t?m th?y
+            URL cua anh hoac None neu khong tim thay
         """
         try:
             url = f"{self.BASE_URL}?q={character}"
@@ -62,18 +62,18 @@ class StrokeOrderDownloader:
     
     def download_image(self, image_url: str, character: str, folder_path: Path) -> tuple[bool, str]:
         """
-        T?i ?nh v? m?y
+        Tai anh ve may
         
         Args:
-            image_url: URL c?a ?nh
-            character: T?n k? t? (d?ng l?m t?n file)
-            folder_path: Th? m?c l?u ?nh
+            image_url: URL cua anh
+            character: Ten ky tu (dung lam ten file)
+            folder_path: Thu muc luu anh
             
         Returns:
             Tuple (success, message)
         """
         if self._cancelled:
-            return False, "?? h?y"
+            return False, "Da huy"
         
         try:
             response = self.session.get(image_url, timeout=self.DEFAULT_TIMEOUT)
@@ -82,45 +82,45 @@ class StrokeOrderDownloader:
                 file_path = folder_path / f"{character}.gif"
                 with open(file_path, "wb") as f:
                     f.write(response.content)
-                return True, f"? ?? t?i: {character}"
+                return True, f"? Da tai: {character}"
             else:
-                return False, f"? L?i HTTP {response.status_code}: {character}"
+                return False, f"? Loi HTTP {response.status_code}: {character}"
                 
         except requests.RequestException as e:
-            return False, f"? L?i t?i {character}: {str(e)}"
+            return False, f"? Loi tai {character}: {str(e)}"
     
     def process_character(self, character: str, folder_path: Path) -> tuple[bool, str]:
         """
-        X? l? m?t k? t?: l?y URL v? t?i ?nh
+        Xu ly mot ky tu: lay URL va tai anh
         
         Args:
-            character: K? t? c?n x? l?
-            folder_path: Th? m?c l?u ?nh
+            character: Ky tu can xu ly
+            folder_path: Thu muc luu anh
             
         Returns:
             Tuple (success, message)
         """
         if self._cancelled:
-            return False, "?? h?y"
+            return False, "Da huy"
         
         image_url = self.get_image_url(character)
         
         if not image_url:
-            return False, f"?? Kh?ng t?m th?y ?nh cho '{character}'"
+            return False, f"?? Khong tim thay anh cho '{character}'"
         
         return self.download_image(image_url, character, folder_path)
 
 
 class StrokeOrderApp:
-    """?ng d?ng GUI cho vi?c t?i ?nh th? t? n?t"""
+    """Ung dung GUI cho viec tai anh thu tu net"""
     
     def __init__(self, root: tk.Tk):
         self.root = root
-        self.root.title("T?i ?nh Th? T? N?t Ch? H?n")
+        self.root.title("Tai Anh Thu Tu Net Chu Han")
         self.root.geometry("700x550")
         self.root.resizable(False, False)
         
-        # Thi?t l?p th? m?c m?c ??nh (cross-platform)
+        # Thiet lap thu muc mac dinh (cross-platform)
         home_dir = Path.home()
         self.default_folder = home_dir / "Stroke_images"
         self.default_folder.mkdir(parents=True, exist_ok=True)
@@ -132,27 +132,27 @@ class StrokeOrderApp:
         self._setup_ui()
     
     def _setup_ui(self):
-        """Thi?t l?p giao di?n ng??i d?ng"""
+        """Thiet lap giao dien nguoi dung"""
         
-        # Frame ch?nh
+        # Frame chinh
         main_frame = ttk.Frame(self.root, padding="10")
         main_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Ti?u ??
+        # Tieu de
         title_label = ttk.Label(
             main_frame, 
-            text="T?i ?nh Th? T? N?t Ch? H?n",
+            text="Tai Anh Thu Tu Net Chu Han",
             font=("Arial", 16, "bold")
         )
         title_label.pack(pady=(0, 10))
         
-        # Frame nh?p li?u
-        input_frame = ttk.LabelFrame(main_frame, text="Nh?p d? li?u", padding="10")
+        # Frame nhap lieu
+        input_frame = ttk.LabelFrame(main_frame, text="Nhap du lieu", padding="10")
         input_frame.pack(fill=tk.X, pady=5)
         
         instruction_label = ttk.Label(
             input_frame, 
-            text="Nh?p c?c k? t? ti?ng Trung (c? th? c?ch nhau b?ng d?u ph?y ho?c kho?ng tr?ng):"
+            text="Nhap cac ky tu tieng Trung (co the cach nhau bang dau phay hoac khoang trang):"
         )
         instruction_label.pack(anchor=tk.W)
         
@@ -160,8 +160,8 @@ class StrokeOrderApp:
         self.entry.pack(fill=tk.X, pady=5)
         self.entry.bind("<Return>", lambda e: self.start_download())
         
-        # Frame th? m?c
-        folder_frame = ttk.LabelFrame(main_frame, text="Th? m?c l?u ?nh", padding="10")
+        # Frame thu muc
+        folder_frame = ttk.LabelFrame(main_frame, text="Thu muc luu anh", padding="10")
         folder_frame.pack(fill=tk.X, pady=5)
         
         folder_display_frame = ttk.Frame(folder_frame)
@@ -177,18 +177,18 @@ class StrokeOrderApp:
         
         folder_button = ttk.Button(
             folder_display_frame, 
-            text="Ch?n th? m?c", 
+            text="Chon thu muc", 
             command=self.select_folder
         )
         folder_button.pack(side=tk.RIGHT, padx=(10, 0))
         
-        # Frame n?t ?i?u khi?n
+        # Frame nut dieu khien
         button_frame = ttk.Frame(main_frame)
         button_frame.pack(pady=10)
         
         self.download_button = ttk.Button(
             button_frame, 
-            text="?? B?t ??u t?i", 
+            text="?? Bat dau tai", 
             command=self.start_download,
             width=20
         )
@@ -196,18 +196,18 @@ class StrokeOrderApp:
         
         self.cancel_button = ttk.Button(
             button_frame, 
-            text="?? H?y", 
+            text="?? Huy", 
             command=self.cancel_download,
             state=tk.DISABLED,
             width=20
         )
         self.cancel_button.pack(side=tk.LEFT, padx=5)
         
-        # Thanh ti?n tr?nh
+        # Thanh tien trinh
         progress_frame = ttk.Frame(main_frame)
         progress_frame.pack(fill=tk.X, pady=5)
         
-        self.progress_label = ttk.Label(progress_frame, text="S?n s?ng")
+        self.progress_label = ttk.Label(progress_frame, text="San sang")
         self.progress_label.pack()
         
         self.progress_bar = ttk.Progressbar(
@@ -217,8 +217,8 @@ class StrokeOrderApp:
         )
         self.progress_bar.pack(fill=tk.X, pady=5)
         
-        # Khu v?c hi?n th? k?t qu?
-        result_frame = ttk.LabelFrame(main_frame, text="K?t qu?", padding="5")
+        # Khu vuc hien thi ket qua
+        result_frame = ttk.LabelFrame(main_frame, text="Ket qua", padding="5")
         result_frame.pack(fill=tk.BOTH, expand=True, pady=5)
         
         # Scrollbar cho text widget
@@ -234,25 +234,25 @@ class StrokeOrderApp:
         self.result_text.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.config(command=self.result_text.yview)
         
-        # Th?m tags cho text m?u s?c
+        # Them tags cho text mau sac
         self.result_text.tag_config("success", foreground="green")
         self.result_text.tag_config("error", foreground="red")
         self.result_text.tag_config("warning", foreground="orange")
         self.result_text.tag_config("info", foreground="blue")
     
     def select_folder(self):
-        """Ch?n th? m?c l?u ?nh"""
+        """Chon thu muc luu anh"""
         folder_selected = filedialog.askdirectory(initialdir=self.folder_path_var.get())
         if folder_selected:
             self.folder_path_var.set(folder_selected)
     
     def log_message(self, message: str, tag: str = "info"):
         """
-        Th?m message v?o khu v?c k?t qu?
+        Them message vao khu vuc ket qua
         
         Args:
-            message: N?i dung message
-            tag: Tag ?? ??nh d?ng (success, error, warning, info)
+            message: Noi dung message
+            tag: Tag de dinh dang (success, error, warning, info)
         """
         self.result_text.insert(tk.END, message + "\n", tag)
         self.result_text.see(tk.END)
@@ -260,17 +260,17 @@ class StrokeOrderApp:
     
     def parse_input(self, text: str) -> List[str]:
         """
-        Ph?n t?ch input v? tr?ch xu?t c?c k? t?
+        Phan tich input va trich xuat cac ky tu
         
         Args:
-            text: Chu?i input t? ng??i d?ng
+            text: Chuoi input tu nguoi dung
             
         Returns:
-            List c?c k? t? duy nh?t
+            List cac ky tu duy nhat
         """
-        # Lo?i b? d?u ph?y v? kho?ng tr?ng
+        # Loai bo dau phay va khoang trang
         characters = [char for char in text if char not in [",", " ", "\n", "\t"]]
-        # Lo?i b? tr?ng l?p nh?ng gi? th? t?
+        # Loai bo trung lap nhung giu thu tu
         seen = set()
         unique_chars = []
         for char in characters:
@@ -280,13 +280,13 @@ class StrokeOrderApp:
         return unique_chars
     
     def start_download(self):
-        """B?t ??u qu? tr?nh t?i ?nh"""
+        """Bat dau qua trinh tai anh"""
         if self.is_downloading:
             return
         
         words_input = self.entry.get().strip()
         if not words_input:
-            messagebox.showwarning("C?nh b?o", "B?n ch?a nh?p t? n?o!")
+            messagebox.showwarning("Canh bao", "Ban chua nhap tu nao!")
             return
         
         folder_path = Path(self.folder_path_var.get())
@@ -294,10 +294,10 @@ class StrokeOrderApp:
             try:
                 folder_path.mkdir(parents=True, exist_ok=True)
             except Exception as e:
-                messagebox.showerror("L?i", f"Kh?ng th? t?o th? m?c: {e}")
+                messagebox.showerror("Loi", f"Khong the tao thu muc: {e}")
                 return
         
-        # Chu?n b? UI
+        # Chuan bi UI
         self.is_downloading = True
         self.download_button.config(state=tk.DISABLED)
         self.cancel_button.config(state=tk.NORMAL)
@@ -306,11 +306,11 @@ class StrokeOrderApp:
         
         # Parse input
         characters = self.parse_input(words_input)
-        self.log_message(f"?? T?m th?y {len(characters)} k? t? duy nh?t", "info")
-        self.log_message(f"?? Th? m?c l?u: {folder_path}", "info")
+        self.log_message(f"?? Tim thay {len(characters)} ky tu duy nhat", "info")
+        self.log_message(f"?? Thu muc luu: {folder_path}", "info")
         self.log_message("?" * 60, "info")
         
-        # Ch?y download trong thread ri?ng
+        # Chay download trong thread rieng
         thread = threading.Thread(
             target=self._download_worker,
             args=(characters, folder_path),
@@ -320,11 +320,11 @@ class StrokeOrderApp:
     
     def _download_worker(self, characters: List[str], folder_path: Path):
         """
-        Worker function ch?y trong thread ri?ng ?? t?i ?nh
+        Worker function chay trong thread rieng de tai anh
         
         Args:
-            characters: List k? t? c?n t?i
-            folder_path: Th? m?c l?u ?nh
+            characters: List ky tu can tai
+            folder_path: Thu muc luu anh
         """
         self.downloader = StrokeOrderDownloader()
         
@@ -335,15 +335,15 @@ class StrokeOrderApp:
         success_count = 0
         fail_count = 0
         
-        # S? d?ng ThreadPoolExecutor ?? t?i song song
+        # Su dung ThreadPoolExecutor de tai song song
         with ThreadPoolExecutor(max_workers=StrokeOrderDownloader.MAX_WORKERS) as executor:
-            # Submit t?t c? c?c task
+            # Submit tat ca cac task
             future_to_char = {
                 executor.submit(self.downloader.process_character, char, folder_path): char
                 for char in characters
             }
             
-            # X? l? k?t qu? khi ho?n th?nh
+            # Xu ly ket qua khi hoan thanh
             for i, future in enumerate(as_completed(future_to_char), 1):
                 char = future_to_char[future]
                 
@@ -359,45 +359,45 @@ class StrokeOrderApp:
                         fail_count += 1
                     
                 except Exception as e:
-                    self.log_message(f"? L?i x? l? '{char}': {str(e)}", "error")
+                    self.log_message(f"? Loi xu ly '{char}': {str(e)}", "error")
                     fail_count += 1
                 
                 # Update progress
                 self.progress_bar["value"] = i
-                self.progress_label.config(text=f"?ang x? l?: {i}/{len(characters)}")
+                self.progress_label.config(text=f"Dang xu ly: {i}/{len(characters)}")
                 self.root.update_idletasks()
         
-        # Ho?n th?nh
+        # Hoan thanh
         self.log_message("?" * 60, "info")
         if self.downloader._cancelled:
-            self.log_message("?? ?? h?y qu? tr?nh t?i!", "warning")
+            self.log_message("?? Da huy qua trinh tai!", "warning")
         else:
-            self.log_message("?? Qu? tr?nh t?i ho?n t?t!", "success")
+            self.log_message("?? Qua trinh tai hoan tat!", "success")
         
-        self.log_message(f"?? Th?ng k?: {success_count} th?nh c?ng, {fail_count} th?t b?i", "info")
+        self.log_message(f"?? Thong ke: {success_count} thanh cong, {fail_count} that bai", "info")
         
         # Reset UI
         self._reset_ui()
     
     def cancel_download(self):
-        """H?y qu? tr?nh t?i"""
+        """Huy qua trinh tai"""
         if self.downloader:
             self.downloader.cancel()
             self.cancel_button.config(state=tk.DISABLED)
-            self.log_message("? ?ang h?y...", "warning")
+            self.log_message("? Dang huy...", "warning")
     
     def _reset_ui(self):
-        """Reset UI v? tr?ng th?i ban ??u"""
+        """Reset UI ve trang thai ban dau"""
         self.is_downloading = False
         self.download_button.config(state=tk.NORMAL)
         self.cancel_button.config(state=tk.DISABLED)
         self.entry.config(state=tk.NORMAL)
-        self.progress_label.config(text="Ho?n th?nh")
+        self.progress_label.config(text="Hoan thanh")
         self.downloader = None
 
 
 def main():
-    """H?m main ?? ch?y ?ng d?ng"""
+    """Ham main de chay ung dung"""
     root = tk.Tk()
     app = StrokeOrderApp(root)
     root.mainloop()
