@@ -12,6 +12,7 @@
 2. **Thanh tien trinh (Progress Bar)**
    - Hien thi tien do tai anh
    - Cho biet so luong anh da xu ly
+   - Hien thi phan tram hoan thanh
 
 3. **To chuc code tot hon**
    - Su dung OOP voi classes ro rang
@@ -23,17 +24,19 @@
    - Thu muc mac dinh tu dong dieu chinh theo he dieu hanh
 
 5. **Tinh nang moi**
-   - Nut **Huy** de dung qua trinh tai
+   - Nut **Huy bo** de dung qua trinh tai
    - Nut **Mo thu muc** de mo folder chua anh
    - **Luu nho thu muc** da chon trong lan su dung gan nhat
    - Loai bo ky tu trung lap tu dong
-   - Thong ke ket qua (thanh cong/that bai)
+   - Thong ke ket qua chi tiet (thanh cong/that bai)
    - Mau sac phan biet cac loai thong bao
 
 6. **UI hien dai hon**
-   - Su dung icon/emoji dep mat
+   - Giao dien ro rang, khong dung emoji (hoat dong tren moi he thong)
    - Su dung ttk widgets (giao dien dep hon)
    - Scrollbar cho khu vuc ket qua
+   - Font Consolas cho log de doc
+   - Mau sac trang thai sinh dong
    - Layout duoc to chuc tot hon
    - Ho tro phim Enter de bat dau tai
 
@@ -57,9 +60,9 @@ python stroke_order_downloader.py
 ### Huong dan:
 
 1. Nhap cac ky tu tieng Trung vao o nhap lieu
-2. (Tuy chon) Chon thu muc luu anh khac bang nut **?? Chon**
-3. (Tuy chon) Mo thu muc hien tai bang nut **??? Mo**
-4. Nhan **?? Bat dau tai** hoac phim Enter
+2. (Tuy chon) Chon thu muc luu anh khac bang nut **[+] Chon Thu Muc**
+3. (Tuy chon) Mo thu muc hien tai bang nut **[>] Mo Thu Muc**
+4. Nhan **>> BAT DAU TAI <<** hoac phim Enter
 5. Xem ket qua trong khung ben duoi
 
 ### Vi du input:
@@ -87,18 +90,32 @@ Ung dung tu dong luu thu muc ban chon vao file config:
 - Ket noi internet
 - Tkinter (thuong di kem voi Python)
 
-## Icon va ky hieu
+## Mau sac va trang thai
 
-- ? - Thanh cong
-- ? - Loi
-- ?? - Canh bao
-- ?? - Thong tin
-- ?? - Thu muc
-- ?? - Bat dau
-- ?? - Huy
-- ?? - Tam dung
-- ?? - Hoan thanh
-- ?? - Thong ke
-- ? - Dang xu ly
-- ??? - Mo thu muc
-- ?? - Chon thu muc
+- **Xanh la (Green)** - Thanh cong
+- **Do (Red)** - Loi
+- **Cam (Orange)** - Canh bao
+- **Xanh duong (Blue)** - Thong tin
+
+## Cac nut chuc nang
+
+- **[+] Chon Thu Muc** - Chon thu muc luu anh
+- **[>] Mo Thu Muc** - Mo thu muc trong File Explorer
+- **>> BAT DAU TAI <<** - Bat dau tai anh
+- **[X] HUY BO** - Huy qua trinh tai
+
+## Build thanh file EXE (tuy chon)
+
+Neu ban muon tao file .exe de chay khong can Python:
+
+```bash
+pip install pyinstaller
+pyinstaller --onefile --windowed --name "StrokeOrderDownloader" stroke_order_downloader.py
+```
+
+File exe se nam trong thu muc `dist/`
+
+## Luu y
+
+- Giao dien su dung text thuong thay vi emoji de dam bao hoat dong tren moi he thong
+- Neu muon phien ban co emoji, can Windows 10+ hoac macOS voi font ho tro
