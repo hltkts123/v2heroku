@@ -1,0 +1,78 @@
+╔══════════════════════════════════════════════════════════════╗
+║        POWERPOINT CLEANER - HƯỚNG DẪN NHANH                  ║
+╚══════════════════════════════════════════════════════════════╝
+
+█ CÀI ĐẶT (Chỉ 1 lần):
+
+  Windows:
+    1. Cài Python từ python.org (Tick "Add to PATH")
+    2. Double-click: install_full.bat
+  
+  Mac/Linux:
+    1. Terminal: chmod +x install_full.sh
+    2. Chạy: ./install_full.sh
+
+█ CHẠY ỨNG DỤNG:
+
+  Windows: Double-click run_launcher.bat
+  Mac/Linux: ./run_launcher.sh
+
+█ SỬ DỤNG:
+
+  1. Chọn công cụ trong Launcher:
+     - PowerPoint Cleaner: Xóa ảnh + lọc text
+     - Stroke Order: Tải ảnh chữ Hán
+  
+  2. PowerPoint Cleaner:
+     - Chọn file hoặc folder (.pptx)
+     - Chọn chế độ: Cả hai / Chỉ ảnh / Chỉ text
+     - Cấu hình tùy chọn
+     - Xử lý file
+  
+  3. Stroke Order:
+     - Nhập ký tự chữ Hán (ví dụ: 我爱中文)
+     - Chọn thư mục lưu
+     - Tải ảnh
+
+█ VÍ DỤ:
+
+  Xóa hình 1.6x1.6 inch:
+    Tab "Xóa hình ảnh" > Width=1.6, Height=1.6
+    > Chế độ AND > Xử lý
+  
+  Giữ tiếng Việt, xóa tiếng Anh:
+    Tab "Lọc text" > "Xóa tiếng Anh"
+    > Xử lý
+  
+  Tải ảnh chữ Hán:
+    Stroke Order > Nhập: 我爱中文
+    > Chọn folder > Tải
+
+█ LƯU Ý:
+
+  - Chỉ hỗ trợ file .pptx (không hỗ trợ .ppt cũ)
+  - Nên bật "Tự động backup"
+  - Đóng PowerPoint trước khi xử lý
+  - Format text được giữ nguyên (font, size, color, bold...)
+
+█ LỖI THƯỜNG GẶP:
+
+  "python not found"
+    → Chưa cài Python hoặc chưa add vào PATH
+  
+  "No module named pptx"
+    → Chạy lại install_full.bat/install_full.sh
+  
+  "Permission denied"
+    → Đóng file PowerPoint đang mở
+
+═══════════════════════════════════════════════════════════════
+
+Files trong gói:
+  - launcher.py: Launcher chính
+  - ppt_cleaner_batch.py: PowerPoint Cleaner
+  - stroke_order_downloader.py: Tải ảnh chữ Hán
+  - README*.md: Hướng dẫn chi tiết
+
+Website: python.org
+Version: 4.1
