@@ -18,9 +18,9 @@ class PowerPointCleaner:
     def __init__(self, root):
         self.root = root
         self.root.title("PowerPoint Cleaner")
-        self.root.geometry("900x850")
+        self.root.geometry("1050x980")
         self.root.resizable(True, True)
-        self.root.minsize(750, 700)
+        self.root.minsize(950, 880)
         
         # Variables
         self.file_path = None
@@ -53,9 +53,37 @@ class PowerPointCleaner:
         )
         subtitle_label.pack()
         
-        # Main content
-        main_frame = tk.Frame(self.root, padx=20, pady=15)
-        main_frame.pack(fill=tk.BOTH, expand=True)
+        # Main content with scrollbar
+        main_container = tk.Frame(self.root)
+        main_container.pack(fill=tk.BOTH, expand=True)
+        
+        # Canvas for scrolling
+        canvas = tk.Canvas(main_container)
+        scrollbar = tk.Scrollbar(main_container, orient="vertical", command=canvas.yview)
+        
+        main_frame = tk.Frame(canvas, padx=15, pady=10)
+        
+        # Configure scroll region
+        main_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+        
+        canvas.create_window((0, 0), window=main_frame, anchor="nw", width=canvas.winfo_width())
+        canvas.configure(yscrollcommand=scrollbar.set)
+        
+        # Pack canvas and scrollbar
+        canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        
+        # Mouse wheel scrolling
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)
+        canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))
+        canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))
+        
+        # Update canvas width on window resize
+        def _on_canvas_configure(event):
+            canvas.itemconfig(canvas.find_withtag("all")[0], width=event.width)
+        canvas.bind("<Configure>", _on_canvas_configure)
         
         # File selection
         file_frame = tk.LabelFrame(main_frame, text="1. Chon file PowerPoint", font=("Arial", 11, "bold"), padx=10, pady=10)

@@ -1,0 +1,132 @@
+╔══════════════════════════════════════════════════════════════╗
+║           ĐÃ SỬA LẠI KÍCH THƯỚC CỬA SỔ                      ║
+╚══════════════════════════════════════════════════════════════╝
+
+✅ ĐÃ KHẮC PHỤC:
+
+   1. KÍCH THƯỚC CỬA SỔ TOO NHỎ
+      ❌ Trước: 900x850 (single), 950x900 (batch)
+      ✅ Sau: 1050x980 (single), 1100x1000 (batch)
+   
+   2. NÚT "XỬ LÝ FILE" KHÔNG HIỂN THỊ
+      ✅ Đã thêm SCROLLBAR để cuộn nội dung
+      ✅ Tất cả nội dung đều hiển thị đầy đủ
+   
+   3. THU PHÓNG CỬA SỔ
+      ✅ Khi thu phóng cửa sổ → Nội dung tự động co giãn
+      ✅ Responsive layout: Tự động điều chỉnh theo kích thước
+
+
+═══════════════════════════════════════════════════════════════
+
+🎯 TÍNH NĂNG MỚI:
+
+   1. SCROLLBAR DỌC
+      - Thanh cuộn dọc bên phải
+      - Cuộn bằng chuột (mouse wheel)
+      - Cuộn bằng kéo thanh scrollbar
+   
+   2. RESPONSIVE LAYOUT
+      - Phóng to cửa sổ → Nội dung giãn rộng
+      - Thu nhỏ cửa sổ → Nội dung co lại
+      - Tỷ lệ luôn cân đối
+   
+   3. KÍCH THƯỚC TỐI ƯU
+      - Cửa sổ mặc định: Đủ lớn hiển thị tất cả
+      - Kích thước tối thiểu: 950x880 (single), 1000x900 (batch)
+      - Có thể phóng to toàn màn hình
+
+
+═══════════════════════════════════════════════════════════════
+
+📋 HƯỚNG DẪN SỬ DỤNG:
+
+   CÁCH 1: SỬ DỤNG SCROLLBAR
+   1. Mở tool (run.bat hoặc run_batch.bat)
+   2. Nếu nội dung dài → Cuộn chuột để xem
+   3. Hoặc kéo thanh scrollbar bên phải
+   4. Nút "Xử lý file" luôn hiển thị ở dưới cùng
+   
+   CÁCH 2: PHÓNG TO CỬA SỔ
+   1. Kéo góc cửa sổ để phóng to
+   2. Hoặc click nút Maximize (phóng to toàn màn hình)
+   3. Nội dung tự động giãn ra
+   
+   CÁCH 3: THU NHỎ CỬA SỔ
+   1. Thu nhỏ cửa sổ nếu cần
+   2. Scrollbar sẽ xuất hiện tự động
+   3. Cuộn để xem nội dung bị ẩn
+
+
+═══════════════════════════════════════════════════════════════
+
+🔧 CHI TIẾT KỸ THUẬT:
+
+   CỬA SỔ CHÍNH:
+   • ppt_cleaner.py: 1050x980 pixels
+   • ppt_cleaner_batch.py: 1100x1000 pixels
+   
+   KÍCH THƯỚC TỐI THIỂU:
+   • ppt_cleaner.py: 950x880 pixels
+   • ppt_cleaner_batch.py: 1000x900 pixels
+   
+   SCROLLBAR:
+   • Tự động hiển thị khi nội dung dài
+   • Hỗ trợ mouse wheel (Windows/Mac/Linux)
+   • Hỗ trợ touchpad 2 fingers scroll
+   
+   RESPONSIVE:
+   • Canvas tự động resize theo cửa sổ
+   • Tất cả widgets co giãn theo tỷ lệ
+   • Không bị lỗi layout khi resize
+
+
+═══════════════════════════════════════════════════════════════
+
+✅ KIỂM TRA:
+
+   1. Mở tool lên
+   2. Kiểm tra thấy NÚT "▶ XỬ LÝ FILE" → OK
+   3. Nếu không thấy → Cuộn xuống dưới
+   4. Phóng to/thu nhỏ cửa sổ → Kiểm tra responsive
+   5. Cuộn chuột → Kiểm tra scrollbar hoạt động
+
+
+═══════════════════════════════════════════════════════════════
+
+📥 CẬP NHẬT:
+
+   CÁC FILE ĐÃ SỬA:
+   ✓ ppt_cleaner.py (version 3.1)
+   ✓ ppt_cleaner_batch.py (version 3.1)
+   
+   CÁCH CẬP NHẬT:
+   1. Tải file PowerPoint_Cleaner_v3.1_FINAL.zip
+   2. Giải nén và thay thế file cũ
+   3. Chạy lại: run.bat hoặc run_batch.bat
+
+
+═══════════════════════════════════════════════════════════════
+
+❓ FAQ:
+
+   Q: Tôi vẫn không thấy nút "Xử lý file"?
+   A: Cuộn chuột xuống dưới, hoặc phóng to cửa sổ
+   
+   Q: Scrollbar không hoạt động?
+   A: Thử click vào canvas trước, sau đó cuộn chuột
+   
+   Q: Cửa sổ quá to?
+   A: Thu nhỏ bằng cách kéo góc cửa sổ
+   
+   Q: Nội dung không co giãn khi resize?
+   A: Đảm bảo đang dùng version 3.1 mới nhất
+
+
+═══════════════════════════════════════════════════════════════
+
+Version: 3.1
+Ngày cập nhật: 2025-11-02
+Tương thích: Windows, macOS, Linux
+
+═══════════════════════════════════════════════════════════════
