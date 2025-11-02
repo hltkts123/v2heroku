@@ -1,0 +1,175 @@
+================================================================================
+                         QUICK START GUIDE
+                    Bat dau nhanh trong 5 phut!
+================================================================================
+
+                    *** DUNG GEMINI AI - NHANH NHAT! ***
+
+================================================================================
+                            BUOC 1: CAI DAT
+================================================================================
+
+1. Cai dat Python (neu chua co):
+   https://www.python.org/downloads/
+   
+   LUU Y: Tick vao "Add Python to PATH"!
+
+2. Mo Command Prompt (Windows) hoac Terminal (Mac/Linux)
+
+3. Di chuyen den thu muc chua code:
+   cd duong\dan\den\thu\muc
+
+4. Cai dat thu vien:
+   pip install -r requirements.txt
+
+================================================================================
+                        BUOC 2: LAY API KEY (1 PHUT)
+================================================================================
+
+1. Truy cap: https://aistudio.google.com/app/apikey
+
+2. Dang nhap Google
+
+3. Click "Create API Key"
+
+4. Copy API key (chuoi dai khoang 39 ky tu)
+
+MIEN PHI! KHONG HET HAN!
+
+================================================================================
+                        BUOC 3: CHAY UNG DUNG
+================================================================================
+
+Trong Command Prompt/Terminal, go:
+
+    python stroke_order_downloader.py
+
+Cua so ung dung se mo ra!
+
+================================================================================
+                    BUOC 4: CAU HINH API KEY (30 GIAY)
+================================================================================
+
+Trong ung dung:
+
+1. Dan API key vao o "Gemini API Key"
+
+2. Click nut "Luu API Key"
+
+3. XONG! Khong can lam lai nua!
+
+================================================================================
+                    BUOC 5: SU DUNG AI (30 GIAY)
+================================================================================
+
+1. Click nut "[+] Chon Anh Chua Chu Han"
+
+2. Chon anh co chu Han:
+   - Anh chup man hinh
+   - Anh sach
+   - Anh chup tu dien thoai
+   - Bat ky anh nao co chu Han!
+
+3. Click nut "[AI] Nhan Dang Chu Han"
+
+4. Doi 2-5 giay (AI dang xu ly)
+
+5. Chu Han se TU DONG hien thi!
+
+6. Click ">> BAT DAU TAI STROKE <<"
+
+7. XONG!
+
+================================================================================
+                        VI DU MINH HOA
+================================================================================
+
+Anh co text: "????"
+
+[Chon anh] ? [Click AI] ? [Doi 3 giay] ? [Chu hien thi: ?,?,?,?]
+? [Click tai] ? [4 anh stroke duoc tai!]
+
+TONG THOI GIAN: 30 giay!
+
+================================================================================
+                        NEU KHONG MUON DUNG AI
+================================================================================
+
+Van co the go chu thu cong nhu cu:
+
+1. Mo ung dung
+
+2. Go chu vao o input: ????
+
+3. Click "Bat dau tai"
+
+4. XONG!
+
+================================================================================
+                            TONG KET
+================================================================================
+
+TOAN BO QUY TRINH:
+
+1. pip install -r requirements.txt          (1 phut)
+2. Lay API key                             (1 phut)
+3. python stroke_order_downloader.py       (5 giay)
+4. Luu API key                             (30 giay)
+5. Chon anh + Click AI + Tai               (30 giay)
+
+TONG: 3 phut cho lan dau!
+      30 giay cho lan sau!
+
+================================================================================
+                        CAU HOI NHANH
+================================================================================
+
+Q: Co mat phi khong?
+A: KHONG! Tat ca MIEN PHI!
+
+Q: Co kho khong?
+A: KHONG! Chi can click chuot!
+
+Q: Can internet khong?
+A: CAN! De goi Gemini API.
+
+Q: Anh mo co duoc khong?
+A: DUOC! AI rat manh!
+
+Q: Co phai cai gi phuc tap khong?
+A: KHONG! Chi pip install la xong!
+
+================================================================================
+                        KHI NAO CAN DOC HUONG DAN CHI TIET
+================================================================================
+
+Neu ban muon:
+- Hieu ro hon ve Gemini AI ? Doc HUONG_DAN_GEMINI_AI.md
+- Build file EXE ? Doc HUONG_DAN_BUILD_EXE.md
+- Khac phuc loi ? Doc HUONG_DAN.md
+
+Nhung voi Quick Start nay, ban DA DU de bat dau!
+
+================================================================================
+                        SAU KHI XONG
+================================================================================
+
+Ung dung se:
+? Luu API key (khong can nhap lai)
+? Luu thu muc (khong can chon lai)
+? San sang dung ngay!
+
+Lan sau chi can:
+1. Chay ung dung
+2. Chon anh
+3. Click AI
+4. Click tai
+5. XONG!
+
+NHANH - DE - HIEU QUA!
+
+================================================================================
+
+                    BAT DAU NGAY - CHI 3 PHUT!
+
+================================================================================

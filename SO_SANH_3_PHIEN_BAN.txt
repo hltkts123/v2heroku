@@ -1,0 +1,352 @@
+================================================================================
+                    SO SANH 3 PHIEN BAN GIAO DIEN
+================================================================================
+
+BAN CO 3 LUA CHON:
+
+1. TKINTER (Thong thuong)
+2. CUSTOMTKINTER (Hien dai)
+3. PYQT5 (Chuyen nghiep) ???
+
+================================================================================
+                        PHIEN BAN 1: TKINTER
+================================================================================
+
+File: stroke_order_downloader.py
+Thu vien: Tkinter (co san)
+Requirements: requirements.txt
+
+GIAO DIEN:
+- Co dien, nhat nham
+- Mau sac don dieu
+- Nut bam vuong
+- Khong co icon (dung text thay the)
+
+UU DIEM:
+? Khong can cai them
+? Nhe nhat
+? File EXE nho (~15MB)
+? De cai dat
+
+NHUOC DIEM:
+? Giao dien cu ki
+? Khong co icon
+? Khong dep
+
+DO DEP: 3/10 ???
+KHUYEN NGHI: Dung neu may cau hinh yeu
+
+CAI DAT:
+```
+pip install -r requirements.txt
+python stroke_order_downloader.py
+```
+
+================================================================================
+                      PHIEN BAN 2: CUSTOMTKINTER
+================================================================================
+
+File: stroke_order_downloader_modern.py
+Thu vien: CustomTkinter
+Requirements: requirements_modern.txt
+
+GIAO DIEN:
+- Hien dai
+- Mau sac dep
+- Nut bam bo tron
+- Dark mode / Light mode
+- Co emoji (co the bi loi thanh dau hoi)
+
+UU DIEM:
+? Giao dien hien dai
+? Dark mode
+? Animation muot
+? De su dung
+
+NHUOC DIEM:
+? Emoji co the bi loi
+? File EXE trung binh (~20MB)
+
+DO DEP: 8/10 ????????
+KHUYEN NGHI: Dung neu thich dark mode
+
+CAI DAT:
+```
+pip install -r requirements_modern.txt
+python stroke_order_downloader_modern.py
+```
+
+================================================================================
+                        PHIEN BAN 3: PYQT5 ???
+================================================================================
+
+File: stroke_order_downloader_pyqt5.py
+Thu vien: PyQt5
+Requirements: requirements_pyqt5.txt
+
+GIAO DIEN:
+- CHUYEN NGHIEP nhat
+- ICON THAT (khong phai emoji!)
+- Mau sac dep, hoa hop
+- Bo goc, shadow
+- Stylesheet linh hoat
+- Giong app thuong mai
+
+UU DIEM:
+? ? ? DEP NHAT!
+? ? ? ICON THAT (khong loi)
+? CHUYEN NGHIEP
+? MULTI-THREADING tot nhat
+? PERFORMANCE tot nhat
+? Cross-platform tot nhat
+? De tuy bien (stylesheet)
+
+NHUOC DIEM:
+? File EXE lon (~30-40MB)
+? Cai dat hoi lau (2-3 phut)
+
+DO DEP: 10/10 ??????????
+KHUYEN NGHI: *** CHON CAI NAY! ***
+
+CAI DAT:
+```
+pip install -r requirements_pyqt5.txt
+python stroke_order_downloader_pyqt5.py
+```
+
+================================================================================
+                        BANG SO SANH CHI TIET
+================================================================================
+
+| Tinh nang         | Tkinter | CustomTk | PyQt5    |
+|-------------------|---------|----------|----------|
+| Do dep            | 3/10    | 8/10     | 10/10 ?  |
+| Icon              | Text    | Emoji    | Icon that|
+| Mau sac           | Nhat    | Dep      | Dep nhat |
+| Bo goc            | Khong   | Co       | Co       |
+| Dark mode         | Khong   | Co       | Co the   |
+| Animation         | Khong   | Co       | Co       |
+| Multi-thread      | Khong   | Khong    | Co ?     |
+| Stylesheet        | Kho     | Co       | Tot nhat |
+| File EXE          | 15MB    | 20MB     | 30-40MB  |
+| Cai dat           | Nhanh   | Nhanh    | Hoi lau  |
+| Chuyen nghiep     | Thap    | Trung    | Cao ?    |
+| Icon bi loi       | Khong   | Co the   | Khong ?  |
+| Performance       | Trung   | Tot      | Tot nhat |
+
+================================================================================
+                        ICON - SO SANH CHI TIET
+================================================================================
+
+TKINTER:
+--------
+Nut: [+] Chon Thu Muc
+     [>] Mo Thu Muc
+     >> BAT DAU TAI <<
+     [X] HUY BO
+
+? Dung TEXT thay vi icon
+? Nhat, khong dep
+? Nhung khong bao gio loi
+
+
+CUSTOMTKINTER:
+--------------
+Nut: ?? Chon Thu Muc
+     ??? Mo Thu Muc
+     ?? Bat dau tai
+     ?? Huy
+
+? Dung EMOJI
+? Dep hon text
+? NHUNG co the bi loi thanh dau hoi (?)
+? Tuy thuoc vao he thong
+
+
+PYQT5: ???
+---------
+Nut: [Icon thu muc] Chon Thu Muc
+     [Icon thu muc mo] Mo Thu Muc
+     [Icon mui ten xuong] BAT DAU TAI
+     [Icon cancel] HUY BO
+
+? Dung ICON THAT tu Qt
+? DEP nhat
+? KHONG BAO GIO loi
+? Tu dong theo he thong (Windows/Mac/Linux)
+
+================================================================================
+                        GIAO DIEN - TUONG TUONG
+================================================================================
+
+TKINTER (Nhat nham):
+--------------------
+????????????????????????????
+? Nhap chu Han:            ?
+? [____________________]   ?
+?                          ?
+? [+] Chon  [>] Mo        ?
+?                          ?
+? [  >> BAT DAU TAI <<  ] ?
+? [      [X] HUY BO      ] ?
+?                          ?
+? San sang                 ?
+? [??????????] 40%        ?
+????????????????????????????
+
+
+CUSTOMTKINTER (Hien dai):
+-------------------------
+????????????????????????????
+? Nhap chu Han:            ?
+? ???????????????????????? ?
+? ? Vi du: ????      ? ?
+? ???????????????????????? ?
+?                          ?
+? ??????????  ???????????  ?
+? ??? Chon ?  ???? Mo   ?  ?
+? ??????????  ???????????  ?
+?                          ?
+?  ?????????????????????   ?
+?  ?  ?? BAT DAU TAI   ?   ?
+?  ?????????????????????   ?
+?                          ?
+? San sang                 ?
+? ???????????? 50%        ?
+????????????????????????????
+
+
+PYQT5 (Chuyen nghiep): ?
+-----------------------
+????????????????????????????
+? ?? Nhap Du Lieu ??????? ?
+? ?                      ? ?
+? ? ???????????????????? ? ?
+? ? ? Vi du: ????  ? ? ?
+? ? ???????????????????? ? ?
+? ?                      ? ?
+? ??????????????????????? ?
+?                          ?
+? ?? Thu Muc ???????????  ?
+? ?                      ? ?
+? ?  C:\...\Stroke_...  ? ?
+? ?                      ? ?
+? ?  ????????? ???????? ? ?
+? ?  ?[??]   ? ?[??]  ? ? ?
+? ?  ? Chon  ? ? Mo   ? ? ?
+? ?  ????????? ???????? ? ?
+? ?                      ? ?
+? ??????????????????????? ?
+?                          ?
+?    ?????????????????     ?
+?    ? [?] BAT DAU   ?     ?
+?    ?      TAI      ?     ?
+?    ?????????????????     ?
+?                          ?
+? ?? Tien Trinh ???????   ?
+? ?  Dang xu ly...     ?   ?
+? ?  ?????????? 60%   ?   ?
+? ?????????????????????   ?
+????????????????????????????
+
+? Bo goc, shadow
+? Icon that
+? Mau sac chuyen nghiep
+
+================================================================================
+                        KHUYEN NGHI THEO MUC DICH
+================================================================================
+
+NEU BAN MUON:
+-------------
+- May yeu, file nho          ? TKINTER
+- Giao dien hien dai, emoji  ? CUSTOMTKINTER
+- Chuyen nghiep nhat, icon   ? PYQT5 ???
+- Dark mode                  ? CUSTOMTKINTER hoac PYQT5
+- Icon khong bao gio loi     ? PYQT5 ???
+- Dep nhat                   ? PYQT5 ???
+- App giong phan mem real    ? PYQT5 ???
+
+KHUYEN NGHI CHUNG:
+-----------------
+*** CHON PYQT5! ***
+
+LY DO:
+1. DEP NHAT
+2. ICON THAT (khong loi)
+3. CHUYEN NGHIEP nhat
+4. Performance tot nhat
+5. Multi-threading
+6. Giong app thuong mai
+7. Xung dang voi kich thuoc file lon
+
+================================================================================
+                        CAI DAT & CHAY
+================================================================================
+
+TKINTER:
+--------
+pip install -r requirements.txt
+python stroke_order_downloader.py
+
+
+CUSTOMTKINTER:
+--------------
+pip install -r requirements_modern.txt
+python stroke_order_downloader_modern.py
+
+
+PYQT5 (KHUYEN NGHI): ???
+------------------------
+pip install -r requirements_pyqt5.txt
+python stroke_order_downloader_pyqt5.py
+
+LUU Y: Lan dau cai PyQt5 mat 2-3 phut vi file lon (~50MB download)
+
+================================================================================
+                        BUILD FILE EXE
+================================================================================
+
+CA 3 PHIEN BAN deu co the build thanh EXE:
+
+TKINTER:
+--------
+File EXE: ~15MB
+Lenh: pyinstaller --onefile --windowed stroke_order_downloader.py
+
+
+CUSTOMTKINTER:
+--------------
+File EXE: ~20MB
+Lenh: pyinstaller --onefile --windowed stroke_order_downloader_modern.py
+
+
+PYQT5:
+------
+File EXE: ~30-40MB
+Lenh: pyinstaller --onefile --windowed stroke_order_downloader_pyqt5.py
+
+================================================================================
+                        KET LUAN
+================================================================================
+
+3 PHIEN BAN - 3 LUA CHON:
+
+1. TKINTER
+   - Cho nguoi muon don gian, nhe
+   - Do dep: 3/10
+
+2. CUSTOMTKINTER
+   - Cho nguoi thich hien dai, dark mode
+   - Do dep: 8/10
+
+3. PYQT5 ???
+   - Cho nguoi muon chuyen nghiep, dep nhat
+   - Do dep: 10/10
+   - *** CHON CAI NAY! ***
+
+================================================================================
+
+      PYQT5 - LUA CHON TRI TUE NHAT CHO BAN CHUYEN NGHIEP!
+
+================================================================================

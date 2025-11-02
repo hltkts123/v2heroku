@@ -1,0 +1,260 @@
+================================================================================
+                    PHIEN BAN 3.0 - GEMINI AI EDITION
+================================================================================
+
+NGAY CAP NHAT: 2025-11-02
+PHIEN BAN: 3.0 (Gemini AI Edition)
+
+================================================================================
+                      TINH NANG MOI: GEMINI AI OCR
+================================================================================
+
+THEM TINH NANG AI NHAN DANG CHU HAN TU ANH!
+--------------------------------------------
+
+Ban khong can GO CHU nua! Chi can:
+1. Chup anh (hoac chon anh co san)
+2. Click nut
+3. AI tu dong nhan dang
+4. Bat dau tai!
+
+NHANH, DE, CHINH XAC!
+
+================================================================================
+                        CHI TIET TINH NANG MOI
+================================================================================
+
+1. GEMINI AI OCR
+   - Tich hop Google Gemini AI (mien phi!)
+   - Nhan dang chu Han tu anh
+   - Ho tro nhieu loai anh:
+     * Anh chup man hinh
+     * Anh chup tu sach/tai lieu
+     * Anh chup bang dien thoai
+     * Anh quet (scan)
+     * Anh viet tay
+
+2. PREVIEW ANH
+   - Hien thi anh truoc khi xu ly
+   - Resize tu dong cho vua man hinh
+   - De kiem tra anh da chon dung chua
+
+3. LUU API KEY TU DONG
+   - API key duoc luu vao file config
+   - Khong can nhap lai moi lan
+   - An toan, chi luu tren may ban
+
+4. GIAO DIEN MOI
+   - Tang kich thuoc len 800x720px
+   - Them phan Gemini AI o tren
+   - Nut va huong dan ro rang
+   - Mau sac phan biet: Tim cho AI
+
+5. HUONG DAN LAY API KEY
+   - Click nut "[?] Lay API Key"
+   - Hien thi huong dan chi tiet
+   - Link truc tiep den trang lay API
+
+================================================================================
+                        CACH SU DUNG MOI
+================================================================================
+
+TRUOC (Cach cu - go thu cong):
+-------------------------------
+1. Xem anh co chu Han
+2. Go tung chu vao may tinh (mat thoi gian!)
+3. Click tai
+4. Mat 5-10 phut cho nhieu chu!
+
+SAU (Cach moi - dung AI):
+--------------------------
+1. Click "Chon Anh"
+2. Click "Nhan Dang Chu Han"
+3. Doi 2-5 giay
+4. Click tai
+5. XONG! Chi 30 giay!
+
+TOC DO: Nhanh hon 10-20 LAN!
+
+================================================================================
+                        YEU CAU HE THONG MOI
+================================================================================
+
+Thu vien them:
+- google-generativeai>=0.3.0  (Gemini AI)
+- Pillow>=10.0.0              (Xu ly anh)
+
+Cau hinh them:
+- Gemini API Key (lay mien phi tai https://aistudio.google.com/app/apikey)
+- Ket noi internet (de goi API)
+
+Khong doi:
+- Python 3.7+
+- Tkinter
+- requests, beautifulsoup4
+
+================================================================================
+                        SO SANH PHIEN BAN
+================================================================================
+
+PHIEN BAN 2.2 (ASCII Edition):
+- Khong co AI
+- Phai go chu thu cong
+- Cham
+- De sai khi go
+
+PHIEN BAN 3.0 (Gemini AI Edition):
+- CO AI nhan dang chu Han
+- Tu dong, khong can go
+- Nhanh (2-5 giay)
+- Chinh xac cao (AI Google)
+- Van giu tat ca tinh nang cu
+
+================================================================================
+                        CAC FILE DA THAY DOI
+================================================================================
+
+stroke_order_downloader.py
+  - Them class GeminiOCR
+  - Them UI cho upload anh
+  - Them preview anh
+  - Them xu ly OCR
+  - Tang kich thuoc cua so
+  - Luu API key vao config
+  - Them mau tim cho AI messages
+
+requirements.txt
+  - Them google-generativeai
+  - Them Pillow
+
+README_FIRST.txt
+  - Them huong dan ve Gemini AI
+  - Cap nhat phien ban 3.0
+  - Them phan FAQ ve AI
+
+THAY_DOI_MOI.txt
+  - File nay (cap nhat)
+
+================================================================================
+                        CAC FILE MOI
+================================================================================
+
+HUONG_DAN_GEMINI_AI.md
+  - Huong dan chi tiet ve Gemini AI
+  - Cach lay API key
+  - Cach su dung OCR
+  - Khac phuc loi AI
+  - FAQ ve AI
+
+================================================================================
+                        CACH CAI DAT & SU DUNG
+================================================================================
+
+1. CAI DAT THU VIEN MOI:
+   pip install -r requirements.txt
+
+2. LAY API KEY:
+   - Truy cap: https://aistudio.google.com/app/apikey
+   - Dang nhap Google
+   - Click "Create API Key"
+   - Copy API key
+
+3. CAU HINH:
+   - Mo ung dung
+   - Dan API key vao o "Gemini API Key"
+   - Click "Luu API Key"
+
+4. SU DUNG:
+   - Click "[+] Chon Anh Chua Chu Han"
+   - Chon anh co chu Han
+   - Click "[AI] Nhan Dang Chu Han"
+   - Doi 2-5 giay
+   - Chu Han se tu dong dien vao
+   - Click "Bat dau tai"
+
+================================================================================
+                        UU DIEM TINH NANG MOI
+================================================================================
+
+? TIET KIEM THOI GIAN
+  - Khong can go chu
+  - Tu dong hoa 100%
+  - Nhanh hon 10-20 lan
+
+? CHINH XAC CAO
+  - AI Google Gemini
+  - Nhan dang tot ca chu viet tay
+  - It loi
+
+? DE SU DUNG
+  - Chi 3 click
+  - Giao dien don gian
+  - Co huong dan chi tiet
+
+? MIEN PHI
+  - API key mien phi
+  - 1500 request/ngay
+  - Du dung ca ngay
+
+? LINH HOAT
+  - Ho tro nhieu loai anh
+  - Anh mo van nhan dang duoc
+  - Khong can anh chat luong cao
+
+================================================================================
+                        CAU HOI THUONG GAP
+================================================================================
+
+Q: Co phai tra phi khong?
+A: KHONG! Gemini API hien tai MIEN PHI!
+
+Q: Co gioi han khong?
+A: Co: 1500 request/ngay. Nhung qua du dung!
+
+Q: Can internet khong?
+A: CAN! De goi Gemini API.
+
+Q: Anh mo co nhan dang duoc khong?
+A: DUOC! Gemini rat manh, anh mo van ok.
+
+Q: Co nhan dang chu viet tay khong?
+A: CO! Gemini rat gioi voi chu viet tay.
+
+Q: Neu khong muon dung AI thi sao?
+A: Van go chu binh thuong nhu cu!
+
+Q: API key co an toan khong?
+A: AN TOAN! Chi luu tren may ban.
+
+Q: Neu AI nhan dang sai thi sao?
+A: Co the sua trong o input truoc khi tai.
+
+================================================================================
+                        TEST NGAY!
+================================================================================
+
+1. Cai dat: pip install -r requirements.txt
+2. Lay API key: https://aistudio.google.com/app/apikey
+3. Mo ung dung
+4. Luu API key
+5. Chon anh co chu Han
+6. Click "Nhan Dang Chu Han"
+7. Xem phep mau AI!
+
+================================================================================
+                        KET LUAN
+================================================================================
+
+Phien ban 3.0 la buoc dot pha lon:
+- THEM AI vao ung dung
+- TIET KIEM thoi gian rat nhieu
+- TANG hieu qua lam viec
+- VAN MIEN PHI!
+
+Day la tinh nang ma ban se THICH ngay!
+
+================================================================================
+
+        AI TOAN TAP - TUONG LAI CUA HOC CHU HAN!
+
+================================================================================

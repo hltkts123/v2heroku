@@ -1,0 +1,235 @@
+# STROKE ORDER DOWNLOADER - MODERN UI EDITION
+
+## Phien ban giao dien hien dai voi CustomTkinter
+
+Phien ban nay su dung **CustomTkinter** thay vi Tkinter thong thuong de co giao dien dep hon nhieu!
+
+================================================================================
+
+## So sanh voi phien ban cu
+
+### PHIEN BAN CU (Tkinter):
+- Giao dien co dien, nhat nham
+- Mau sac don dieu
+- Khong co dark mode
+- Tro nhu Windows 98
+
+### PHIEN BAN MOI (CustomTkinter):
+- Giao dien HIEN DAI, dep mat
+- Mau sac sinh dong
+- CO dark mode / light mode
+- Giong Windows 11, macOS Big Sur
+- Nut bam dep, bo tron
+- Animation muot ma
+- Progress bar dep
+
+================================================================================
+
+## Tinh nang giao dien moi
+
+### 1. DARK MODE / LIGHT MODE
+- Chuyen doi de dang bang switch
+- Mat khong bi met khi dung lau
+- Theo xu huong hien dai
+
+### 2. MAU SAC DEP
+- Xanh duong hien dai
+- Do canh bao
+- Xam nhe nhang
+- Mau sac hoa hop
+
+### 3. NUT BAM DEP
+- Bo tron cac goc
+- Hieu ung hover (chuot di qua)
+- Animation khi click
+- Kich thuoc lon, de nhan
+
+### 4. PROGRESS BAR DEP
+- Mau gradient
+- Animation muot
+- Hien thi phan tram ro rang
+
+### 5. FONT CHU DEP
+- Font Segoe UI (Windows)
+- San Francisco (macOS)
+- Font he thong dep nhat
+
+================================================================================
+
+## Cai dat
+
+### BUOC 1: Cai Python
+- Python 3.7+
+- https://www.python.org/downloads/
+
+### BUOC 2: Cai thu vien
+```bash
+pip install -r requirements_modern.txt
+```
+
+Hoac:
+```bash
+pip install requests beautifulsoup4 customtkinter
+```
+
+### BUOC 3: Chay
+```bash
+python stroke_order_downloader_modern.py
+```
+
+================================================================================
+
+## Cach su dung
+
+GIONG HET PHIEN BAN CU:
+
+1. Nhap chu Han
+2. Click "BAT DAU TAI"
+3. Xong!
+
+THEM:
+- Click switch "Che do toi" de chuyen dark/light mode
+
+================================================================================
+
+## Screenshot (tuong tuong)
+
+```
+???????????????????????????????????????????????????????????
+?                                                         ?
+?         ?? TAI ANH THU TU NET CHU HAN                   ?
+?                                                         ?
+???????????????????????????????????????????????????????????
+?                                                         ?
+?  Nhap cac ky tu tieng Trung:                           ?
+?  ????????????????????????????????????????????????????? ?
+?  ? Vi du: ????                                    ? ?
+?  ????????????????????????????????????????????????????? ?
+?                                                         ?
+?  ?? Thu muc luu anh:                                    ?
+?     C:\Users\...\Stroke_images                         ?
+?                                                         ?
+?  ????????????????  ????????????????                   ?
+?  ? ?? Chon Thu  ?  ? ??? Mo Thu    ?                   ?
+?  ?    Muc       ?  ?    Muc       ?                   ?
+?  ????????????????  ????????????????                   ?
+?                                                         ?
+?       ????????????????  ????????????????              ?
+?       ? ?? BAT DAU   ?  ? ? HUY BO    ?              ?
+?       ?    TAI       ?  ?              ?              ?
+?       ????????????????  ????????????????              ?
+?                                                         ?
+?  ? San sang                                            ?
+?  ??????????????????????????????????????? 75%          ?
+?                                                         ?
+?  ?? Ket qua                                            ?
+?  ???????????????????????????????????????????????????  ?
+?  ? ? Da tai: ?                                     ?  ?
+?  ? ? Da tai: ?                                     ?  ?
+?  ? ? Khong tim thay: ?                             ?  ?
+?  ? ? Da tai: ?                                     ?  ?
+?  ? ?? Hoan tat!                                     ?  ?
+?  ? ?? Thong ke: 3 thanh cong | 1 that bai          ?  ?
+?  ???????????????????????????????????????????????????  ?
+?                                                         ?
+?  Giao dien: [?? Che do toi]                            ?
+?                                                         ?
+???????????????????????????????????????????????????????????
+```
+
+MAU SAC:
+- Nen: Xam dam (#1a1a1a) hoac Trang (#f5f5f5)
+- Nut chinh: Xanh duong (#1f6aa5)
+- Nut huy: Do (#d32f2f)
+- Text: Trang hoac Den
+- Progress: Xanh gradient
+
+================================================================================
+
+## Uu diem
+
+? DEP hon nhieu so voi Tkinter thong thuong
+? HIEN DAI theo xu huong 2024
+? DARK MODE giup mat khong met
+? DE SU DUNG nhu cu
+? KHONG can hoc them gi
+? VAN NHANH (10 anh song song)
+? CROSS-PLATFORM (Windows/Mac/Linux)
+
+================================================================================
+
+## Nhuoc diem
+
+? Can cai them thu vien customtkinter
+? File EXE se lon hon 1 chut (them ~5MB)
+? That ra... khong co nhuoc diem gi!
+
+================================================================================
+
+## So sanh 2 phien ban
+
+### stroke_order_downloader.py (Cu)
+- Tkinter thong thuong
+- Giao dien co dien
+- Nhe (khong can cai them)
+- File EXE nho hon
+
+### stroke_order_downloader_modern.py (Moi)
+- CustomTkinter hien dai
+- Giao dien DEP, HIEN DAI
+- Can cai customtkinter
+- File EXE lon hon 1 chut
+
+KHUY?N NGHI: Dung phien ban Modern!
+
+================================================================================
+
+## Build EXE
+
+```bash
+pip install pyinstaller
+pyinstaller --onefile --windowed stroke_order_downloader_modern.py
+```
+
+File EXE o: `dist/stroke_order_downloader_modern.exe`
+
+================================================================================
+
+## Luu y
+
+1. **CustomTkinter ho tro Python 3.7+**
+2. **Tu dong nhan dien dark mode cua he thong**
+3. **Chay tot tren moi platform**
+4. **Emoji van hien thi tot**
+
+================================================================================
+
+## Cau hoi thuong gap
+
+### Q: Co phai cai Python moi khong?
+A: KHONG! Python 3.7+ la du.
+
+### Q: Co cham hon phien ban cu khong?
+A: KHONG! Van nhanh nhu cu.
+
+### Q: Co kho hon khong?
+A: KHONG! Giong het, chi dep hon thoi!
+
+### Q: Neu toi thich giao dien cu thi sao?
+A: Van dung duoc phien ban cu! Khong sao ca!
+
+### Q: Phien ban nao tot hon?
+A: Phien ban Modern UI tot hon! Dep hon nhieu!
+
+================================================================================
+
+## Link tham khao
+
+- CustomTkinter: https://github.com/TomSchimansky/CustomTkinter
+- Documentation: https://customtkinter.tomschimansky.com/
+
+================================================================================
+
+         GIAO DIEN HIEN DAI - TRAI NGHIEM TOT HON!
+
+================================================================================
