@@ -410,42 +410,64 @@ class PowerPointCleaner:
             
             text_frame = shape.text_frame
             
-            # Neu delete_all -> xoa tat ca
+            # Neu delete_all -> xoa tat ca bang cach an toan
             if mode == "delete_all":
-                for paragraph in text_frame.paragraphs:
-                    for run in paragraph.runs[:]:
-                        run.text = ""
+                text_frame.clear()
                 return
             
             # Duyet qua tung paragraph
             for paragraph in text_frame.paragraphs:
-                # Duyet qua tung run (doan text co cung format)
-                runs_to_remove = []
+                # Thu thap text moi cho paragraph nay
+                new_runs = []
                 
                 for run in paragraph.runs:
                     run_text = run.text
                     
-                    # Loc tung run
+                    # Kiem tra xem run co nen giu lai khong
+                    should_keep = False
+                    
                     if mode == "delete_english":
-                        # Neu run la pure ASCII -> xoa
-                        if self.is_pure_ascii_text(run_text):
-                            runs_to_remove.append(run)
-                        # Nguoc lai (co Unicode) -> giu nguyen (khong lam gi)
+                        # Giu run neu co Unicode (khong phai pure ASCII)
+                        should_keep = not self.is_pure_ascii_text(run_text)
                     
                     elif mode == "keep_english":
-                        # Neu run co Unicode -> xoa
-                        if self.has_unicode_char(run_text):
-                            runs_to_remove.append(run)
-                        # Nguoc lai (pure ASCII) -> giu nguyen
+                        # Giu run neu la pure ASCII
+                        should_keep = not self.has_unicode_char(run_text)
+                    
+                    if should_keep:
+                        new_runs.append({
+                            'text': run_text,
+                            'font': run.font
+                        })
                 
-                # Xoa cac runs can xoa
-                for run in runs_to_remove:
-                    # Set text = "" de giu format nhung xoa noi dung
-                    run.text = ""
+                # Xoa tat ca runs cu
+                for _ in range(len(paragraph.runs)):
+                    paragraph.runs[0]._element.getparent().remove(paragraph.runs[0]._element)
+                
+                # Them lai runs moi voi format goc
+                for run_data in new_runs:
+                    new_run = paragraph.add_run()
+                    new_run.text = run_data['text']
+                    # Copy font properties
+                    try:
+                        new_run.font.name = run_data['font'].name
+                        new_run.font.size = run_data['font'].size
+                        new_run.font.bold = run_data['font'].bold
+                        new_run.font.italic = run_data['font'].italic
+                        new_run.font.underline = run_data['font'].underline
+                        if run_data['font'].color.type:
+                            new_run.font.color.rgb = run_data['font'].color.rgb
+                    except:
+                        pass
         
         except Exception as e:
-            # Fallback: dung phuong phap cu
-            pass
+            # Fallback: dung phuong phap don gian hon
+            try:
+                original_text = self.get_shape_text(shape)
+                new_text = self.filter_text(original_text)
+                shape.text_frame.text = new_text
+            except:
+                pass
     
     def is_pure_ascii_text(self, text):
         """Kiem tra text co phai pure ASCII khong (chi 0-127)"""
