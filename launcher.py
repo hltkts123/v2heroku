@@ -17,8 +17,9 @@ class ToolLauncher:
     def __init__(self, root):
         self.root = root
         self.root.title("Cong Cu Tien Ich")
-        self.root.geometry("600x500")
-        self.root.resizable(False, False)
+        self.root.geometry("650x450")
+        self.root.resizable(True, True)
+        self.root.minsize(600, 400)
         
         # Center window
         self.center_window()
@@ -64,104 +65,71 @@ class ToolLauncher:
         main_frame = tk.Frame(self.root, padx=30, pady=30)
         main_frame.pack(fill=tk.BOTH, expand=True)
         
-        # Tool 1: PowerPoint Cleaner (Single)
+        # Tool 1: PowerPoint Cleaner Batch
         tool1_frame = tk.LabelFrame(
             main_frame,
-            text="PowerPoint Cleaner - Xu ly 1 file",
-            font=("Arial", 11, "bold"),
-            padx=15,
-            pady=15
+            text="PowerPoint Cleaner - Xu ly file PowerPoint",
+            font=("Arial", 12, "bold"),
+            padx=20,
+            pady=20
         )
-        tool1_frame.pack(fill=tk.X, pady=(0, 15))
+        tool1_frame.pack(fill=tk.X, pady=(0, 20))
         
         desc1 = tk.Label(
             tool1_frame,
-            text="? Xoa hinh anh theo kich thuoc\n? Loc text (giu tieng Viet/Trung, xoa tieng Anh)\n? Giu nguyen dinh dang text (font, size, color)",
-            font=("Arial", 9),
+            text="? Xoa hinh anh theo kich thuoc chinh xac\n? Loc text: Xoa tieng Anh, giu tieng Viet/Trung/Nhat/Han\n? Giu nguyen dinh dang text (font, size, color, bold, italic...)\n? Xu ly 1 file hoac NHIEU file cung luc (Batch mode)\n? Progress tracking real-time va tu dong backup",
+            font=("Arial", 10),
             justify="left",
-            fg="#555"
+            fg="#333"
         )
-        desc1.pack(anchor="w", pady=(0, 10))
+        desc1.pack(anchor="w", pady=(0, 12))
         
         btn1 = tk.Button(
             tool1_frame,
-            text="? Mo PowerPoint Cleaner",
-            command=self.launch_ppt_cleaner,
-            bg="#3498db",
-            fg="white",
-            font=("Arial", 10, "bold"),
-            cursor="hand2",
-            relief=tk.FLAT,
-            padx=20,
-            pady=8
-        )
-        btn1.pack(fill=tk.X)
-        
-        # Tool 2: PowerPoint Cleaner Batch
-        tool2_frame = tk.LabelFrame(
-            main_frame,
-            text="PowerPoint Cleaner Batch - Xu ly nhieu file",
-            font=("Arial", 11, "bold"),
-            padx=15,
-            pady=15
-        )
-        tool2_frame.pack(fill=tk.X, pady=(0, 15))
-        
-        desc2 = tk.Label(
-            tool2_frame,
-            text="? Xu ly nhieu file PowerPoint cung luc\n? Toan bo tinh nang cua phien ban Single\n? Batch processing voi progress tracking",
-            font=("Arial", 9),
-            justify="left",
-            fg="#555"
-        )
-        desc2.pack(anchor="w", pady=(0, 10))
-        
-        btn2 = tk.Button(
-            tool2_frame,
-            text="? Mo PowerPoint Cleaner Batch",
+            text="? MO POWERPOINT CLEANER",
             command=self.launch_ppt_cleaner_batch,
             bg="#27ae60",
             fg="white",
-            font=("Arial", 10, "bold"),
+            font=("Arial", 11, "bold"),
             cursor="hand2",
             relief=tk.FLAT,
-            padx=20,
-            pady=8
+            padx=25,
+            pady=10
         )
-        btn2.pack(fill=tk.X)
+        btn1.pack(fill=tk.X)
         
-        # Tool 3: Stroke Order Downloader
-        tool3_frame = tk.LabelFrame(
+        # Tool 2: Stroke Order Downloader
+        tool2_frame = tk.LabelFrame(
             main_frame,
-            text="Tai anh thu tu net chu Han",
-            font=("Arial", 11, "bold"),
-            padx=15,
-            pady=15
+            text="Stroke Order - Tai anh thu tu net chu Han",
+            font=("Arial", 12, "bold"),
+            padx=20,
+            pady=20
         )
-        tool3_frame.pack(fill=tk.X, pady=(0, 15))
+        tool2_frame.pack(fill=tk.X, pady=(0, 20))
         
-        desc3 = tk.Label(
-            tool3_frame,
-            text="? Tai anh thu tu net chu Han tu strokeorder.info\n? Tai song song nhieu ky tu\n? Luu anh dinh dang GIF",
-            font=("Arial", 9),
+        desc2 = tk.Label(
+            tool2_frame,
+            text="? Tai anh thu tu net chu Han tu strokeorder.info\n? Tai song song nhieu ky tu (max 10 concurrent)\n? Progress bar real-time va luu config tu dong\n? Luu anh dinh dang GIF, mo thu muc truc tiep",
+            font=("Arial", 10),
             justify="left",
-            fg="#555"
+            fg="#333"
         )
-        desc3.pack(anchor="w", pady=(0, 10))
+        desc2.pack(anchor="w", pady=(0, 12))
         
-        btn3 = tk.Button(
-            tool3_frame,
-            text="? Mo Stroke Order Downloader",
+        btn2 = tk.Button(
+            tool2_frame,
+            text="? MO STROKE ORDER DOWNLOADER",
             command=self.launch_stroke_order,
             bg="#e74c3c",
             fg="white",
-            font=("Arial", 10, "bold"),
+            font=("Arial", 11, "bold"),
             cursor="hand2",
             relief=tk.FLAT,
-            padx=20,
-            pady=8
+            padx=25,
+            pady=10
         )
-        btn3.pack(fill=tk.X)
+        btn2.pack(fill=tk.X)
         
         # Footer
         footer_frame = tk.Frame(self.root, bg="#ecf0f1", height=40)
@@ -170,20 +138,12 @@ class ToolLauncher:
         
         footer_label = tk.Label(
             footer_frame,
-            text="Version 3.3.1 | Chon cong cu phia tren de bat dau",
+            text="Version 4.1 | 2 Cong Cu | Chon cong cu phia tren de bat dau",
             font=("Arial", 9),
             bg="#ecf0f1",
             fg="#7f8c8d"
         )
         footer_label.pack(pady=10)
-    
-    def launch_ppt_cleaner(self):
-        """Khoi dong PowerPoint Cleaner (single file)"""
-        try:
-            script_path = Path(__file__).parent / "ppt_cleaner.py"
-            subprocess.Popen([sys.executable, str(script_path)])
-        except Exception as e:
-            tk.messagebox.showerror("Loi", f"Khong the mo cong cu:\n{str(e)}")
     
     def launch_ppt_cleaner_batch(self):
         """Khoi dong PowerPoint Cleaner Batch"""

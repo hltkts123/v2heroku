@@ -24,7 +24,7 @@ echo ? Cleaned
 
 echo.
 echo [4/4] Building all EXE files...
-echo This will take 5-10 minutes...
+echo This will take 3-5 minutes...
 echo.
 
 echo [1/4] Building Launcher...
@@ -38,20 +38,7 @@ python -m PyInstaller ^
 if errorlevel 1 goto ERROR
 
 echo.
-echo [2/4] Building PowerPointCleaner...
-python -m PyInstaller ^
-    --noconfirm --clean ^
-    --name "PowerPointCleaner" ^
-    --onefile ^
-    --windowed ^
-    --icon="icon.ico" ^
-    --hidden-import=pptx ^
-    --hidden-import=pptx.util ^
-    ppt_cleaner.py
-if errorlevel 1 goto ERROR
-
-echo.
-echo [3/4] Building PowerPointCleanerBatch...
+echo [2/4] Building PowerPointCleanerBatch...
 python -m PyInstaller ^
     --noconfirm --clean ^
     --name "PowerPointCleanerBatch" ^
@@ -64,7 +51,7 @@ python -m PyInstaller ^
 if errorlevel 1 goto ERROR
 
 echo.
-echo [4/4] Building StrokeOrderDownloader...
+echo [3/4] Building StrokeOrderDownloader...
 python -m PyInstaller ^
     --noconfirm --clean ^
     --name "StrokeOrderDownloader" ^
@@ -87,11 +74,10 @@ echo.
 echo File sizes:
 dir dist\*.exe
 echo.
-echo You can distribute these 4 EXE files:
+echo You can distribute these 3 EXE files:
 echo   1. ToolLauncher.exe          - Main launcher
-echo   2. PowerPointCleaner.exe     - Single file mode
-echo   3. PowerPointCleanerBatch.exe - Batch mode
-echo   4. StrokeOrderDownloader.exe - Chinese stroke order
+echo   2. PowerPointCleanerBatch.exe - PowerPoint tool (Batch)
+echo   3. StrokeOrderDownloader.exe - Chinese stroke order
 echo.
 pause
 goto END
