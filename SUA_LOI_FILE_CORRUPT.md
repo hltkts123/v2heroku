@@ -1,10 +1,11 @@
-# S?A L?I FILE B? CORRUPT SAU KHI X? L?
+# S?A L?I FILE B? CORRUPT SAU KHI X? L? - HOTFIX v3.3.1
 
-## ? V?N ??
+## ?? V?N ??
 
 Sau khi d?ng tool x? l? file PowerPoint, khi m? file xu?t hi?n l?i:
 - File kh?ng m? ???c
 - PowerPoint b?o "file b? h?ng"
+- L?i: "PowerPoint found a problem with content"
 - Ho?c c?c l?i kh?c
 
 ## ?? NGUY?N NH?N
@@ -78,104 +79,138 @@ Upload file l?n: https://www.onlinefilerepair.com/powerpoint-repair.html
 ? T?i v? file ?? s?a
 ```
 
-### ?? tr?nh l?i trong t??ng lai:
-
-1. **C?p nh?t l?n version 3.3.1** ? QUAN TR?NG!
-2. **Lu?n b?t "T? ??ng backup"**
-3. **Test tr?n file nh? tr??c**
-
-## ?? T?I VERSION M?I
-
-**File:** `PowerPoint_Cleaner_v3.3.1_FINAL.zip`
-
-**Thay ??i:**
-- ? S?a l?i file corrupt
-- ? X?a v? t?o l?i runs ??ng c?ch
-- ? Th?m fallback n?u l?i
-
-**C?i ??t:**
+**Option 4: Gi?i n?n ZIP v? s?a th? c?ng**
 ```bash
-# Gi?i n?n ZIP m?i
-# Ghi ?? c?c file c?
-# Ch?y l?i: run.bat / run_batch.bat
+# 1. ??i .pptx th?nh .zip
+ren presentation.pptx presentation.zip
+
+# 2. Gi?i n?n
+unzip presentation.zip -d presentation_extracted
+
+# 3. T?m v? x?a empty text runs trong XML files
+# Trong folder ppt/slides/
+
+# 4. ??ng g?i l?i
+zip -r presentation_fixed.zip presentation_extracted/*
+ren presentation_fixed.zip presentation_fixed.pptx
 ```
 
-## ? KI?M TRA
+## ?? PH?NG TR?NH
 
-### Test sau khi c?p nh?t:
+### 1. C?p nh?t l?n v3.3.1:
+```bash
+# T?i version m?i nh?t
+PowerPoint_Cleaner_v4.1_OPTIMIZED.zip
 
-1. **X? l? file test nh?**
-2. **M? file ?? x? l?**
-   - ? M? ???c b?nh th??ng?
-   - ? Text hi?n th? ??ng?
-   - ? Format c?n nguy?n?
-3. **N?u OK ? X? l? file th?t**
-
-### N?u v?n b? l?i:
-
-**B?o l?i k?m theo:**
-- Screenshot l?i
-- File m?u b? l?i (n?u c? th?)
-- C?c b??c ?? l?m
-
-## ?? TECHNICAL DETAILS
-
-### T?i sao empty runs g?y l?i?
-
-**PowerPoint XML structure:**
-```xml
-<a:p>
-  <a:r>
-    <a:t>??</a:t>  <!-- Run c? text -->
-  </a:r>
-  <a:r>
-    <a:t></a:t>      <!-- Empty run - INVALID! -->
-  </a:r>
-</a:p>
+# Ho?c update code trong file c?
+# Copy h?m filter_text_preserve_format() t? v3.3.1
 ```
 
-PowerPoint validator s? reject structure n?y ? File corrupt.
-
-### Solution:
-
-**Remove empty runs completely:**
-```xml
-<a:p>
-  <a:r>
-    <a:t>??</a:t>  <!-- Ch? gi? runs c? text -->
-  </a:r>
-  <!-- Empty runs ?? b? X?A HO?N TO?N -->
-</a:p>
+### 2. Lu?n b?t "T? ??ng backup":
+```
+Tool c? s?n checkbox "T? ??ng backup"
+? Lu?n TICK v?o!
+? File backup: filename_backup_YYYYMMDD_HHMMSS.pptx
 ```
 
-## ? FAQ
-
-**Q: File backup c? b? l?i kh?ng?**
-A: KH?NG. Backup ???c t?o TR??C KHI x? l?.
-
-**Q: C? m?t d? li?u kh?ng?**
-A: N?u d?ng backup: KH?NG m?t g?.
-   N?u d?ng repair: C? th? m?t m?t s? formatting ph?c t?p.
-
-**Q: Version 3.3.1 c? c?n gi? format kh?ng?**
-A: C?! V?n gi? nguy?n 100% format, nh?ng KH?NG g?y l?i file.
-
-**Q: T?i ?? x? l? 100 files, gi? l?m sao?**
-A: D?ng file backup c?a t?ng file. Ho?c d?ng PowerPoint Repair cho t?ng file.
-
-## ?? CHANGELOG
-
+### 3. Test tr?n file nh? tr??c:
 ```
-[2025-11-02] Version 3.3.1 - Critical Bug Fix
-
-  ?? CRITICAL FIX: File corrupt due to empty runs
-  ? NEW: Remove and recreate runs properly
-  ? NEW: Fallback mechanism if error occurs
-  ?? DOCS: Guide for file repair
+1. Ch?n 1 slide ??n gi?n
+2. Test x? l?
+3. M? file ki?m tra OK
+4. M?i x? l? file l?n
 ```
+
+## ?? CHECKLIST C?P NH?T
+
+Ki?m tra version c?a b?n:
+
+- [ ] Version hi?n t?i: _______ (xem trong footer app)
+- [ ] N?u < v3.3.1 ? C?N C?P NH?T!
+- [ ] Download: `PowerPoint_Cleaner_v4.1_OPTIMIZED.zip`
+- [ ] Gi?i n?n v? thay th? files c?
+- [ ] Ch?y l?i `install_full.bat`
+- [ ] Test v?i file backup
+
+## ?? X?C ??NH VERSION
+
+**C?ch 1: Xem footer trong app**
+```
+M? app ? Xem d?ng cu?i c?ng:
+"Version 3.3.1" ? OK ?
+"Version 3.3" ? C?N C?P NH?T ?
+```
+
+**C?ch 2: Xem trong code**
+```python
+# M? file ppt_cleaner_batch.py
+# T?m d?ng:
+VERSION = "3.3.1"  # ? OK ?
+VERSION = "3.3"    # ? C?N C?P NH?T ?
+```
+
+## ?? SO S?NH VERSION
+
+| T?nh n?ng | v3.3 (C?) | v3.3.1 (M?i) |
+|-----------|-----------|--------------|
+| X?a text | ? | ? |
+| Gi? format | ? | ? |
+| File corrupt | ? X?Y RA | ? KH?NG B? |
+| Empty runs | ? C? | ? Kh?ng c? |
+| Backup | ? | ? |
+
+## ?? V?N B? L?I?
+
+### Debug b??c t?ng b??c:
+
+1. **Ki?m tra file g?c:**
+   ```
+   File g?c c? m? ???c kh?ng?
+   N?u KH?NG ? File g?c ?? h?ng t? tr??c
+   ```
+
+2. **Ki?m tra backup:**
+   ```
+   C? file backup kh?ng?
+   Backup c? m? ???c kh?ng?
+   ```
+
+3. **Ki?m tra version:**
+   ```
+   Version tool: _______
+   N?u < v3.3.1 ? C?P NH?T!
+   ```
+
+4. **Th? PowerPoint Repair:**
+   ```
+   Open and Repair c? s?a ???c kh?ng?
+   ```
+
+5. **Li?n h? h? tr?:**
+   ```
+   - M? t? chi ti?t v?n ??
+   - ??nh k?m file backup
+   - Cho bi?t version tool
+   ```
+
+## ?? TIPS
+
+? **LU?N backup** - Checkbox "T? ??ng backup" ph?i TICK  
+? **Test tr??c** - Th? 1-2 slide tr??c khi x? l? h?t  
+? **C?p nh?t th??ng xuy?n** - D?ng version m?i nh?t  
+? **??c changelog** - Bi?t bug ?? s?a trong version m?i
 
 ---
 
-**Version:** 3.3.1
-**Priority:** ?? CRITICAL - C?p nh?t ngay!
-**Affected:** Version 3.3 (ch? c? version n?y b? l?i)
+## ?? T?I LI?U LI?N QUAN
+
+- `CAP_NHAT_v3.3_PRESERVE_FORMAT.md` - Chi ti?t t?nh n?ng v3.3
+- `CAP_NHAT_v4.1.md` - Changelog version m?i nh?t
+- `README_INTEGRATED.md` - H??ng d?n ??y ??
+
+---
+
+**Version:** 3.3.1 (HOTFIX)  
+**Fixed:** 2025-11-02  
+**Issue:** File corruption due to empty runs  
+**Status:** ? RESOLVED

@@ -1,8 +1,8 @@
-# PowerPoint Cleaner - C?ng c? d?n d?p PowerPoint
+# PowerPoint Cleaner v4.1 - C?ng c? d?n d?p PowerPoint
 
 **?ng d?ng Python v?i giao di?n ??p - Kh?ng c?n m? PowerPoint!**
 
-## ? T?nh n?ng
+## ?? T?nh n?ng
 
 ### ??? X?a h?nh ?nh
 - X?a h?nh theo k?ch th??c c? th?
@@ -10,40 +10,48 @@
 - T?y ch?nh dung sai
 
 ### ?? L?c text  
-- **Gi? ti?ng Vi?t - X?a ti?ng Anh** (khuy?n ngh?)
+- **Gi? ti?ng Vi?t/Trung - X?a ti?ng Anh** (khuy?n ngh?)
 - Gi? ti?ng Anh - X?a ti?ng Vi?t
 - X?a t?t c? text
 - Pattern t?y ch?nh (regex)
+- **GI? NGUY?N FORMAT** (font, size, color, bold, italic...)
 
 ### ?? T?nh n?ng kh?c
 - ? Preview tr??c khi x? l?
 - ? T? ??ng backup file g?c
-- ? Giao di?n tabs ??p m?t
+- ? Batch processing (nhi?u file)
+- ? Progress tracking real-time
 - ? Cross-platform (Windows/Mac/Linux)
+
+### ?? Stroke Order Downloader
+- ? T?i ?nh th? t? n?t ch? H?n
+- ? T? strokeorder.info
+- ? Download song song (10 threads)
+- ? L?u GIF
 
 ## ?? C?ch t?i v?
 
 ### File c?n t?i:
-**`PowerPoint_Cleaner_v2.zip`** (29 KB)
+**`PowerPoint_Cleaner_v4.1_OPTIMIZED.zip`** (35 KB)
 
 ### Trong Cursor/VSCode:
-1. T?m file `PowerPoint_Cleaner_v2.zip` trong Explorer
+1. T?m file `PowerPoint_Cleaner_v4.1_OPTIMIZED.zip` trong Explorer
 2. Click chu?t ph?i ? **Download**
 3. Ch?n n?i l?u (Desktop / Documents)
 4. Gi?i n?n file ZIP
 
 ## ?? C?i ??t & Ch?y
 
-### Windows (3 b??c):
+### Windows (2 b??c):
 
 ```bash
 1. Gi?i n?n file ZIP
 
-2. Double-click: install.bat
+2. Double-click: install_full.bat
    (C?i ??t - ch? l?m 1 l?n)
 
-3. Double-click: run.bat
-   (Ch?y app)
+3. Double-click: run_launcher.bat
+   (Ch?y launcher)
 ```
 
 ### Mac/Linux:
@@ -52,69 +60,84 @@
 1. Gi?i n?n file ZIP
 
 2. Terminal:
-   chmod +x install.sh run.sh
-   ./install.sh
+   chmod +x install_full.sh run_launcher.sh
+   ./install_full.sh
    (C?i ??t - ch? l?m 1 l?n)
 
 3. Ch?y:
-   ./run.sh
+   ./run_launcher.sh
 ```
 
 ## ?? Y?u c?u h? th?ng
 
-- **Python 3.7+** (t?i t? python.org)
+- **Python 3.6+** (t?i t? python.org)
   - ?? **Quan tr?ng:** Tick "Add Python to PATH" khi c?i
-- Th? vi?n `python-pptx` (t? ??ng c?i b?ng script)
+- Th? vi?n `python-pptx`, `requests`, `beautifulsoup4` (t? ??ng c?i b?ng script)
 
 ## ?? H??ng d?n s? d?ng
 
 ### V? d? 1: X?a h?nh 1.6x1.6 inch
 
-1. Ch?n file PowerPoint
-2. Tab **"X?a h?nh ?nh"**
-3. Width: `1.6`, Height: `1.6`
-4. Ch? ??: **AND**
-5. Click "X? l? file"
-6. Xong!
+1. Ch?y launcher
+2. Ch?n "PowerPoint Cleaner"
+3. Th?m file PowerPoint
+4. Tab **"X?a h?nh ?nh"**
+5. Width: `1.6`, Height: `1.6`
+6. Ch? ??: **AND**
+7. Click "X? l? t?t c? files"
+8. Xong!
 
-### V? d? 2: Gi? ti?ng Vi?t, x?a ti?ng Anh
+### V? d? 2: Gi? ti?ng Vi?t/Trung, x?a ti?ng Anh
 
 **Tr??c:**
 ```
-Hello World
-Xin ch?o Vi?t Nam
-English text
-Ti?ng Vi?t c? d?u
+???? Product Introduction
+(STXihei 54pt Red Bold) (Times 20pt)
 ```
 
 **Sau:**
 ```
-Xin ch?o Vi?t Nam
-Ti?ng Vi?t c? d?u
+????
+(STXihei 54pt Red Bold) ? FORMAT GI? NGUY?N!
 ```
 
 **C?ch l?m:**
-1. Ch?n file PowerPoint
-2. Tab **"L?c text"**
-3. Ch?n: **"Gi? ti?ng Vi?t - X?a ti?ng Anh"**
-4. Click "X? l? file"
-5. Xong!
+1. Ch?y launcher
+2. Ch?n "PowerPoint Cleaner"
+3. Th?m file PowerPoint
+4. Tab **"L?c text"**
+5. Ch?n: **"X?a ti?ng Anh - Gi? Vi?t/Trung"**
+6. Click "X? l? t?t c? files"
+7. Xong!
+
+### V? d? 3: T?i ?nh ch? H?n
+
+1. Ch?y launcher
+2. Ch?n "Stroke Order Downloader"
+3. Nh?p: `????`
+4. Ch?n folder l?u
+5. Click "B?t ??u t?i"
+6. Xong! ? 4 file GIF (?.gif, ?.gif, ?.gif, ?.gif)
 
 ## ?? C?u tr?c file trong ZIP
 
 ```
-PowerPoint_Cleaner_v2.zip
-??? ppt_cleaner.py              ? App ch?nh (2-in-1)
-??? ppt_image_remover.py           App ??n gi?n
-??? requirements.txt               Th? vi?n c?n thi?t
-??? install.bat / install.sh       Script c?i ??t
-??? run.bat / run.sh               Script ch?y
-??? QUICK_START.txt             ? H??ng d?n nhanh
-??? DeleteSpecificSizedImages_Upgraded.vba  Code VBA
-??? README*.md                     T?i li?u chi ti?t
+PowerPoint_Cleaner_v4.1_OPTIMIZED.zip
+??? launcher.py                    ? Launcher ch?nh
+??? ppt_cleaner_batch.py          ? PowerPoint Cleaner
+??? stroke_order_downloader.py    ? Stroke Order
+??? requirements_full.txt           Th? vi?n c?n thi?t
+??? install_full.bat/sh             Script c?i ??t
+??? run_launcher.bat/sh             Script ch?y launcher
+??? build_all_exe.bat               Build th?nh EXE
+??? docs/
+    ??? README_INTEGRATED.md      ? H??ng d?n ??y ??
+    ??? START_HERE_v4.1.txt       ? Quick start
+    ??? CAP_NHAT_v4.1.md            Changelog
+    ??? ...
 ```
 
-## ? X? l? l?i th??ng g?p
+## ?? X? l? l?i th??ng g?p
 
 ### "python is not recognized"
 **Nguy?n nh?n:** Ch?a c?i Python ho?c ch?a add v?o PATH
@@ -129,7 +152,7 @@ PowerPoint_Cleaner_v2.zip
 
 **Gi?i ph?p:**
 ```bash
-pip install python-pptx
+pip install python-pptx requests beautifulsoup4
 ```
 
 ### "Permission denied"
@@ -148,22 +171,11 @@ pip install python-pptx
 
 Trong file ZIP c? c?c file h??ng d?n ??y ??:
 
-- **`QUICK_START.txt`** - H??ng d?n nhanh (m? b?ng Notepad)
-- **`README_CLEANER.md`** - H??ng d?n ??y ?? app Python
-- **`README_TOOL.md`** - H??ng d?n app x?a ?nh
-- **`VBA_UPGRADE_NOTES.md`** - H??ng d?n code VBA
-- **`HUONG_DAN_TAI_VE.md`** - H??ng d?n t?i v? c?i ??t
-
-## ?? Bonus: Code VBA
-
-N?u mu?n d?ng code VBA trong PowerPoint:
-
-1. M? file `DeleteSpecificSizedImages_Upgraded.vba` b?ng Notepad
-2. Copy to?n b? code
-3. PowerPoint ? Alt+F11 (VBA Editor)
-4. Insert ? Module
-5. Paste code v?o
-6. Alt+F8 ? Ch?n macro ? Run
+- **`START_HERE_v4.1.txt`** - H??ng d?n nhanh (m? b?ng Notepad)
+- **`README_INTEGRATED.md`** - H??ng d?n ??y ?? t?ch h?p
+- **`CAP_NHAT_v4.1.md`** - Changelog v4.1
+- **`HUONG_DAN_TICH_HOP.md`** - Chi ti?t t?ch h?p
+- **`HUONG_DAN_BUILD_EXE.md`** - H??ng d?n build EXE
 
 ## ?? Tips
 
@@ -172,23 +184,23 @@ N?u mu?n d?ng code VBA trong PowerPoint:
 ? **Test v?i file nh?** - Th? nghi?m tr??c khi x? l? file l?n
 ? **??ng PowerPoint** - Tr?nh l?i Permission denied
 
-## ?? So s?nh VBA vs Python
+## ?? So s?nh Single vs Batch
 
-| T?nh n?ng | VBA | Python Tool |
-|-----------|-----|-------------|
-| C?n PowerPoint | ? | ? |
-| Giao di?n GUI | ? | ? |
-| Preview | ? | ? |
-| Backup t? ??ng | ? | ? |
-| Cross-platform | ?? | ? |
-| D? s? d?ng | ??? | ????? |
+| T?nh n?ng | Single (?? b?) | Batch v4.1 |
+|-----------|-----------------|------------|
+| X? l? 1 file | ? | ? |
+| X? l? nhi?u file | ? | ? |
+| Progress tracking | C? b?n | ? Chi ti?t |
+| T?c ?? | Ch?m | ? Nhanh |
 
-## ?? T?m t?t - 3 b??c duy nh?t
+? **Batch mode c? th? l?m m?i th?!**
+
+## ?? T?ng k?t - 3 b??c duy nh?t
 
 ```
 1. T?i ZIP ? Gi?i n?n
-2. Ch?y install (1 l?n)
-3. Ch?y run (m?i l?n d?ng)
+2. Ch?y install_full (1 l?n)
+3. Ch?y run_launcher (m?i l?n d?ng)
 ```
 
 **??n gi?n v?y th?i!** ??
@@ -200,10 +212,12 @@ N?u mu?n d?ng code VBA trong PowerPoint:
 **Python:** https://www.python.org/downloads/  
 **Library:** https://python-pptx.readthedocs.io/  
 **Regex:** https://regex101.com/
+**Stroke Order:** http://www.strokeorder.info/
 
 ---
 
-**Version:** 2.0  
+**Version:** 4.1  
 **Date:** 2025-11-02  
 **Platform:** Windows / Mac / Linux  
+**Tools:** 2 (PowerPoint Cleaner + Stroke Order)  
 **License:** Free to use

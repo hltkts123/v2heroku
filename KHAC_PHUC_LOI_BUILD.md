@@ -11,15 +11,15 @@
 # C?i ??t t?t c? dependencies tr??c
 pip install python-pptx pillow pyinstaller
 
-# Sau ?? build l?i
-pyinstaller --noconfirm --clean \
+# Sau ?? build l?i v?i hidden imports
+python -m PyInstaller --noconfirm --clean \
     --hidden-import=pptx \
     --hidden-import=pptx.util \
     --hidden-import=PIL \
-    --name "PowerPointCleaner" \
+    --name "PowerPointCleanerBatch" \
     --onefile \
     --windowed \
-    ppt_cleaner.py
+    ppt_cleaner_batch.py
 ```
 
 ---
@@ -35,36 +35,41 @@ pip install pillow
 python create_icon.py
 
 # Option 2: Build kh?ng c?n icon
-pyinstaller --noconfirm --clean \
-    --name "PowerPointCleaner" \
+python -m PyInstaller --noconfirm --clean \
+    --name "PowerPointCleanerBatch" \
     --onefile \
     --windowed \
-    ppt_cleaner.py
+    ppt_cleaner_batch.py
 
 # Option 3: D?ng icon Windows m?c ??nh
-pyinstaller --noconfirm --clean \
-    --name "PowerPointCleaner" \
+python -m PyInstaller --noconfirm --clean \
+    --name "PowerPointCleanerBatch" \
     --onefile \
     --windowed \
     --icon=NONE \
-    ppt_cleaner.py
+    ppt_cleaner_batch.py
 ```
 
 ---
 
-### 3. **L?i: "PyInstaller not found"**
+### 3. **L?i: "PyInstaller not found" ho?c "pyinstaller is not recognized"**
 
 **Kh?c ph?c:**
 ```bash
-# C?i ??t PyInstaller
-pip install --upgrade pyinstaller
+# Option 1: C?i ??t PyInstaller
+python -m pip install --upgrade pyinstaller
 
-# Ki?m tra ?? c?i ch?a
-pyinstaller --version
+# Option 2: Ki?m tra ?? c?i ch?a
+python -m pip list | findstr pyinstaller
 
-# N?u v?n l?i, d?ng python -m
+# Option 3: D?ng python -m (LU?N HO?T ??NG)
 python -m PyInstaller --version
+
+# Option 4: Ch?y script t? ??ng s?a l?i
+fix_and_build.bat
 ```
+
+**Xem th?m:** `HUONG_DAN_SUA_LOI_PYINSTALLER.txt`
 
 ---
 
@@ -78,10 +83,10 @@ python -m PyInstaller --version
 rd /s /q build dist *.spec
 
 # Rebuild v?i clean
-pyinstaller --noconfirm --clean \
+python -m PyInstaller --noconfirm --clean \
     --onefile \
     --windowed \
-    ppt_cleaner.py
+    ppt_cleaner_batch.py
 ```
 
 ---
@@ -98,260 +103,201 @@ pyinstaller --noconfirm --clean \
 rd /s /q build dist
 
 # 4. Build l?i
-pyinstaller --noconfirm --clean ppt_cleaner.py
+python -m PyInstaller --clean ppt_cleaner_batch.py
 ```
 
 ---
 
 ### 6. **L?i: "RecursionError: maximum recursion depth exceeded"**
 
+**Nguy?n nh?n:** Code c? ?? quy s?u
+
 **Kh?c ph?c:**
 ```bash
-# T?ng recursion limit
-pyinstaller --noconfirm --clean \
+# T?ng gi?i h?n recursion
+python -m PyInstaller \
     --recursion-limit=5000 \
     --onefile \
     --windowed \
-    ppt_cleaner.py
-```
-
----
-
-## ??? BUILD SCRIPT T??NG TH?CH T?T H?N
-
-T?o file `build_simple.bat`:
-
-```batch
-@echo off
-echo Building PowerPoint Cleaner...
-
-REM Install dependencies
-pip install python-pptx pillow pyinstaller
-
-REM Clean old build
-if exist build rd /s /q build
-if exist dist rd /s /q dist
-del *.spec
-
-REM Build WITHOUT icon (safer)
-pyinstaller ^
-    --noconfirm ^
-    --clean ^
-    --name "PowerPointCleaner" ^
-    --onefile ^
-    --windowed ^
-    --hidden-import=pptx ^
-    --hidden-import=pptx.util ^
-    --hidden-import=PIL ^
-    ppt_cleaner.py
-
-REM Build batch version
-pyinstaller ^
-    --noconfirm ^
-    --clean ^
-    --name "PowerPointCleanerBatch" ^
-    --onefile ^
-    --windowed ^
-    --hidden-import=pptx ^
-    --hidden-import=pptx.util ^
-    --hidden-import=PIL ^
     ppt_cleaner_batch.py
-
-echo Done! Check 'dist' folder
-pause
 ```
 
 ---
 
-## ?? DEBUG MODE
+### 7. **L?i: EXE ch?y r?i t?t ngay**
 
-?? xem l?i chi ti?t h?n:
+**Nguy?n nh?n:** L?i runtime kh?ng hi?n th?
 
+**Kh?c ph?c:**
 ```bash
-# Build v?i console (kh?ng d?ng --windowed)
-pyinstaller --noconfirm --clean \
-    --name "PowerPointCleaner_Debug" \
+# Build v?i console ?? xem l?i
+python -m PyInstaller \
+    --noconfirm \
+    --clean \
     --onefile \
     --console \
-    ppt_cleaner.py
+    ppt_cleaner_batch.py
 
-# Ch?y file EXE t? command prompt ?? xem l?i
-dist\PowerPointCleaner_Debug.exe
+# Ch?y EXE t? Command Prompt ?? xem l?i
+dist\PowerPointCleanerBatch.exe
 ```
+
+---
+
+### 8. **L?i: "ImportError: DLL load failed"**
+
+**Nguy?n nh?n:** Thi?u Visual C++ Redistributable
+
+**Kh?c ph?c:**
+```bash
+# C?i Visual C++ Redistributable:
+# https://aka.ms/vs/17/release/vc_redist.x64.exe
+
+# Ho?c build v?i --hidden-import
+python -m PyInstaller \
+    --hidden-import=win32api \
+    --hidden-import=win32con \
+    ppt_cleaner_batch.py
+```
+
+---
+
+### 9. **L?i: File EXE qu? l?n (>50MB)**
+
+**Nguy?n nh?n:** Bao g?m nhi?u dependencies kh?ng c?n
+
+**Kh?c ph?c:**
+```bash
+# 1. D?ng virtual environment s?ch
+python -m venv venv_build
+venv_build\Scripts\activate
+
+# 2. Ch? c?i dependencies c?n thi?t
+pip install python-pptx pyinstaller
+
+# 3. Build trong venv
+python -m PyInstaller --onefile ppt_cleaner_batch.py
+
+# 4. Lo?i b? modules kh?ng c?n
+python -m PyInstaller \
+    --exclude-module=matplotlib \
+    --exclude-module=numpy \
+    --onefile \
+    ppt_cleaner_batch.py
+```
+
+---
+
+### 10. **L?i: "WARNING: lib not found"**
+
+**Nguy?n nh?n:** C?nh b?o, kh?ng ?nh h??ng nghi?m tr?ng
+
+**Kh?c ph?c:**
+```bash
+# C? th? ignore ho?c th?m path
+python -m PyInstaller \
+    --paths="C:\path\to\libs" \
+    ppt_cleaner_batch.py
+```
+
+---
+
+## ?? SCRIPT T? ??NG S?A T?T C? L?I
+
+### Windows:
+
+```bash
+# Ch?y script t? ??ng s?a l?i
+fix_and_build.bat
+```
+
+**Script s?:**
+1. ? Upgrade pip
+2. ? C?i PyInstaller
+3. ? Verify installation  
+4. ? Clean old builds
+5. ? Build t?t c? EXE v?i ??y ?? imports
+6. ? T?o icon t? ??ng
 
 ---
 
 ## ?? CHECKLIST TR??C KHI BUILD
 
-- [ ] Python ?? c?i (3.6+)
-- [ ] pip ?? c?i
-- [ ] ?? c?i: `pip install python-pptx pillow pyinstaller`
-- [ ] Antivirus t?t t?m th?i
-- [ ] Kh?ng c? file EXE n?o ?ang ch?y
-- [ ] Folder build, dist ?? x?a
-- [ ] File .py kh?ng c? l?i syntax
+- [ ] Python 3.6+ ?? c?i
+- [ ] pip ?? c?i v? update
+- [ ] T?t c? dependencies ?? c?i (`requirements_full.txt`)
+- [ ] PyInstaller ?? c?i
+- [ ] ?? test code ch?y OK
+- [ ] ?? x?a folder build, dist c?
+- [ ] Antivirus t?m t?t
 
 ---
 
-## ?? N?U V?N L?I
+## ?? DEBUG BUILD L?I
 
-### **C?ch 1: Build ??n gi?n nh?t**
-
+### B??c 1: Build v?i console
 ```bash
-# Ch? c?n l?nh t?i thi?u
-pyinstaller --onefile --windowed ppt_cleaner.py
+python -m PyInstaller --console ppt_cleaner_batch.py
 ```
 
-Kh?ng c? icon, kh?ng c? g? fancy, nh?ng ch?c ch?n ch?y ???c.
-
----
-
-### **C?ch 2: D?ng spec file**
-
-T?o file `ppt_cleaner.spec`:
-
-```python
-# -*- mode: python ; coding: utf-8 -*-
-
-a = Analysis(
-    ['ppt_cleaner.py'],
-    pathex=[],
-    binaries=[],
-    datas=[],
-    hiddenimports=['pptx', 'pptx.util', 'PIL'],
-    hookspath=[],
-    hooksconfig={},
-    runtime_hooks=[],
-    excludes=[],
-    noarchive=False,
-)
-
-pyz = PYZ(a.pure)
-
-exe = EXE(
-    pyz,
-    a.scripts,
-    a.binaries,
-    a.datas,
-    [],
-    name='PowerPointCleaner',
-    debug=False,
-    bootloader_ignore_signals=False,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    runtime_tmpdir=None,
-    console=False,
-    disable_windowed_traceback=False,
-    argv_emulation=False,
-    target_arch=None,
-    codesign_identity=None,
-    entitlements_file=None,
-)
-```
-
-Sau ?? build:
+### B??c 2: Ch?y v? ??c l?i
 ```bash
-pyinstaller ppt_cleaner.spec
+dist\PowerPointCleanerBatch.exe
 ```
 
----
+### B??c 3: Google l?i c? th?
+- T?m tr?n Stack Overflow
+- Xem docs PyInstaller
 
-### **C?ch 3: Kh?ng d?ng PyInstaller**
-
-D?ng **auto-py-to-exe** (GUI cho PyInstaller):
-
+### B??c 4: Th?m hidden imports
 ```bash
-pip install auto-py-to-exe
-auto-py-to-exe
-```
-
-M? GUI, ch?n file, click Build!
-
----
-
-## ?? M? T? L?I C?A B?N
-
-**?? t?i gi?p ch?nh x?c h?n, vui l?ng:**
-
-1. **Copy text l?i** (thay v? screenshot)
-2. **Ho?c m? t?:**
-   - L?i xu?t hi?n ? b??c n?o?
-   - Th?ng b?o l?i l? g??
-   - ?? c?i PyInstaller ch?a?
-   - Python version?
-
-**V? d?:**
-```
-L?i xu?t hi?n khi ch?y: build_exe.bat
-Th?ng b?o: "ModuleNotFoundError: No module named 'pptx'"
-Python: 3.9
+python -m PyInstaller \
+    --hidden-import=module_bi_loi \
+    ppt_cleaner_batch.py
 ```
 
 ---
 
-## ?? GI?I PH?P T?M TH?I
+## ?? TIPS TR?NH L?I
 
-N?u kh?ng build ???c EXE, ng??i d?ng v?n c? th? d?ng Python script:
-
-```bash
-# C?i dependencies
-pip install python-pptx pillow
-
-# Ch?y tr?c ti?p
-python ppt_cleaner.py
-```
-
-Ho?c t?o shortcut v?i file `.bat`:
-
-```batch
-@echo off
-python ppt_cleaner.py
-```
-
-??t t?n: `Run_PowerPointCleaner.bat`
+? **Lu?n d?ng `python -m PyInstaller`** thay v? `pyinstaller`  
+? **Build trong virtual environment** ?? tr?nh conflict  
+? **Test tr?n m?y s?ch** kh?ng c? Python  
+? **??c warning** khi build ?? bi?t thi?u g?  
+? **D?ng `--clean`** m?i l?n build
 
 ---
 
-## ?? TOOLS H? TR?
+## ?? T?I LI?U LI?N QUAN
 
-### **1. Nuitka** (alternative to PyInstaller)
-
-```bash
-pip install nuitka
-python -m nuitka --onefile --windows-disable-console ppt_cleaner.py
-```
-
-### **2. cx_Freeze**
-
-```bash
-pip install cx_Freeze
-cxfreeze ppt_cleaner.py --target-dir dist
-```
-
-### **3. py2exe** (Windows only)
-
-```bash
-pip install py2exe
-python setup.py py2exe
-```
+- `HUONG_DAN_BUILD_EXE.md` - H??ng d?n build chi ti?t
+- `HUONG_DAN_SUA_LOI_PYINSTALLER.txt` - Fix l?i c? th?
+- `fix_and_build.bat` - Script t? ??ng
 
 ---
 
-## ? H?I NHANH
+## ?? V?N KH?NG GI?I QUY?T ???C?
 
-**Q: Build m?t bao l?u?**
-A: 3-5 ph?t l?n ??u, 30-60 gi?y l?n sau
+1. **Xem log chi ti?t:**
+   ```bash
+   python -m PyInstaller --log-level=DEBUG ppt_cleaner_batch.py
+   ```
 
-**Q: C?n bao nhi?u dung l??ng?**
-A: ~500MB cho cache PyInstaller, EXE final ~15-20MB
+2. **Rebuild t? ??u:**
+   ```bash
+   rd /s /q build dist __pycache__ *.spec
+   python -m pip uninstall pyinstaller
+   python -m pip install pyinstaller
+   python -m PyInstaller --clean ppt_cleaner_batch.py
+   ```
 
-**Q: C? th? build tr?n Mac/Linux kh?ng?**
-A: C?, nh?ng ch? t?o ???c EXE cho platform ??
-
-**Q: Antivirus c? ch?n kh?ng?**
-A: C? th? false positive, add exception
+3. **D?ng script t? ??ng:**
+   ```bash
+   fix_and_build.bat
+   ```
 
 ---
 
-**Copy l?i c?a b?n cho t?i ?? gi?p c? th? h?n!**
+**Version:** 4.1  
+**Platform:** Windows (ch?nh)  
+**Last updated:** 2025-11-02

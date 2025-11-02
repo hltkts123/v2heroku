@@ -31,24 +31,27 @@ Build Python tool th?nh file **EXE** ??:
 #### Windows:
 ```bash
 # Double click file:
-build_exe.bat
+build_all_exe.bat
 
 # Ho?c ch?y t? Command Prompt:
-build_exe.bat
+build_all_exe.bat
 ```
 
 #### Mac/Linux:
 ```bash
 # M? Terminal, cd v?o folder, ch?y:
-chmod +x build_exe.sh
-./build_exe.sh
+chmod +x build_all_exe.sh
+./build_all_exe.sh
 ```
 
 **Script s?:**
 1. ? Ki?m tra Python
 2. ? C?i PyInstaller
 3. ? T?o icon t? ??ng
-4. ? Build 2 file EXE
+4. ? Build 3 file EXE
+   - ToolLauncher.exe
+   - PowerPointCleanerBatch.exe
+   - StrokeOrderDownloader.exe
 
 ---
 
@@ -66,24 +69,38 @@ python create_icon.py
 
 #### B??c 3: Build EXE
 
-**Single file mode:**
+**Launcher:**
 ```bash
-pyinstaller --noconfirm --clean ^
-    --name "PowerPointCleaner" ^
-    --onefile ^
-    --windowed ^
-    --icon="icon.ico" ^
-    ppt_cleaner.py
+python -m PyInstaller --noconfirm --clean \
+    --name "ToolLauncher" \
+    --onefile \
+    --windowed \
+    --icon="icon.ico" \
+    launcher.py
 ```
 
-**Batch mode:**
+**PowerPoint Cleaner Batch:**
 ```bash
-pyinstaller --noconfirm --clean ^
-    --name "PowerPointCleanerBatch" ^
-    --onefile ^
-    --windowed ^
-    --icon="icon.ico" ^
+python -m PyInstaller --noconfirm --clean \
+    --name "PowerPointCleanerBatch" \
+    --onefile \
+    --windowed \
+    --icon="icon.ico" \
+    --hidden-import=pptx \
+    --hidden-import=pptx.util \
     ppt_cleaner_batch.py
+```
+
+**Stroke Order Downloader:**
+```bash
+python -m PyInstaller --noconfirm --clean \
+    --name "StrokeOrderDownloader" \
+    --onefile \
+    --windowed \
+    --icon="icon.ico" \
+    --hidden-import=requests \
+    --hidden-import=bs4 \
+    stroke_order_downloader.py
 ```
 
 ---
@@ -94,259 +111,164 @@ Sau khi build, file EXE n?m trong folder **`dist`**:
 
 ```
 dist/
-??? PowerPointCleaner.exe          (~15-20 MB)
-??? PowerPointCleanerBatch.exe     (~15-20 MB)
+??? ToolLauncher.exe          (~20 MB)
+??? PowerPointCleanerBatch.exe (~18 MB)
+??? StrokeOrderDownloader.exe (~19 MB)
 ```
 
-**??c ?i?m:**
-- ? Ch?y ??c l?p, KH?NG C?N Python
-- ? C? icon ??p
-- ? Double-click l? ch?y
-- ? K?ch th??c ~15-20MB (bao g?m Python runtime)
-
----
-
-## ?? ICON
-
-### Icon t? ??ng t?o:
-
-```
-???????????????????
-?  [PP] PowerPoint? ? Orange bar
-?                 ?
-?      [?]        ? ? Green checkmark
-?     Clean       ?
-???????????????????
-```
-
-**??c ?i?m:**
-- M?u cam gi?ng PowerPoint
-- Checkmark xanh l? = "Clean"
-- Professional design
-
-### T? t?o icon ri?ng:
-
-1. T?o ?nh PNG 256x256
-2. Convert sang ICO:
-   - Online: https://convertio.co/png-ico/
-   - Ho?c d?ng Photoshop/GIMP
-3. ??t t?n: `icon.ico`
-4. Ch?y build script
-
----
-
-## ?? PH?N PH?I
-
-### Cho ng??i d?ng cu?i:
-
-**G?i file EXE k?m h??ng d?n:**
-```
-PowerPointCleaner.exe          - X? l? 1 file
-PowerPointCleanerBatch.exe     - X? l? nhi?u file
-QUICK_START.txt                - H??ng d?n ng?n
-```
-
-**Ng??i d?ng ch? c?n:**
-1. Download file EXE
-2. Double-click ?? ch?y
-3. KH?NG C?N c?i Python!
+**Ph?n ph?i:**
+- Ch? c?n copy 3 file EXE n?y
+- Ng??i d?ng double-click ?? ch?y
+- KH?NG C?N Python!
 
 ---
 
 ## ?? T?Y CH?NH BUILD
 
-### Gi?m k?ch th??c file:
-
+### Build kh?ng c? console window:
 ```bash
-# Build v?i n?n UPX
-pyinstaller --noconfirm --clean \
-    --onefile \
-    --windowed \
-    --upx-dir=/path/to/upx \
-    ppt_cleaner.py
+--windowed
 ```
 
-### Build v?i console (debug):
-
+### Build v?i console (?? debug):
 ```bash
-# B? --windowed ?? th?y console output
-pyinstaller --noconfirm --clean \
-    --onefile \
-    --console \
-    --icon="icon.ico" \
-    ppt_cleaner.py
+--console
 ```
 
-### Build th?nh folder (nhanh h?n):
-
+### Build nhi?u files (nhanh h?n):
 ```bash
-# B? --onefile
-pyinstaller --noconfirm --clean \
-    --windowed \
-    --icon="icon.ico" \
-    ppt_cleaner.py
+--onedir
 ```
 
-? K?t qu?: Folder ch?a EXE + DLL files
+### Build 1 file EXE (g?n h?n):
+```bash
+--onefile
+```
+
+### Th?m data files:
+```bash
+--add-data "data.txt;."
+```
+
+---
+
+## ?? T?I ?U
+
+### Gi?m k?ch th??c EXE:
+```bash
+# D?ng UPX compression
+pip install upx-windows
+pyinstaller --upx-dir="path/to/upx" ...
+
+# Lo?i b? modules kh?ng c?n
+--exclude-module matplotlib
+--exclude-module numpy
+```
+
+### T?ng t?c ?? kh?i ??ng:
+```bash
+# D?ng onedir thay v? onefile
+--onedir
+
+# Disable collect submodules
+--no-collect-submodules
+```
+
+---
+
+## ?? T?O ICON
+
+### T? ??ng (Khuy?n ngh?):
+```bash
+python create_icon.py
+```
+
+### Th? c?ng:
+1. T?o ?nh PNG 256x256
+2. D?ng online converter: https://icoconvert.com/
+3. L?u th?nh `icon.ico`
+4. ??t c?ng folder v?i script
 
 ---
 
 ## ?? TROUBLESHOOTING
 
-### **L?i: "PyInstaller not found"**
-
-**Gi?i ph?p:**
-```bash
-pip install --upgrade pyinstaller
-```
-
-### **L?i: "Failed to execute script"**
-
-**Nguy?n nh?n:** Thi?u dependencies
-
-**Gi?i ph?p:**
+### L?i: "ModuleNotFoundError"
 ```bash
 # Th?m hidden imports
-pyinstaller --hidden-import=pptx \
-    --hidden-import=PIL \
-    ppt_cleaner.py
+--hidden-import=t?n_module
 ```
 
-### **Icon kh?ng hi?n th?**
-
-**Ki?m tra:**
+### L?i: "Failed to execute script"
 ```bash
-# File icon.ico c? t?n t?i kh?ng?
-dir icon.ico
-
-# C? th? d?ng icon kh?c
-pyinstaller --icon="path/to/your/icon.ico" ppt_cleaner.py
+# Build v?i console ?? xem l?i
+pyinstaller --console ...
 ```
 
-### **File EXE qu? l?n**
-
-**Gi?i ph?p:**
-1. D?ng UPX ?? n?n
-2. Build th?nh folder thay v? onefile
-3. X?a c?c imports kh?ng c?n thi?t
-
-### **Antivirus b?o virus**
-
-**L? do:** EXE ???c pack b?i PyInstaller c? th? b? false positive
-
-**Gi?i ph?p:**
-1. Submit file l?n VirusTotal ?? ki?m tra
-2. Add exception trong antivirus
-3. Sign code v?i certificate (n?u ph?n ph?i r?ng)
-
----
-
-## ?? SO S?NH
-
-| ??c ?i?m | Python Script | EXE File |
-|----------|--------------|----------|
-| **Y?u c?u Python** | C? | KH?NG |
-| **K?ch th??c** | ~50 KB | ~15-20 MB |
-| **Ch?y** | `python script.py` | Double-click |
-| **Ph?n ph?i** | Ph?c t?p | D? d?ng |
-| **Icon** | Kh?ng | C? |
-| **Startup** | Nhanh | Ch?m h?n ~2s |
-
----
-
-## ? CHECKLIST
-
-### Tr??c khi ph?n ph?i:
-
-- [ ] Build th?nh c?ng c? 2 file EXE
-- [ ] Test EXE tr?n m?y KH?NG c?i Python
-- [ ] Icon hi?n th? ??ng
-- [ ] T?t c? t?nh n?ng ho?t ??ng
-- [ ] File backup ???c t?o t? ??ng
-- [ ] K?t qu? hi?n th? ??ng
-- [ ] Kh?ng c? l?i console
-- [ ] K?ch th??c file h?p l?
-
-### G?i ph?n ph?i:
-
-- [ ] PowerPointCleaner.exe
-- [ ] PowerPointCleanerBatch.exe  
-- [ ] QUICK_START.txt
-- [ ] README_CHINH.md (optional)
-- [ ] Sample files (optional)
-
----
-
-## ?? BUILD INSTALLER (N?ng cao)
-
-### S? d?ng Inno Setup (Windows):
-
-1. Download Inno Setup: https://jrsoftware.org/isinfo.php
-2. T?o file script `.iss`:
-
-```iss
-[Setup]
-AppName=PowerPoint Cleaner
-AppVersion=3.3.1
-DefaultDirName={autopf}\PowerPointCleaner
-DefaultGroupName=PowerPoint Cleaner
-OutputDir=installer
-OutputBaseFilename=PowerPointCleaner_Setup
-
-[Files]
-Source: "dist\PowerPointCleaner.exe"; DestDir: "{app}"
-Source: "dist\PowerPointCleanerBatch.exe"; DestDir: "{app}"
-Source: "README_CHINH.md"; DestDir: "{app}"
-
-[Icons]
-Name: "{group}\PowerPoint Cleaner"; Filename: "{app}\PowerPointCleaner.exe"
-Name: "{group}\PowerPoint Cleaner Batch"; Filename: "{app}\PowerPointCleanerBatch.exe"
-Name: "{commondesktop}\PowerPoint Cleaner"; Filename: "{app}\PowerPointCleaner.exe"
+### L?i: "Permission denied"
+```bash
+# T?t antivirus t?m th?i
+# X?a folder build, dist
+# Build l?i
 ```
 
-3. Compile script ? T?o file `Setup.exe`
+### EXE qu? l?n
+```bash
+# D?ng virtual environment
+python -m venv venv
+venv\Scripts\activate
+pip install python-pptx pyinstaller
+# Build trong venv (ch? c? dependencies c?n thi?t)
+```
 
 ---
 
-## ?? GHI CH?
+## ?? SCRIPT T? ??NG FIX L?I
 
-### PyInstaller options:
+N?u g?p l?i "pyinstaller not recognized":
 
-| Option | ? ngh?a |
-|--------|---------|
-| `--onefile` | G?p th?nh 1 file EXE |
-| `--windowed` | Kh?ng hi?n console |
-| `--icon` | ??t icon |
-| `--name` | T?n file EXE |
-| `--add-data` | Th?m file data |
-| `--hidden-import` | Import ?n |
-| `--clean` | X?a cache tr??c build |
-| `--noconfirm` | Kh?ng h?i confirm |
+```bash
+# Windows:
+fix_and_build.bat
 
-### Build time:
-
-- **L?n ??u:** 3-5 ph?t (download dependencies)
-- **L?n sau:** 30-60 gi?y (s? d?ng cache)
+# Script s?:
+# 1. Upgrade pip
+# 2. C?i PyInstaller
+# 3. Verify installation
+# 4. Build t?t c? EXE
+```
 
 ---
 
-## ?? H? TR?
+## ?? SO S?NH BUILD OPTIONS
 
-**N?u g?p v?n ??:**
+| Option | K?ch th??c | T?c ?? kh?i ??ng | Ph?n ph?i |
+|--------|------------|------------------|-----------|
+| `--onefile` | Nh? g?n (1 file) | Ch?m h?n | ? D? |
+| `--onedir` | L?n h?n (folder) | Nhanh h?n | Kh? h?n |
 
-1. Xem log build: `build.log`
-2. Ch?y EXE t? console ?? xem l?i
-3. Google error message + "PyInstaller"
-4. Ki?m tra PyInstaller docs: https://pyinstaller.org/
-
-**Common issues:**
-- Hidden imports thi?u
-- Icon path sai
-- DLL conflicts
-- Antivirus blocking
+**Khuy?n ngh?:** D?ng `--onefile` cho end-user
 
 ---
 
-**Version:** 3.3.1
-**Build tool:** PyInstaller 5.0+
-**Platform:** Windows, macOS, Linux
+## ?? T?I LI?U LI?N QUAN
+
+- `KHAC_PHUC_LOI_BUILD.md` - Kh?c ph?c l?i build
+- `HUONG_DAN_SUA_LOI_PYINSTALLER.txt` - Fix l?i PyInstaller
+- `fix_and_build.bat` - Script t? ??ng
+
+---
+
+## ?? TIPS
+
+? **Build trong virtual environment** - EXE nh? h?n  
+? **Test EXE tr?n m?y s?ch** - ??m b?o kh?ng thi?u dependencies  
+? **T?o installer** - D?ng Inno Setup ho?c NSIS  
+? **K? s? EXE** - Tr?nh c?nh b?o c?a Windows Defender
+
+---
+
+**Version:** 4.1  
+**Tools:** 3 EXE  
+**Platform:** Windows (ch?nh), macOS, Linux  
+**Build time:** ~3-5 ph?t
